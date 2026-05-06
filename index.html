@@ -4363,6 +4363,33 @@ html[data-font-size="xxl"] .topics-hero-overlay {
 .gallery-card:nth-child(7n+5) .gallery-card-image { background: linear-gradient(135deg, #5a72b8, #2e3d75); }
 .gallery-card:nth-child(7n+6) .gallery-card-image { background: linear-gradient(135deg, #b08968, #7a5a3f); }
 .gallery-card:nth-child(7n+7) .gallery-card-image { background: linear-gradient(135deg, #555555, #2a2a2a); }
+
+/* === 문서 본문 사진 (figure) === */
+.doc-figure {
+  margin: 20px 0;
+  text-align: center;
+}
+.doc-figure img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  display: block;
+  margin: 0 auto;
+}
+.doc-figure figcaption {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--text-secondary, #888);
+  font-style: italic;
+  line-height: 1.5;
+  padding: 0 8px;
+}
+@media (max-width: 720px) {
+  .doc-figure { margin: 16px -4px; }
+  .doc-figure figcaption { font-size: 12px; }
+}
+
 </style>
 </head>
 <body>
@@ -4555,12 +4582,12 @@ const REDIRECT_MAP = {
   'claude ai': 'claude', 'Claude AI': 'claude', 'claudeai': 'claude',
   'claude opus': 'claude', 'claude sonnet': 'claude', 'claude haiku': 'claude',
 
-  '청라 커낼웨이': 'cheongna-canalway', '청라커낼웨이': 'cheongna-canalway',
-  '커낼웨이': 'cheongna-canalway', '커널웨이': 'cheongna-canalway', '캐널웨이': 'cheongna-canalway',
-  'cheongna canalway': 'cheongna-canalway', 'Cheongna Canalway': 'cheongna-canalway',
-  'canalway': 'cheongna-canalway', 'Canalway': 'cheongna-canalway',
-  '청라 문화공원': 'cheongna-canalway', '청라문화공원': 'cheongna-canalway',
-  '청라 수변공원': 'cheongna-canalway',
+  '청라 커낼웨이': 'cheongnacanalway', '청라커낼웨이': 'cheongnacanalway',
+  '커낼웨이': 'cheongnacanalway', '커널웨이': 'cheongnacanalway', '캐널웨이': 'cheongnacanalway',
+  'cheongna canalway': 'cheongnacanalway', 'Cheongna Canalway': 'cheongnacanalway',
+  'canalway': 'cheongnacanalway', 'Canalway': 'cheongnacanalway',
+  '청라 문화공원': 'cheongnacanalway', '청라문화공원': 'cheongnacanalway',
+  '청라 수변공원': 'cheongnacanalway',
 
   '온라인 환불': 'online-refund', '온라인환불': 'online-refund',
   '온라인 환불하는 법': 'online-refund', '온라인환불하는법': 'online-refund',
@@ -5023,7 +5050,7 @@ function renderHome() {
     bolt: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>'
   };
   const HOME_CURATIONS = [
-    { icon: 'cube',   tone: 1, title: '청라 커낼웨이, 봄밤의 산책', desc: '베네치아냐 도톤보리냐 — 매년 도는 그 떡밥',     views: '3.2k', target: 'cheongna-canalway' },
+    { icon: 'cube',   tone: 1, title: '청라 커낼웨이, 봄밤의 산책', desc: '베네치아냐 도톤보리냐 — 매년 도는 그 떡밥',     views: '3.2k', target: 'cheongnacanalway' },
     { icon: 'bolt',   tone: 3, title: 'Claude, 호미위키의 AI 코너', desc: '청라 위키지만 AI도 한 자리. 첫 번째 외부 토픽',  views: '2.1k', target: 'claude' }
   ];
 
@@ -5219,7 +5246,7 @@ function renderHome() {
 
 let __searchDemoTimers = [];
 let __searchDemoRunId = 0;
-let __searchDemoCurrentDocId = 'cheongna-canalway';
+let __searchDemoCurrentDocId = 'cheongnacanalway';
 
 function clearSearchDemoTimers() {
   __searchDemoTimers.forEach(t => clearTimeout(t));
@@ -5234,7 +5261,7 @@ function searchDemoWait(ms) {
 }
 
 const SEARCH_DEMO_SCENARIOS = [
-  { typed: '청라 커낼', docId: 'cheongna-canalway' },
+  { typed: '청라 커낼', docId: 'cheongnacanalway' },
   { typed: '온라인 환불',   docId: 'online-refund' }
 ];
 
@@ -5384,7 +5411,7 @@ async function runOneSearchDemo(scenario, myRunId, skipToResult) {
 
 const TIMELINE = [
   { date: '2026-05-04', cat: 'local',
-    text: '[[cheongna-canalway|커낼웨이]] 야경 사진, 5월 첫 주말 SNS 인증 폭증' },
+    text: '[[cheongnacanalway|커낼웨이]] 야경 사진, 5월 첫 주말 SNS 인증 폭증' },
 
   { date: '2026-05-02', cat: 'local',
     text: '청라호수공원 음악분수, 올해 첫 야간 공연 — 관람석 만석' },
@@ -5429,7 +5456,7 @@ let timelineState = {
 
 const TOPICS_LIST = [
   { name: '청라 1-6단지 구분하기',     blurb: '이사와서 가장 헤메는 단지구분법. 택배기사도 헷갈려하는 그 단지들',                                                target: null },
-  { name: '청라 커낼웨이',             blurb: '봄 시즌 맞아 야경 사진 SNS에 도배중. 베네치아냐 도톤보리냐 매년 도는 떡밥 재점화',                                target: 'cheongna-canalway' },
+  { name: '청라 커낼웨이',             blurb: '봄 시즌 맞아 야경 사진 SNS에 도배중. 베네치아냐 도톤보리냐 매년 도는 떡밥 재점화',                                target: 'cheongnacanalway' },
   { name: '청라 스타필드(공사중)',     blurb: '2027년 개장 예정인데 벌써 공사장 사진찍어 올리는 사람들 많음. 돔구장 들어선다고 야구팬도 들썩',                  target: null },
   { name: '청라 코스트코',             blurb: '현재 내부 일부구역 공사로 약간 정신없지만 최근 고물가로 꾸준히 롱런 인기',                                          target: null },
   { name: '청라 축제와 행사',          blurb: '음악분수 시즌 개막 + 호수공원 봄꽃축제 일정 풀리면서 검색 급증',                                                  target: null },
