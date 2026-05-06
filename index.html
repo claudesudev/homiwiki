@@ -183,7 +183,7 @@ body {
   background: linear-gradient(135deg, #cc785c 0%, #a85a42 100%);
   display: flex;
   align-items: center;
-  padding: 0 18px;
+  padding: 0 10px;
   gap: 14px;
   z-index: 100;
 }
@@ -198,7 +198,7 @@ body {
   padding: 0 4px;
   color: #ffffff;
   font-family: 'Do Hyeon', system-ui, -apple-system, sans-serif;
-  font-size: calc(29px * var(--font-scale));
+  font-size: calc(19px * var(--font-scale));
   font-weight: 400;
   letter-spacing: -0.3px;
   cursor: pointer;
@@ -206,7 +206,7 @@ body {
   transition: opacity 0.15s ease;
 }
 .logo .logo-icon {
-  height: calc(25.2px * var(--font-scale));
+  height: calc(24.948px * var(--font-scale));
   width: auto;
   flex-shrink: 0;
   display: block;
@@ -4505,7 +4505,7 @@ html[data-font-size="xxl"] .topics-hero-overlay {
       <span>타임라인</span>
     </button>
     <button class="toolbar-btn" data-tab="wiki" onclick="navigateTo('doc', 'claude')">
-      <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
         <path d="M28 4 L32 8 L14 26 L9 27 L10 22 Z"/>
         <line x1="26" y1="6" x2="30" y2="10"/>
         <path d="M3 32 Q10 28 16 32 T30 32"/>
@@ -5592,30 +5592,30 @@ function renderHome() {
   ];
 
   const HOME_HEADLINES = [
-    '호미로 정보 캐내기',
+    '호미위키에게 물어보세요',
     '어서오세요',
-    '검색 한 번에, 답 한 줌',
+    '검색만 하면 답이 바로 쏙!',
     '오늘도 호미로 즐거운 지식농사',
-    '콕 집어 캐내드려요',
-    '동네 백과, 펼쳐드릴게요',
+    '어떤 것이 궁금하세요?',
+    '우리동네 1등 위키',
     '검색창에 호미질 한 번',
-    '청라의 모든 것, 한 자리에',
-    '새 집 적응기, 여기서 출발',
-    '질문말고 검색으로!',
-    '좋은 날이예요',
-    '등업 없이, 가입 없이',
+    '청라의 모든 것',
+    '입주 첫 걸음은 호미위키',
+    '오늘도 당신이 있어 좋아요',
+    '좋은 날이에요',
+    '호미 휘두르기',
     '시원한 커피 한잔 어때요?',
-    '동네 정보, 호미와 함께',
+    '우리동네에 오신 걸 환영해요',
     '모든 것을 새롭게',
     '무엇이든 물어보세요',
     '오늘의 청라 소식들은?',
-    '동네 얘기 함께해요',
+    '도란도란 동네 토픽모음',
     '당신은 누구보다 빛나요',
     '천천히 둘러보세요',
-    '이웃들은 이게 궁금하데요',
-    '요즘 소식 보여드릴게요',
+    '이웃들은 이게 궁금하대요',
+    '요즘 소식 같이 봐요',
     '정보를 캐내는 요술호미',
-    '필요한 것만 콱콱 꺼내보기',
+    '청라의 여름, 함께 걸어요',
     '호미로 소식을 캐내보세요'
   ];
   const homeHeadline = HOME_HEADLINES[Math.floor(Math.random() * HOME_HEADLINES.length)];
