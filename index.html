@@ -1922,7 +1922,7 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: var(--text-tertiary);
+  color: var(--accent);
   padding: 0;
 }
 
@@ -4527,22 +4527,22 @@ html[data-font-size="xxl"] .topics-hero-overlay {
 
   <div class="floating-dock" id="floatingDock">
     <button class="dock-btn" id="dockTocBtn" onclick="toggleDockPopup('toc')" aria-label="목차">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-        <line x1="8" y1="6" x2="21" y2="6"/>
-        <line x1="8" y1="12" x2="21" y2="12"/>
-        <line x1="8" y1="18" x2="21" y2="18"/>
-        <circle cx="4" cy="6" r="1" fill="currentColor"/>
-        <circle cx="4" cy="12" r="1" fill="currentColor"/>
-        <circle cx="4" cy="18" r="1" fill="currentColor"/>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <circle cx="5.5" cy="6" r="2.7"/>
+        <circle cx="5.5" cy="12" r="2.7"/>
+        <circle cx="5.5" cy="18" r="2.7"/>
+        <rect x="11" y="4.1" width="10" height="3.8" rx="1.9"/>
+        <rect x="11" y="10.1" width="10" height="3.8" rx="1.9"/>
+        <rect x="11" y="16.1" width="10" height="3.8" rx="1.9"/>
       </svg>
     </button>
     <button class="dock-btn" id="dockTopBtn" onclick="scrollToTop()" aria-label="맨 위로">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="18 15 12 9 6 15"/>
       </svg>
     </button>
     <button class="dock-btn cta" id="dockFollowBtn" onclick="toggleDockPopup('follow')" aria-label="다음문서보기">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="9 18 15 12 9 6"/>
       </svg>
     </button>
