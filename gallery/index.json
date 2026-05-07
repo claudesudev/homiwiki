@@ -9,8 +9,7 @@
       "tool": "GPT 이미지생성",
       "category": "real",
       "uploadedAt": "2026-04-26T05:00:00Z",
-      "date": "2026-04-23",
-      "likes": 8
+      "date": "2026-04-23"
     },
     {
       "id": "g003",
@@ -20,8 +19,7 @@
       "tool": "제미나이 바나나",
       "category": "real",
       "uploadedAt": "2026-04-25T18:00:00Z",
-      "date": "2026-04-21",
-      "likes": 27
+      "date": "2026-04-21"
     },
     {
       "id": "g004",
@@ -30,8 +28,7 @@
       "prompt": "주술회전 이타도리 vs 후시구로. 흑화한 적혈조술로 전투개시하는 긴장감있는 일러스트 부탁합니다",
       "tool": "GPT 이미지생성",
       "category": "2d",
-      "uploadedAt": "2026-04-26T10:50:00Z",
-      "likes": 41
+      "uploadedAt": "2026-04-26T10:50:00Z"
     },
     {
       "id": "g005",
@@ -40,8 +37,7 @@
       "prompt": "하와이에서 낚시하는 미소녀들",
       "tool": "니지저니",
       "category": "2d",
-      "uploadedAt": "2026-04-26T11:15:00Z",
-      "likes": 6
+      "uploadedAt": "2026-04-26T11:15:00Z"
     },
     {
       "id": "g006",
@@ -51,8 +47,17 @@
       "tool": "ChatGPT 이미지생성",
       "category": "2d",
       "uploadedAt": "2026-04-26T01:27:31Z",
-      "date": "2026-04-26",
-      "likes": 19
+      "date": "2026-04-26"
+    },
+    {
+      "id": "g007",
+      "imageUrl": "gallery/g007-chatgpt-bakery.webp",
+      "user": "@익명",
+      "prompt": "챗gpt가 빵 베이커리 사업을 시작한 모습을 사실적이고 일반인이 찍은 시점으로 최대한 자연스러운 사진 만들어주실수 있어용? 아빠 낚으려구요ㅎㅎ",
+      "tool": "제미나이 바나나",
+      "category": "real",
+      "uploadedAt": "2026-05-08T07:00:00Z",
+      "date": "2026-05-08"
     }
   ]
 }
