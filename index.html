@@ -475,9 +475,32 @@ body {
 
 .doc-actions {
   margin-top: 32px;
+  margin-bottom: 20px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
+}
+
+/* 문서 하단 광고 슬롯 (placeholder) */
+.doc-ad-slot {
+  margin-top: 16px;
+  margin-bottom: 80px;
+  width: 100%;
+  min-height: 90px;
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+  background: var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: calc(11px * var(--font-scale));
+  letter-spacing: 0.15em;
+  color: var(--text-muted);
+  user-select: none;
+}
+.doc-ad-slot::before {
+  content: 'AD';
 }
 
 .doc-action-btn {
@@ -1834,27 +1857,33 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
   position: fixed;
   right: max(6px, calc(50% - 240px + 10px));
   bottom: 90px;
-  width: 64px;
-  padding: 10px 6px;
-  background: #ffffff;
+  width: 45px;
+  padding: 7px 4px;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: 12px;
   box-shadow: var(--shadow-md);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   z-index: 90;
+  transition: opacity 0.2s ease;
+}
+.floating-dock:active {
+  opacity: 1 !important;
 }
 
 [data-theme="dark"] .floating-dock {
-  background: var(--bg-elevated);
+  background: rgba(50, 50, 50, 0.55);
 }
 
 .dock-btn {
-  width: 52px;
-  height: 52px;
-  border-radius: 8px;
+  width: 37px;
+  height: 37px;
+  border-radius: 6px;
   background: transparent;
   border: none;
   display: flex;
@@ -7435,6 +7464,8 @@ function renderDoc(docId, originalQuery = null) {
         </button>
       </div>
     ` : ''}
+
+    <div class="doc-ad-slot" role="complementary" aria-label="광고 자리"></div>
   `;
 
   bindWikiLinks();
