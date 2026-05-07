@@ -4652,7 +4652,7 @@ html[data-font-size="xxl"] .topics-hero-overlay {
       </svg>
       <span>타임라인</span>
     </button>
-    <button class="toolbar-btn" data-tab="wiki" onclick="navigateTo('doc', 'claude')">
+    <button class="toolbar-btn" data-tab="wiki" onclick="navigateTo('doc', '클로드')">
       <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
         <path d="M28 4 L32 8 L14 26 L9 27 L10 22 Z"/>
         <line x1="26" y1="6" x2="30" y2="10"/>
@@ -4682,25 +4682,33 @@ html[data-font-size="xxl"] .topics-hero-overlay {
 
 <script>
 const REDIRECT_MAP = {
-  'claude': 'claude', 'Claude': 'claude', 'CLAUDE': 'claude',
-  '클로드': 'claude', '클로드AI': 'claude', '클로드 AI': 'claude',
-  'claude ai': 'claude', 'Claude AI': 'claude', 'claudeai': 'claude',
-  'claude opus': 'claude', 'claude sonnet': 'claude', 'claude haiku': 'claude',
+  'claude': '클로드', 'Claude': '클로드', 'CLAUDE': '클로드',
+  '클로드AI': '클로드', '클로드 AI': '클로드',
+  'claude ai': '클로드', 'Claude AI': '클로드', 'claudeai': '클로드',
+  'claude opus': '클로드', 'claude sonnet': '클로드', 'claude haiku': '클로드',
 
-  '청라 커낼웨이': 'cheongnacanalway', '청라커낼웨이': 'cheongnacanalway',
-  '커낼웨이': 'cheongnacanalway', '커널웨이': 'cheongnacanalway', '캐널웨이': 'cheongnacanalway',
-  'cheongna canalway': 'cheongnacanalway', 'Cheongna Canalway': 'cheongnacanalway',
-  'canalway': 'cheongnacanalway', 'Canalway': 'cheongnacanalway',
-  '청라 문화공원': 'cheongnacanalway', '청라문화공원': 'cheongnacanalway',
-  '청라 수변공원': 'cheongnacanalway',
+  '청라 커낼웨이': '청라-커낼웨이', '청라커낼웨이': '청라-커낼웨이',
+  '커낼웨이': '청라-커낼웨이', '커널웨이': '청라-커낼웨이', '캐널웨이': '청라-커낼웨이',
+  'cheongna canalway': '청라-커낼웨이', 'Cheongna Canalway': '청라-커낼웨이',
+  'canalway': '청라-커낼웨이', 'Canalway': '청라-커낼웨이',
+  '청라 문화공원': '청라-커낼웨이', '청라문화공원': '청라-커낼웨이',
+  '청라 수변공원': '청라-커낼웨이',
+  'cheongnacanalway': '청라-커낼웨이',
 
-  '온라인 환불': 'online-refund', '온라인환불': 'online-refund',
-  '온라인 환불하는 법': 'online-refund', '온라인환불하는법': 'online-refund',
-  '인터넷 반품': 'online-refund', '인터넷반품': 'online-refund',
-  '인터넷 반품하는 법': 'online-refund', '인터넷반품하는법': 'online-refund',
-  '반품': 'online-refund', '환불': 'online-refund',
-  'online refund': 'online-refund', 'how to return': 'online-refund',
-  '쿠팡 반품': 'online-refund', '11번가 반품': 'online-refund'
+  '온라인 환불': '온라인-환불', '온라인환불': '온라인-환불',
+  '온라인 환불하는 법': '온라인-환불', '온라인환불하는법': '온라인-환불',
+  '인터넷 반품': '온라인-환불', '인터넷반품': '온라인-환불',
+  '인터넷 반품하는 법': '온라인-환불', '인터넷반품하는법': '온라인-환불',
+  '반품': '온라인-환불', '환불': '온라인-환불',
+  'online refund': '온라인-환불', 'how to return': '온라인-환불',
+  '쿠팡 반품': '온라인-환불', '11번가 반품': '온라인-환불',
+  'online-refund': '온라인-환불',
+
+  '청라 유명인': '청라-유명인', '청라유명인': '청라-유명인',
+  '청라 셀럽': '청라-유명인', '청라셀럽': '청라-유명인',
+  '청라 거주 유명인': '청라-유명인',
+  'cheongna_celebrities': '청라-유명인',
+  'cheongna celebrities': '청라-유명인'
 };
 
 // ─────────────────────────────────────────────────────────────
@@ -4830,7 +4838,7 @@ function showLoadErrorScreen() {
 
 
 const EDITOR_CONFIG = {
-  fallbackFollowTarget: 'claude'
+  fallbackFollowTarget: '클로드'
 };
 
 let state = {
@@ -5203,8 +5211,8 @@ function renderHome() {
     bolt: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>'
   };
   const HOME_CURATIONS = [
-    { icon: 'cube',   tone: 1, title: '청라 커낼웨이, 봄밤의 산책', desc: '베네치아냐 도톤보리냐 — 매년 도는 그 떡밥',     views: '3.2k', target: 'cheongnacanalway' },
-    { icon: 'bolt',   tone: 3, title: 'Claude, 호미위키의 AI 코너', desc: '청라 위키지만 AI도 한 자리. 첫 번째 외부 토픽',  views: '2.1k', target: 'claude' }
+    { icon: 'cube',   tone: 1, title: '청라 커낼웨이, 봄밤의 산책', desc: '베네치아냐 도톤보리냐 — 매년 도는 그 떡밥',     views: '3.2k', target: '청라-커낼웨이' },
+    { icon: 'bolt',   tone: 3, title: 'Claude, 호미위키의 AI 코너', desc: '청라 위키지만 AI도 한 자리. 첫 번째 외부 토픽',  views: '2.1k', target: '클로드' }
   ];
 
   const HOME_HEADLINES = [
@@ -5399,7 +5407,7 @@ function renderHome() {
 
 let __searchDemoTimers = [];
 let __searchDemoRunId = 0;
-let __searchDemoCurrentDocId = 'cheongnacanalway';
+let __searchDemoCurrentDocId = '청라-커낼웨이';
 
 function clearSearchDemoTimers() {
   __searchDemoTimers.forEach(t => clearTimeout(t));
@@ -5414,8 +5422,8 @@ function searchDemoWait(ms) {
 }
 
 const SEARCH_DEMO_SCENARIOS = [
-  { typed: '청라 커낼', docId: 'cheongnacanalway' },
-  { typed: '온라인 환불',   docId: 'online-refund' }
+  { typed: '청라 커낼', docId: '청라-커낼웨이' },
+  { typed: '온라인 환불',   docId: '온라인-환불' }
 ];
 
 function startSearchDemo() {
@@ -5609,11 +5617,11 @@ let timelineState = {
 
 const TOPICS_LIST = [
   { name: '청라 1-6단지 구분하기',     blurb: '이사와서 가장 헤메는 단지구분법. 택배기사도 헷갈려하는 그 단지들',                                                target: null },
-  { name: '청라 커낼웨이',             blurb: '봄 시즌 맞아 야경 사진 SNS에 도배중. 베네치아냐 도톤보리냐 매년 도는 떡밥 재점화',                                target: 'cheongnacanalway' },
+  { name: '청라 커낼웨이',             blurb: '봄 시즌 맞아 야경 사진 SNS에 도배중. 베네치아냐 도톤보리냐 매년 도는 떡밥 재점화',                                target: '청라-커낼웨이' },
   { name: '청라 스타필드(공사중)',     blurb: '2027년 개장 예정인데 벌써 공사장 사진찍어 올리는 사람들 많음. 돔구장 들어선다고 야구팬도 들썩',                  target: null },
   { name: '청라 코스트코',             blurb: '현재 내부 일부구역 공사로 약간 정신없지만 최근 고물가로 꾸준히 롱런 인기',                                          target: null },
   { name: '청라 축제와 행사',          blurb: '음악분수 시즌 개막 + 호수공원 봄꽃축제 일정 풀리면서 검색 급증',                                                  target: null },
-  { name: '온라인 환불하는 법',        blurb: '"판매자와 사전 합의 없으면 반품 무효" 안내문에 좌절한 입문자들의 검색 폭주',                                      target: 'online-refund' },
+  { name: '온라인 환불하는 법',        blurb: '"판매자와 사전 합의 없으면 반품 무효" 안내문에 좌절한 입문자들의 검색 폭주',                                      target: '온라인-환불' },
   { name: '층간소음 민원 넣는 법',     blurb: '최근 비가 자주 내리면서 창문닫고 지내는 세대가 늘며 다시 급상승 견인',                                            target: null },
   { name: '담배연기 민원 넣는 법',     blurb: '최근 엘베복도 담배빌런 출현으로 언놈인지 걸리면 뒤진다는 마음으로 다들 민원중',                                    target: null },
   { name: '신도시 장보기 꿀팁',        blurb: '코스트코 가야하나 트레이더스 가야하나 — 매주 반복되는 이 질문에 종지부 찍는 정리글',                              target: null },
@@ -7991,49 +7999,71 @@ function reRenderAfterDocsLoaded() {
 }
 
 async function bootstrapRoute() {
-  // 먼저 DOCS와 갤러리 로드 (병렬)
-  await Promise.all([loadAllDocs(), loadGallery()]);
+  try {
+    // 먼저 DOCS와 갤러리 로드 (병렬)
+    await Promise.all([loadAllDocs(), loadGallery()]);
 
-  // 로드 실패 시 에러 화면 띄우고 라우팅 중단
-  if (DOCS_LOAD_ERROR || Object.keys(DOCS).length === 0) {
-    showLoadErrorScreen();
-    return;
-  }
+    // 로드 실패 시 에러 화면 띄우고 라우팅 중단
+    if (DOCS_LOAD_ERROR || Object.keys(DOCS).length === 0) {
+      showLoadErrorScreen();
+      return;
+    }
 
-  const initial = hashToState(location.hash);
+    const initial = hashToState(location.hash);
 
-  if (initial.page === 'contribute') {
-    contribState.returnTo = 'gallery';
-    contribState.step = 1;
-    contribState.prevStep = 0;
-    contribState.category = null;
-    contribState.content = '';
-    contribState.displayMode = 'nick';
-    contribState.nickname = '';
-    contribState.rewardStyle = null;
-    contribState.rewardPrompt = '';
-    contribState.captchaSet = generateCaptcha();
-    contribState.captchaInput = '';
-    contribState.submitted = false;
+    if (initial.page === 'contribute') {
+      contribState.returnTo = 'gallery';
+      contribState.step = 1;
+      contribState.prevStep = 0;
+      contribState.category = null;
+      contribState.content = '';
+      contribState.displayMode = 'nick';
+      contribState.nickname = '';
+      contribState.rewardStyle = null;
+      contribState.rewardPrompt = '';
+      contribState.captchaSet = generateCaptcha();
+      contribState.captchaInput = '';
+      contribState.submitted = false;
+      try {
+        history.replaceState(
+          { page: 'contribute', docId: null, contribStep: 1 },
+          '',
+          '#/contribute'
+        );
+      } catch(_) {}
+      navigateTo('contribute', null, null, { fromBack: true });
+      return;
+    }
+
     try {
       history.replaceState(
-        { page: 'contribute', docId: null, contribStep: 1 },
+        { page: initial.page, docId: initial.docId || null },
         '',
-        '#/contribute'
+        stateToHash(initial.page, initial.docId)
       );
     } catch(_) {}
-    navigateTo('contribute', null, null, { fromBack: true });
-    return;
+    navigateTo(initial.page, initial.docId, null, { fromBack: true });
+  } catch (err) {
+    // 부팅 도중 어디서든 에러 발생 시 화면에 원인 표시 (디버그용 안전망)
+    console.error('[homiwiki] 부팅 실패:', err);
+    const el = document.getElementById('pageContent');
+    if (el) {
+      const msg = (err && err.stack) ? err.stack : String(err);
+      el.innerHTML = `
+        <div style="padding:40px 20px;max-width:640px;margin:0 auto;">
+          <div style="font-size:32px;text-align:center;margin-bottom:12px;">⚠️</div>
+          <h2 style="margin:0 0 12px;font-size:18px;text-align:center;">사이트 부팅 중 오류가 발생했어요</h2>
+          <p style="margin:0 0 16px;font-size:13px;color:#888;text-align:center;line-height:1.6;">
+            아래 메시지를 운영자에게 전달해주시면 빠르게 고칠 수 있어요.
+          </p>
+          <pre style="background:#f5f5f5;color:#c00;padding:12px;border-radius:6px;font-size:12px;line-height:1.5;white-space:pre-wrap;word-break:break-all;overflow:auto;max-height:300px;">${msg.replace(/[<>&]/g, c=>({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]))}</pre>
+          <div style="text-align:center;margin-top:16px;">
+            <button onclick="location.reload()" style="padding:10px 20px;border:1px solid #ddd;background:#fff;border-radius:6px;cursor:pointer;font-size:14px;">새로고침</button>
+          </div>
+        </div>
+      `;
+    }
   }
-
-  try {
-    history.replaceState(
-      { page: initial.page, docId: initial.docId || null },
-      '',
-      stateToHash(initial.page, initial.docId)
-    );
-  } catch(_) {}
-  navigateTo(initial.page, initial.docId, null, { fromBack: true });
 }
 
 // 즉시 실행
