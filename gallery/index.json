@@ -2,52 +2,46 @@
   "version": 1,
   "items": [
     {
-      "id": "g001",
-      "imageUrl": "",
-      "user": "@user_claude",
-      "prompt": "흑발 냥냥 메이드가 오므라이스에 하트 그리고 있는거요",
-      "tool": "미드저니 v6",
-      "category": "2d",
-      "uploadedAt": "2026-04-26T08:30:00Z",
-      "date": "2026-04-25"
-    },
-    {
       "id": "g002",
-      "imageUrl": "",
+      "imageUrl": "gallery/g002-temple-cleansing.webp",
       "user": "@sfgerg",
       "prompt": "엄마가 교회 프사용으로 성전 정화 일러스트 만들어달래요",
       "tool": "GPT 이미지생성",
       "category": "real",
       "uploadedAt": "2026-04-26T05:00:00Z",
-      "date": "2026-04-23"
+      "date": "2026-04-23",
+      "likes": 8
     },
     {
       "id": "g003",
-      "imageUrl": "",
+      "imageUrl": "gallery/g003-sultan-court.webp",
       "user": "@익명",
       "prompt": "술탄과 개쩌는 후궁들의 치장시간",
       "tool": "제미나이 바나나",
       "category": "real",
       "uploadedAt": "2026-04-25T18:00:00Z",
-      "date": "2026-04-21"
+      "date": "2026-04-21",
+      "likes": 27
     },
     {
       "id": "g004",
-      "imageUrl": "",
+      "imageUrl": "gallery/g004-jujutsu-battle.webp",
       "user": "@익명",
       "prompt": "주술회전 이타도리 vs 후시구로. 흑화한 적혈조술로 전투개시하는 긴장감있는 일러스트 부탁합니다",
       "tool": "GPT 이미지생성",
       "category": "2d",
-      "uploadedAt": "2026-04-26T10:50:00Z"
+      "uploadedAt": "2026-04-26T10:50:00Z",
+      "likes": 41
     },
     {
       "id": "g005",
-      "imageUrl": "",
+      "imageUrl": "gallery/g005-hawaii-fishing.webp",
       "user": "@익명",
       "prompt": "하와이에서 낚시하는 미소녀들",
       "tool": "니지저니",
       "category": "2d",
-      "uploadedAt": "2026-04-26T11:15:00Z"
+      "uploadedAt": "2026-04-26T11:15:00Z",
+      "likes": 6
     },
     {
       "id": "g006",
@@ -57,7 +51,8 @@
       "tool": "ChatGPT 이미지생성",
       "category": "2d",
       "uploadedAt": "2026-04-26T01:27:31Z",
-      "date": "2026-04-26"
+      "date": "2026-04-26",
+      "likes": 19
     }
   ]
 }
