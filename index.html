@@ -722,6 +722,35 @@ body {
   text-align: center;
   background: var(--bg-secondary);
   border-bottom: 1px solid var(--border);
+  min-height: calc(100% * 9 / 16);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 16 / 9;
+  box-sizing: border-box;
+}
+
+.infobox-image.has-photo {
+  padding: 0;
+  aspect-ratio: auto;
+  min-height: 0;
+  display: block;
+}
+
+.infobox-image-photo {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: var(--bg-secondary);
+  overflow: hidden;
+  display: block;
+}
+
+.infobox-image-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .infobox-image-emoji {
@@ -7476,14 +7505,19 @@ function renderDoc(docId, originalQuery = null) {
 }
 
 function renderInfobox(info) {
+  const escapeAttr = (s) => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const hasPhoto = !!info.image;
+  const imageBlock = hasPhoto
+    ? `<div class="infobox-image has-photo"><div class="infobox-image-photo"><img src="${escapeAttr(info.image)}" alt="${escapeAttr(info.imageAlt || info.title || '')}" loading="lazy"></div></div>`
+    : `<div class="infobox-image">
+        ${info.imageEmoji ? `<div class="infobox-image-emoji">${info.imageEmoji}</div>` : ''}
+        ${info.imageText ? `<div class="infobox-image-text">${info.imageText}</div>` : ''}
+      </div>`;
   return `
     <div class="infobox">
       <div class="infobox-header">${info.title}</div>
       ${info.subtitle ? `<div class="infobox-subheader">${info.subtitle}</div>` : ''}
-      <div class="infobox-image">
-        ${info.imageEmoji ? `<div class="infobox-image-emoji">${info.imageEmoji}</div>` : ''}
-        ${info.imageText ? `<div class="infobox-image-text">${info.imageText}</div>` : ''}
-      </div>
+      ${imageBlock}
       <table class="infobox-table">
         <tbody>
           ${info.rows.map(([k, v]) => `<tr><th>${k}</th><td>${v}</td></tr>`).join('')}
