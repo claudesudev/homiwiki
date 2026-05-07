@@ -2741,35 +2741,6 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
   user-select: auto;
 }
 
-/* 그리드 썸네일 우하단 좋아요 미니 알약 */
-/* 상세뷰: 닫기 버튼 (우상단) */
-.gallery-close-btn {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  width: 28px;
-  height: 28px;
-  border: none;
-  background: rgba(0, 0, 0, 0.55);
-  color: #fff;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-  transition: background 0.15s ease;
-}
-.gallery-close-btn:active {
-  background: rgba(0, 0, 0, 0.75);
-}
-.gallery-close-btn svg {
-  width: 14px;
-  height: 14px;
-  flex-shrink: 0;
-}
-
 /* 상세뷰: 좌하단 다운로드 알약 */
 .gallery-download-btn {
   position: absolute;
@@ -6024,18 +5995,10 @@ function renderGalleryCard(item) {
 
   return `
     <div class="gallery-card is-expanded" data-id="${escapeHtml(item.id)}" data-author="${escapeHtml(item.user)}" data-uploaded-at="${escapeHtml(item.uploadedAt || '')}">
-      <div class="gallery-card-image">
+      <div class="gallery-card-image" onclick="toggleGalleryDetail('${item.id}')">
         ${imgInner}
-        <button class="gallery-close-btn"
-                onclick="toggleGalleryDetail('${item.id}')"
-                aria-label="닫기">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <line x1="18" y1="6" x2="6" y2="18"/>
-            <line x1="6" y1="6" x2="18" y2="18"/>
-          </svg>
-        </button>
         <button class="gallery-download-btn"
-                onclick="downloadGalleryImage('${item.id}')"
+                onclick="event.stopPropagation();downloadGalleryImage('${item.id}')"
                 aria-label="다운로드 (개인용도만 허용)">
           ${downloadSvg}
           <span>개인용도만 허용</span>
