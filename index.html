@@ -2742,42 +2742,6 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
 }
 
 /* 그리드 썸네일 우하단 좋아요 미니 알약 */
-.gallery-like-mini {
-  position: absolute;
-  bottom: 6px;
-  right: 6px;
-  height: 22px;
-  padding: 0 8px 0 6px;
-  background: rgba(0, 0, 0, 0.55);
-  color: #fff;
-  border: none;
-  border-radius: 999px;
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-  font-family: inherit;
-  font-size: calc(10.5px * var(--font-scale));
-  font-weight: 500;
-  cursor: pointer;
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-  transition: background 0.15s ease;
-}
-.gallery-like-mini:active {
-  background: rgba(0, 0, 0, 0.75);
-}
-.gallery-like-mini svg {
-  width: 11px;
-  height: 11px;
-  flex-shrink: 0;
-  transition: transform 0.18s ease;
-}
-.gallery-like-mini.is-liked svg {
-  fill: #ff3b5c;
-  stroke: #ff3b5c;
-  transform: scale(1.05);
-}
-
 /* 상세뷰: 닫기 버튼 (우상단) */
 .gallery-close-btn {
   position: absolute;
@@ -2806,16 +2770,11 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
   flex-shrink: 0;
 }
 
-/* 상세뷰: 우하단 액션 알약 (좋아요+다운로드) */
-.gallery-action-row {
+/* 상세뷰: 좌하단 다운로드 알약 */
+.gallery-download-btn {
   position: absolute;
   bottom: 10px;
-  right: 10px;
-  display: flex;
-  gap: 6px;
-}
-
-.gallery-action-pill {
+  left: 10px;
   height: 30px;
   padding: 0 11px 0 9px;
   background: rgba(0, 0, 0, 0.55);
@@ -2834,19 +2793,13 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
   backdrop-filter: blur(6px);
   transition: background 0.15s ease;
 }
-.gallery-action-pill:active {
+.gallery-download-btn:active {
   background: rgba(0, 0, 0, 0.75);
 }
-.gallery-action-pill svg {
+.gallery-download-btn svg {
   width: 13px;
   height: 13px;
   flex-shrink: 0;
-  transition: transform 0.18s ease;
-}
-.gallery-action-pill.gallery-like-pill.is-liked svg {
-  fill: #ff3b5c;
-  stroke: #ff3b5c;
-  transform: scale(1.08);
 }
 
 /* 그리드 썸네일 아래 1줄 프롬프트 미리보기 */
@@ -4869,7 +4822,6 @@ let state = {
   openPanel: null,
   fontSize: 'm',
   galleryPage: 1,
-  gallerySort: 'recent',
   expandedGalleryId: null
 };
 
@@ -5099,7 +5051,6 @@ window.navigateTo = function(page, docId = null, originalQuery = null, opts = {}
   if (docId) state.currentDocId = docId;
 
   if (page === 'gallery') {
-    state.gallerySort = 'recent';
     state.galleryPage = 1;
     state.expandedGalleryId = null;
   }
@@ -5982,24 +5933,12 @@ function renderGallery() {
 
 function renderGalleryShell() {
   const content = document.getElementById('pageContent');
-  const sorts = [
-    { id: 'recent',   label: '최신' },
-    { id: 'likes',    label: '좋아요순' }
-  ];
-  const sortBtns = sorts.map(s => `
-    <button type="button" class="tl-filter" data-sort="${s.id}"
-            role="tab" aria-selected="false"
-            onclick="setGallerySort('${s.id}')">${s.label}</button>
-  `).join('');
 
   content.innerHTML = `
     <h1 class="sr-only">AI 기여보상 갤러리</h1>
     <div class="gallery-tabs">
       <div class="gallery-tabs-title">
         <span class="gallery-tabs-title-main">AI 기여보상 갤러리</span>
-      </div>
-      <div class="tl-filters" role="tablist" aria-label="정렬">
-        ${sortBtns}
       </div>
     </div>
 
@@ -6021,15 +5960,7 @@ function renderGalleryShell() {
 }
 
 function renderGalleryContent() {
-  const sort = state.gallerySort || 'recent';
-
   const sorted = GALLERY.slice().sort((a, b) => {
-    if (sort === 'likes') {
-      const al = (a.likes || 0) + getUserLikeDelta(a.id);
-      const bl = (b.likes || 0) + getUserLikeDelta(b.id);
-      if (bl !== al) return bl - al;
-      return new Date(b.uploadedAt || 0) - new Date(a.uploadedAt || 0);
-    }
     return new Date(b.uploadedAt || 0) - new Date(a.uploadedAt || 0);
   });
 
@@ -6040,12 +5971,6 @@ function renderGalleryContent() {
   if (state.galleryPage < 1) state.galleryPage = 1;
   const startIdx = (state.galleryPage - 1) * GALLERY_PAGE_SIZE;
   const pageItems = filtered.slice(startIdx, startIdx + GALLERY_PAGE_SIZE);
-
-  document.querySelectorAll('.gallery-tabs .tl-filter[data-sort]').forEach(btn => {
-    const isActive = btn.getAttribute('data-sort') === sort;
-    btn.classList.toggle('is-active', isActive);
-    btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
-  });
 
   let feedHtml;
   if (filtered.length === 0) {
@@ -6073,14 +5998,6 @@ function renderGalleryContent() {
 
 function renderGalleryCard(item) {
   const isExpanded = state.expandedGalleryId === item.id;
-  const totalLikes = (item.likes || 0) + getUserLikeDelta(item.id);
-  const liked = isUserLiked(item.id);
-
-  const heartSvg = `
-    <svg viewBox="0 0 24 24" fill="${liked ? '#ff3b5c' : 'none'}" stroke="${liked ? '#ff3b5c' : 'currentColor'}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-    </svg>
-  `;
 
   const downloadSvg = `
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -6099,12 +6016,6 @@ function renderGalleryCard(item) {
       <div class="gallery-card" data-id="${escapeHtml(item.id)}" data-author="${escapeHtml(item.user)}" data-uploaded-at="${escapeHtml(item.uploadedAt || '')}">
         <div class="gallery-card-image" onclick="toggleGalleryDetail('${item.id}')">
           ${imgInner}
-          <button class="gallery-like-mini${liked ? ' is-liked' : ''}"
-                  onclick="event.stopPropagation();toggleGalleryLike('${item.id}')"
-                  aria-label="좋아요 ${totalLikes}">
-            ${heartSvg}
-            <span>${totalLikes}</span>
-          </button>
         </div>
         <div class="gallery-card-thumb-prompt">${escapeHtml(item.prompt || '')}</div>
       </div>
@@ -6123,20 +6034,12 @@ function renderGalleryCard(item) {
             <line x1="6" y1="6" x2="18" y2="18"/>
           </svg>
         </button>
-        <div class="gallery-action-row">
-          <button class="gallery-action-pill gallery-like-pill${liked ? ' is-liked' : ''}"
-                  onclick="toggleGalleryLike('${item.id}')"
-                  aria-label="좋아요 ${totalLikes}">
-            ${heartSvg}
-            <span>${totalLikes}</span>
-          </button>
-          <button class="gallery-action-pill"
-                  onclick="downloadGalleryImage('${item.id}')"
-                  aria-label="다운로드 (개인용도만 허용)">
-            ${downloadSvg}
-            <span>개인용도만 허용</span>
-          </button>
-        </div>
+        <button class="gallery-download-btn"
+                onclick="downloadGalleryImage('${item.id}')"
+                aria-label="다운로드 (개인용도만 허용)">
+          ${downloadSvg}
+          <span>개인용도만 허용</span>
+        </button>
       </div>
       <div class="gallery-card-caption">
         <div class="gallery-card-meta">
@@ -6150,17 +6053,6 @@ function renderGalleryCard(item) {
   `;
 }
 
-function setGallerySort(sort) {
-  if (state.gallerySort === sort) return;
-  state.gallerySort = sort;
-  state.galleryPage = 1;
-  state.expandedGalleryId = null;
-  renderGalleryContent();
-  window.scrollTo({ top: 0, behavior: 'instant' });
-}
-
-window.setGallerySort = setGallerySort;
-
 window.toggleGalleryDetail = function(id) {
   state.expandedGalleryId = (state.expandedGalleryId === id) ? null : id;
   renderGalleryContent();
@@ -6170,57 +6062,6 @@ window.toggleGalleryDetail = function(id) {
       if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
   }
-};
-
-const LIKE_STORAGE_KEY = 'homi:galleryLikes';
-
-function getUserLikedSet() {
-  try {
-    const raw = localStorage.getItem(LIKE_STORAGE_KEY);
-    if (!raw) return {};
-    const parsed = JSON.parse(raw);
-    return (parsed && typeof parsed === 'object') ? parsed : {};
-  } catch (e) {
-    return {};
-  }
-}
-
-function isUserLiked(id) {
-  const set = getUserLikedSet();
-  return set[id] === true;
-}
-
-function getUserLikeDelta(id) {
-  return isUserLiked(id) ? 1 : 0;
-}
-
-window.toggleGalleryLike = function(id) {
-  const set = getUserLikedSet();
-  if (set[id]) {
-    delete set[id];
-  } else {
-    set[id] = true;
-  }
-  try {
-    localStorage.setItem(LIKE_STORAGE_KEY, JSON.stringify(set));
-  } catch (e) { }
-
-  const item = GALLERY.find(g => g.id === id);
-  if (!item) return;
-  const totalLikes = (item.likes || 0) + getUserLikeDelta(id);
-  const liked = isUserLiked(id);
-
-  document.querySelectorAll(`.gallery-card[data-id="${id}"] .gallery-like-mini, .gallery-card[data-id="${id}"] .gallery-like-pill`).forEach(btn => {
-    btn.classList.toggle('is-liked', liked);
-    const svg = btn.querySelector('svg');
-    if (svg) {
-      svg.setAttribute('fill', liked ? '#ff3b5c' : 'none');
-      svg.setAttribute('stroke', liked ? '#ff3b5c' : 'currentColor');
-    }
-    const span = btn.querySelector('span');
-    if (span) span.textContent = totalLikes;
-    btn.setAttribute('aria-label', '좋아요 ' + totalLikes);
-  });
 };
 
 function renderGalleryPagination(current, total) {
