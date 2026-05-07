@@ -483,8 +483,8 @@ body {
 
 /* 문서 하단 광고 슬롯 (placeholder) */
 .doc-ad-slot {
-  margin-top: 16px;
-  margin-bottom: 80px;
+  margin-top: 12px;
+  margin-bottom: 16px;
   width: 100%;
   min-height: 90px;
   border: 1px dashed var(--border);
@@ -498,6 +498,9 @@ body {
   letter-spacing: 0.15em;
   color: var(--text-muted);
   user-select: none;
+}
+.doc-ad-slot:last-child {
+  margin-bottom: 24px;
 }
 .doc-ad-slot::before {
   content: 'AD';
@@ -7465,6 +7468,7 @@ function renderDoc(docId, originalQuery = null) {
       </div>
     ` : ''}
 
+    <div class="doc-ad-slot" role="complementary" aria-label="광고 자리"></div>
     <div class="doc-ad-slot" role="complementary" aria-label="광고 자리"></div>
   `;
 
