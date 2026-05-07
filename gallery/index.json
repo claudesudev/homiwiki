@@ -51,7 +51,7 @@
     },
     {
       "id": "g006",
-      "imageUrl": "gallery/images/g006-nyangmaid.webp",
+      "imageUrl": "gallery/g006-nyangmaid.webp",
       "user": "@user_claude",
       "prompt": "흑발 냥냥 메이드가 오므라이스에 하트 그리고 있는거요",
       "tool": "ChatGPT 이미지생성",
