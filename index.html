@@ -5024,6 +5024,7 @@ window.navigateTo = function(page, docId = null, originalQuery = null, opts = {}
   if (page === 'gallery') {
     state.galleryPage = 1;
     state.expandedGalleryId = null;
+    if (typeof _galleryScrollBeforeExpand !== 'undefined') _galleryScrollBeforeExpand = null;
   }
   if (page === 'timeline') {
     timelineState.currentCategory = 'all';
@@ -6016,14 +6017,31 @@ function renderGalleryCard(item) {
   `;
 }
 
+let _galleryScrollBeforeExpand = null;
+
 window.toggleGalleryDetail = function(id) {
-  state.expandedGalleryId = (state.expandedGalleryId === id) ? null : id;
-  renderGalleryContent();
-  if (state.expandedGalleryId === id) {
+  const wasExpanded = state.expandedGalleryId === id;
+
+  if (!wasExpanded) {
+    // 펼치기 직전: 현재 스크롤 위치 저장
+    _galleryScrollBeforeExpand = window.scrollY;
+    state.expandedGalleryId = id;
+    renderGalleryContent();
     requestAnimationFrame(() => {
       const el = document.querySelector(`.gallery-card.is-expanded[data-id="${id}"]`);
       if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
+  } else {
+    // 닫기: 펼치기 전 스크롤 위치로 복원
+    state.expandedGalleryId = null;
+    renderGalleryContent();
+    if (_galleryScrollBeforeExpand !== null) {
+      const restoreY = _galleryScrollBeforeExpand;
+      _galleryScrollBeforeExpand = null;
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: restoreY, behavior: 'instant' });
+      });
+    }
   }
 };
 
@@ -6061,6 +6079,7 @@ function renderGalleryPagination(current, total) {
 window.goGalleryPage = function(page) {
   state.galleryPage = page;
   state.expandedGalleryId = null;
+  _galleryScrollBeforeExpand = null;
   renderGalleryContent();
   window.scrollTo({ top: 0, behavior: 'instant' });
 };
