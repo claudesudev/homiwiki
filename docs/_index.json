@@ -1,0 +1,44 @@
+{
+  "version": 2,
+  "updated": "2026-05-08",
+  "docs": {
+    "클로드": {
+      "title": "클로드",
+      "subtitle": "Claude",
+      "category": "AI",
+      "parent": null,
+      "children": [],
+      "updated": "2026-04-30"
+    },
+    "청라-커낼웨이": {
+      "title": "청라 커낼웨이",
+      "subtitle": "Cheongna Canal Way",
+      "category": "청라국제도시",
+      "parent": null,
+      "children": [],
+      "updated": "2026-05-07"
+    },
+    "청라-유명인": {
+      "title": "청라 거주(또는 거주했던) 유명인",
+      "subtitle": "Cheongna Notable Residents",
+      "category": "청라국제도시",
+      "parent": null,
+      "children": [],
+      "updated": "2026-05-08"
+    },
+    "온라인-환불": {
+      "title": "온라인 환불하는 법",
+      "subtitle": "How to Return Online Orders",
+      "category": "생활",
+      "parent": null,
+      "children": [],
+      "updated": "2026-04-29"
+    }
+  },
+  "redirects": {
+    "claude": "클로드",
+    "cheongnacanalway": "청라-커낼웨이",
+    "cheongna_celebrities": "청라-유명인",
+    "online-refund": "온라인-환불"
+  }
+}
