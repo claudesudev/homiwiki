@@ -7,9 +7,8 @@
       "user": "@sfgerg",
       "prompt": "엄마가 교회 프사용으로 성전 정화 일러스트 만들어달래요",
       "tool": "GPT 이미지생성",
-      "category": "real",
-      "uploadedAt": "2026-04-26T05:00:00Z",
-      "date": "2026-04-23"
+      "category": "2d",
+      "uploadedAt": "2026-04-26T05:00:00Z"
     },
     {
       "id": "g003",
@@ -18,8 +17,7 @@
       "prompt": "술탄과 개쩌는 후궁들의 치장시간",
       "tool": "제미나이 바나나",
       "category": "real",
-      "uploadedAt": "2026-04-25T18:00:00Z",
-      "date": "2026-04-21"
+      "uploadedAt": "2026-04-25T18:00:00Z"
     },
     {
       "id": "g004",
@@ -46,8 +44,7 @@
       "prompt": "흑발 냥냥 메이드가 오므라이스에 하트 그리고 있는거요",
       "tool": "ChatGPT 이미지생성",
       "category": "2d",
-      "uploadedAt": "2026-04-26T01:27:31Z",
-      "date": "2026-04-26"
+      "uploadedAt": "2026-04-26T01:27:31Z"
     },
     {
       "id": "g007",
@@ -56,8 +53,7 @@
       "prompt": "챗gpt가 빵 베이커리 사업하다 라는 뉴스사진. 아빠 낚으려구요ㅎㅎ",
       "tool": "제미나이 바나나",
       "category": "real",
-      "uploadedAt": "2026-05-08T07:00:00Z",
-      "date": "2026-05-08"
+      "uploadedAt": "2026-05-08T07:00:00Z"
     },
     {
       "id": "g008",
@@ -66,8 +62,7 @@
       "prompt": "체인소맨 마키마 아무거나요",
       "tool": "ChatGPT 이미지생성",
       "category": "2d",
-      "uploadedAt": "2026-05-08T09:08:25Z",
-      "date": "2026-05-08"
+      "uploadedAt": "2026-05-08T09:08:25Z"
     }
   ]
 }
