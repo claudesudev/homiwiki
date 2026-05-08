@@ -806,18 +806,6 @@ body {
   word-break: break-word;
 }
 
-.version-tag {
-  display: inline-block;
-  background: var(--accent);
-  color: #fff;
-  font-size: calc(10px * var(--font-scale));
-  font-weight: 600;
-  padding: 1px 6px;
-  border-radius: 3px;
-  margin-right: 4px;
-  font-family: 'JetBrains Mono', monospace;
-}
-
 .section {
   margin-bottom: 24px;
   scroll-margin-top: 70px;
@@ -891,36 +879,6 @@ body {
   color: #ff8080;
 }
 
-.quote-box {
-  background: var(--bg-accent-soft);
-  border-left: 3px solid var(--accent);
-  padding: 12px 14px;
-  margin: 14px 0;
-  border-radius: 0 8px 8px 0;
-  font-size: calc(14px * var(--font-scale));
-  color: var(--text-secondary);
-  font-style: italic;
-}
-
-.info-callout {
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 12px 14px;
-  margin: 14px 0;
-  font-size: calc(13.5px * var(--font-scale));
-}
-
-.info-callout-title {
-  font-weight: 600;
-  color: var(--accent);
-  margin-bottom: 6px;
-  font-size: calc(13px * var(--font-scale));
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
 .section ul, .section ol {
   margin: 10px 0 14px 22px;
   color: var(--text-secondary);
@@ -934,42 +892,6 @@ body {
 
 .section li::marker {
   color: var(--accent);
-}
-
-.wiki-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 14px 0;
-  font-size: calc(13px * var(--font-scale));
-  background: var(--bg-tertiary);
-  border-radius: 8px;
-  overflow: hidden;
-  border: 1px solid var(--border);
-  table-layout: fixed;
-}
-
-.wiki-table th {
-  background: var(--bg-accent-soft);
-  color: var(--text-primary);
-  padding: 10px 12px;
-  text-align: left;
-  font-weight: 600;
-  border-bottom: 1px solid var(--border);
-  font-size: calc(12.5px * var(--font-scale));
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-
-.wiki-table td {
-  padding: 10px 12px;
-  border-bottom: 1px solid var(--border-light);
-  color: var(--text-secondary);
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-
-.wiki-table tr:last-child td {
-  border-bottom: none;
 }
 
 code {
@@ -2724,6 +2646,7 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
 .gallery-card.is-expanded .gallery-card-image {
   cursor: default;
   border-radius: 10px;
+  background: var(--bg-secondary);
 }
 .gallery-card:not(.is-expanded) .gallery-card-image:active {
   opacity: 0.85;
@@ -2887,6 +2810,56 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
   font-weight: 700;
   color: var(--text-primary);
   letter-spacing: -0.01em;
+}
+
+/* === 갤러리 카테고리 필터 토글 (전체/2D/실사) === */
+.gallery-filter-toggle {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  background: var(--bg-secondary);
+  border-radius: 999px;
+  padding: 3px;
+  flex-shrink: 0;
+  height: 28px;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.gallery-filter-knob {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  background: var(--accent);
+  border-radius: 999px;
+  transition: left .28s cubic-bezier(.4, 1.3, .5, 1), width .28s cubic-bezier(.4, 1.3, .5, 1);
+  z-index: 0;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+}
+.gallery-filter-slot {
+  position: relative;
+  z-index: 1;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: calc(11.5px * var(--font-scale));
+  font-weight: 600;
+  color: var(--text-secondary);
+  padding: 0 11px;
+  border-radius: 999px;
+  transition: color .2s ease;
+  font-family: inherit;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+.gallery-filter-slot.is-on {
+  color: #fff;
+}
+.gallery-filter-slot:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 .gallery-contribute-cta {
@@ -4450,9 +4423,6 @@ html[data-font-size="xxl"] .topics-hero-overlay {
 [data-theme="dark"] .gallery-card-image {
   background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
 }
-.gallery-card.is-expanded .gallery-card-image {
-  background: var(--bg-secondary);
-}
 .gallery-card:not(.is-expanded):nth-child(7n+1) .gallery-card-image { background: linear-gradient(135deg, #cc785c, #8b4a3a); }
 .gallery-card:not(.is-expanded):nth-child(7n+2) .gallery-card-image { background: linear-gradient(135deg, #8b4a6f, #5a2c47); }
 .gallery-card:not(.is-expanded):nth-child(7n+3) .gallery-card-image { background: linear-gradient(135deg, #4a8a6f, #2c5947); }
@@ -4461,38 +4431,12 @@ html[data-font-size="xxl"] .topics-hero-overlay {
 .gallery-card:not(.is-expanded):nth-child(7n+6) .gallery-card-image { background: linear-gradient(135deg, #b08968, #7a5a3f); }
 .gallery-card:not(.is-expanded):nth-child(7n+7) .gallery-card-image { background: linear-gradient(135deg, #555555, #2a2a2a); }
 
-/* === 문서 본문 사진 (figure) === */
-.doc-figure {
-  margin: 20px 0;
-  text-align: center;
-}
-.doc-figure img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 8px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-  display: block;
-  margin: 0 auto;
-}
-.doc-figure figcaption {
-  margin-top: 10px;
-  font-size: 13px;
-  color: var(--text-secondary, #888);
-  font-style: italic;
-  line-height: 1.5;
-  padding: 0 8px;
-}
-
 /* === 본문 작은 안내문 (footnote) === */
 .section .footnote {
   margin-top: 8px;
   font-size: 12px;
   color: var(--text-tertiary, #999);
   line-height: 1.5;
-}
-@media (max-width: 720px) {
-  .doc-figure { margin: 16px -4px; }
-  .doc-figure figcaption { font-size: 12px; }
 }
 
 </style>
@@ -4724,7 +4668,6 @@ function showBootMessage(html) {
 }
 
 async function loadAllDocs() {
-  // 첫 진입 시 로딩 메시지
   showBootMessage(`
     <div style="padding:60px 20px;text-align:center;color:var(--text-secondary,#888);font-size:14px;">
       <div style="font-size:32px;margin-bottom:12px;opacity:.5;">⏳</div>
@@ -4757,7 +4700,6 @@ async function loadAllDocs() {
     function rewriteAssetPaths(doc, docId) {
       if (!doc) return doc;
       const baseDir = `docs/${encodeURIComponent(docId)}/`;
-      // infobox.image
       if (doc.infobox && typeof doc.infobox === 'object' && doc.infobox.image) {
         const img = doc.infobox.image;
         // 이미 http(s)://, /, docs/로 시작하면 그대로
@@ -4784,7 +4726,6 @@ async function loadAllDocs() {
       return doc;
     }
 
-    // 모든 문서를 병렬로 로드
     const results = await Promise.all(
       docIds.map(async (id) => {
         try {
@@ -4802,7 +4743,6 @@ async function loadAllDocs() {
       })
     );
 
-    // 성공한 것만 DOCS에 채움
     for (const [id, doc] of results) {
       if (doc) DOCS[id] = doc;
     }
@@ -4848,6 +4788,7 @@ let state = {
   openPanel: null,
   fontSize: 'm',
   galleryPage: 1,
+  galleryFilter: 'all',
   expandedGalleryId: null
 };
 
@@ -5078,6 +5019,7 @@ window.navigateTo = function(page, docId = null, originalQuery = null, opts = {}
 
   if (page === 'gallery') {
     state.galleryPage = 1;
+    state.galleryFilter = 'all';
     state.expandedGalleryId = null;
     if (typeof _galleryScrollBeforeExpand !== 'undefined') _galleryScrollBeforeExpand = null;
   }
@@ -5572,7 +5514,7 @@ async function runOneSearchDemo(scenario, myRunId, skipToResult) {
 
 const TIMELINE = [
   { date: '2026-05-04', cat: 'local',
-    text: '[[cheongnacanalway|커낼웨이]] 야경 사진, 5월 첫 주말 SNS 인증 폭증' },
+    text: '[[청라-커낼웨이|커낼웨이]] 야경 사진, 5월 첫 주말 SNS 인증 폭증' },
 
   { date: '2026-05-02', cat: 'local',
     text: '청라호수공원 음악분수, 올해 첫 야간 공연 — 관람석 만석' },
@@ -5967,6 +5909,12 @@ function renderGalleryShell() {
       <div class="gallery-tabs-title">
         <span class="gallery-tabs-title-main">AI 기여보상 갤러리</span>
       </div>
+      <div class="gallery-filter-toggle" role="tablist" aria-label="갤러리 카테고리 필터">
+        <div class="gallery-filter-knob" aria-hidden="true"></div>
+        <button type="button" class="gallery-filter-slot${state.galleryFilter==='all'?' is-on':''}" role="tab" aria-selected="${state.galleryFilter==='all'}" data-filter="all" onclick="setGalleryFilter('all')">전체</button>
+        <button type="button" class="gallery-filter-slot${state.galleryFilter==='2d'?' is-on':''}" role="tab" aria-selected="${state.galleryFilter==='2d'}" data-filter="2d" onclick="setGalleryFilter('2d')">2D</button>
+        <button type="button" class="gallery-filter-slot${state.galleryFilter==='real'?' is-on':''}" role="tab" aria-selected="${state.galleryFilter==='real'}" data-filter="real" onclick="setGalleryFilter('real')">실사</button>
+      </div>
     </div>
 
     <div class="gallery-intro">
@@ -5984,14 +5932,46 @@ function renderGalleryShell() {
       <span>나도 기여하고 보상 받기</span>
     </button>
   `;
+
+  requestAnimationFrame(() => positionGalleryFilterKnob(false));
 }
+
+function positionGalleryFilterKnob(animate) {
+  const toggle = document.querySelector('.gallery-filter-toggle');
+  if (!toggle) return;
+  const knob = toggle.querySelector('.gallery-filter-knob');
+  const active = toggle.querySelector('.gallery-filter-slot.is-on');
+  if (!knob || !active) return;
+  if (!animate) knob.style.transition = 'none';
+  const tr = toggle.getBoundingClientRect();
+  const ar = active.getBoundingClientRect();
+  knob.style.left = (ar.left - tr.left) + 'px';
+  knob.style.width = ar.width + 'px';
+  if (!animate) {
+    requestAnimationFrame(() => { knob.style.transition = ''; });
+  }
+}
+
+window.setGalleryFilter = function(cat) {
+  if (state.galleryFilter === cat) return;
+  state.galleryFilter = cat;
+  state.galleryPage = 1;
+  document.querySelectorAll('.gallery-filter-slot').forEach(s => {
+    const on = s.dataset.filter === cat;
+    s.classList.toggle('is-on', on);
+    s.setAttribute('aria-selected', String(on));
+  });
+  positionGalleryFilterKnob(true);
+  renderGalleryContent();
+};
 
 function renderGalleryContent() {
   const sorted = GALLERY.slice().sort((a, b) => {
     return new Date(b.uploadedAt || 0) - new Date(a.uploadedAt || 0);
   });
 
-  const filtered = sorted;
+  const cat = state.galleryFilter || 'all';
+  const filtered = cat === 'all' ? sorted : sorted.filter(g => g.category === cat);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / GALLERY_PAGE_SIZE));
   if (state.galleryPage > totalPages) state.galleryPage = totalPages;
@@ -7990,20 +7970,10 @@ document.addEventListener('click', (e) => {
   closeAllDockPopups();
 });
 
-// DOCS 로드 후 현재 페이지 다시 렌더 (loadAllDocs에서 호출)
-function reRenderAfterDocsLoaded() {
-  // 현재 라우트 다시 적용 - 이미 보고 있는 페이지를 새로 받은 데이터로 다시 그림
-  const current = hashToState(location.hash);
-  if (current.page === 'contribute') return; // 기여 페이지는 DOCS 의존 적음
-  navigateTo(current.page, current.docId, null, { fromBack: true });
-}
-
 async function bootstrapRoute() {
   try {
-    // 먼저 DOCS와 갤러리 로드 (병렬)
     await Promise.all([loadAllDocs(), loadGallery()]);
 
-    // 로드 실패 시 에러 화면 띄우고 라우팅 중단
     if (DOCS_LOAD_ERROR || Object.keys(DOCS).length === 0) {
       showLoadErrorScreen();
       return;
@@ -8066,7 +8036,6 @@ async function bootstrapRoute() {
   }
 }
 
-// 즉시 실행
 bootstrapRoute();
 
 document.addEventListener('click', (e) => {
