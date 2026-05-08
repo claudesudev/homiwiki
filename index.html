@@ -879,6 +879,36 @@ body {
   color: #ff8080;
 }
 
+.quote-box {
+  background: var(--bg-accent-soft);
+  border-left: 3px solid var(--accent);
+  padding: 12px 14px;
+  margin: 14px 0;
+  border-radius: 0 8px 8px 0;
+  font-size: calc(14px * var(--font-scale));
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.info-callout {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin: 14px 0;
+  font-size: calc(13.5px * var(--font-scale));
+}
+
+.info-callout-title {
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 6px;
+  font-size: calc(13px * var(--font-scale));
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .section ul, .section ol {
   margin: 10px 0 14px 22px;
   color: var(--text-secondary);
@@ -892,6 +922,42 @@ body {
 
 .section li::marker {
   color: var(--accent);
+}
+
+.wiki-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14px 0;
+  font-size: calc(13px * var(--font-scale));
+  background: var(--bg-tertiary);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  table-layout: fixed;
+}
+
+.wiki-table th {
+  background: var(--bg-accent-soft);
+  color: var(--text-primary);
+  padding: 10px 12px;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 1px solid var(--border);
+  font-size: calc(12.5px * var(--font-scale));
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.wiki-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border-light);
+  color: var(--text-secondary);
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.wiki-table tr:last-child td {
+  border-bottom: none;
 }
 
 code {
