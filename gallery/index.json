@@ -53,10 +53,20 @@
       "id": "g007",
       "imageUrl": "gallery/g007-chatgpt-bakery.webp",
       "user": "@익명",
-      "prompt": "챗gpt가 빵 베이커리 사업을 시작한 모습을 사실적이고 일반인이 찍은 시점으로 최대한 자연스러운 사진 만들어주실수 있어용? 아빠 낚으려구요ㅎㅎ",
+      "prompt": "챗gpt가 빵 베이커리 사업하다 라는 뉴스사진. 아빠 낚으려구요ㅎㅎ",
       "tool": "제미나이 바나나",
       "category": "real",
       "uploadedAt": "2026-05-08T07:00:00Z",
+      "date": "2026-05-08"
+    },
+    {
+      "id": "g008",
+      "imageUrl": "gallery/g008-makima.webp",
+      "user": "@makimaki",
+      "prompt": "체인소맨 마키마 아무거나요",
+      "tool": "ChatGPT 이미지생성",
+      "category": "2d",
+      "uploadedAt": "2026-05-08T09:08:25Z",
       "date": "2026-05-08"
     }
   ]
