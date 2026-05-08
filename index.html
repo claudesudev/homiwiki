@@ -4431,12 +4431,38 @@ html[data-font-size="xxl"] .topics-hero-overlay {
 .gallery-card:not(.is-expanded):nth-child(7n+6) .gallery-card-image { background: linear-gradient(135deg, #b08968, #7a5a3f); }
 .gallery-card:not(.is-expanded):nth-child(7n+7) .gallery-card-image { background: linear-gradient(135deg, #555555, #2a2a2a); }
 
+/* === 문서 본문 사진 (figure) === */
+.doc-figure {
+  margin: 20px 0;
+  text-align: center;
+}
+.doc-figure img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  display: block;
+  margin: 0 auto;
+}
+.doc-figure figcaption {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--text-secondary, #888);
+  font-style: italic;
+  line-height: 1.5;
+  padding: 0 8px;
+}
+
 /* === 본문 작은 안내문 (footnote) === */
 .section .footnote {
   margin-top: 8px;
   font-size: 12px;
   color: var(--text-tertiary, #999);
   line-height: 1.5;
+}
+@media (max-width: 720px) {
+  .doc-figure { margin: 16px -4px; }
+  .doc-figure figcaption { font-size: 12px; }
 }
 
 </style>
