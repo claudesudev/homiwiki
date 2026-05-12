@@ -35,15 +35,17 @@
       "updated": "2026-04-29"
     },
     "청라-교통": {
-      "title": "청라국제도시 교통",
+      "title": "청라/교통",
       "subtitle": "Cheongna Transit",
       "category": "청라국제도시",
       "parent": null,
-      "children": ["청라-교통-자차"],
+      "children": [
+        "청라-교통-자차"
+      ],
       "updated": "2026-05-13"
     },
     "청라-교통-자차": {
-      "title": "청라/자차",
+      "title": "청라/교통/자차",
       "subtitle": "Cheongna Car Use",
       "category": "청라국제도시",
       "parent": "청라-교통",
