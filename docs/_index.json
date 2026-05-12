@@ -39,6 +39,14 @@
       "subtitle": "Cheongna Transit",
       "category": "청라국제도시",
       "parent": null,
+      "children": ["청라-교통-자차"],
+      "updated": "2026-05-13"
+    },
+    "청라-교통-자차": {
+      "title": "청라/자차",
+      "subtitle": "Cheongna Car Use",
+      "category": "청라국제도시",
+      "parent": "청라-교통",
       "children": [],
       "updated": "2026-05-13"
     }
@@ -48,6 +56,7 @@
     "cheongnacanalway": "청라-커낼웨이",
     "cheongna_celebrities": "청라-유명인",
     "online-refund": "온라인-환불",
-    "cheongna-transit": "청라-교통"
+    "cheongna-transit": "청라-교통",
+    "cheongna-car": "청라-교통-자차"
   }
 }
