@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updated": "2026-05-08",
+  "updated": "2026-05-13",
   "docs": {
     "클로드": {
       "title": "클로드",
@@ -33,12 +33,21 @@
       "parent": null,
       "children": [],
       "updated": "2026-04-29"
+    },
+    "청라-교통": {
+      "title": "청라국제도시 교통",
+      "subtitle": "Cheongna Transit",
+      "category": "청라국제도시",
+      "parent": null,
+      "children": [],
+      "updated": "2026-05-13"
     }
   },
   "redirects": {
     "claude": "클로드",
     "cheongnacanalway": "청라-커낼웨이",
     "cheongna_celebrities": "청라-유명인",
-    "online-refund": "온라인-환불"
+    "online-refund": "온라인-환불",
+    "cheongna-transit": "청라-교통"
   }
 }
