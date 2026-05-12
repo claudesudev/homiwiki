@@ -1,5 +1,5 @@
 {
-  "title": "청라/자차",
+  "title": "청라/교통/자차",
   "subtitle": "Cheongna Car Use",
   "updated": "2026-05-13",
   "contributors": [
@@ -22,6 +22,11 @@
       "nick": "@incheon_local",
       "role": "2장 도보 체감 표현 자연화",
       "date": "2026-05-13"
+    },
+    {
+      "nick": "@incheon_local",
+      "role": "타이틀 표기 통일 (청라/교통/자차)",
+      "date": "2026-05-13"
     }
   ],
   "categories": [
@@ -39,7 +44,7 @@
     }
   ],
   "infobox": {
-    "title": "청라/자차",
+    "title": "청라/교통/자차",
     "subtitle": "Cheongna Car Use",
     "imageText": "🚗",
     "imageEmoji": "🛻",
