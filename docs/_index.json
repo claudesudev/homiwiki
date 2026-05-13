@@ -42,7 +42,8 @@
       "children": [
         "청라-교통-자차",
         "청라-교통-개인이동수단과-렌탈플랫폼",
-        "청라-교통-버스"
+        "청라-교통-버스",
+        "청라-교통-철도"
       ],
       "updated": "2026-05-13"
     },
@@ -69,6 +70,24 @@
       "parent": "청라-교통",
       "children": [],
       "updated": "2026-05-13"
+    },
+    "청라-교통-철도": {
+      "title": "청라/교통/철도",
+      "subtitle": "Cheongna Rail Network",
+      "category": "청라국제도시",
+      "parent": "청라-교통",
+      "children": [
+        "청라-교통-철도-서울지하철7호선청라연장사업"
+      ],
+      "updated": "2026-05-13"
+    },
+    "청라-교통-철도-서울지하철7호선청라연장사업": {
+      "title": "청라/교통/철도/서울 지하철 7호선 청라 연장사업",
+      "subtitle": "Seoul Subway Line 7 Cheongna Extension",
+      "category": "청라국제도시",
+      "parent": "청라-교통-철도",
+      "children": [],
+      "updated": "2026-05-13"
     }
   },
   "redirects": {
@@ -79,6 +98,8 @@
     "cheongna-transit": "청라-교통",
     "cheongna-car": "청라-교통-자차",
     "cheongna-mobility": "청라-교통-개인이동수단과-렌탈플랫폼",
-    "cheongna-bus": "청라-교통-버스"
+    "cheongna-bus": "청라-교통-버스",
+    "cheongna-rail": "청라-교통-철도",
+    "cheongna-line7": "청라-교통-철도-서울지하철7호선청라연장사업"
   }
 }
