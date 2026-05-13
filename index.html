@@ -7971,26 +7971,19 @@ let _dcbObserver = null;
 let _dcbCurrentCategory = null;
 
 function updateDocContextBar() {
-  console.log('[DCB] updateDocContextBar called', { page: state.currentPage, docId: state.currentDocId });
   const bar = document.getElementById('docContextBar');
   const wrap = document.getElementById('docContextBarWrap');
-  console.log('[DCB] elements:', { bar: !!bar, wrap: !!wrap });
-  if (!bar || !wrap) {
-    console.log('[DCB] missing elements, abort');
-    return;
-  }
+  if (!bar || !wrap) return;
 
   if (state.currentPage !== 'doc' || !state.currentDocId) {
-    console.log('[DCB] not doc page, hide');
     bar.classList.remove('is-visible');
     wrap.classList.remove('is-active');
     closeDcbDropdown();
-    if (_dcbObserver) { _dcbObserver.disconnect(); _dcbObserver = null; }
+    _detachDcbScrollHandler();
     return;
   }
 
   const doc = DOCS[state.currentDocId];
-  console.log('[DCB] doc found:', !!doc, 'title:', doc && doc.title);
   if (!doc) return;
 
   const cats = doc.categories || [];
@@ -8003,12 +7996,52 @@ function updateDocContextBar() {
   if (docText) docText.innerHTML = `<span class="dcb-doc-highlight">${escapeHtmlContrib(doc.title)}</span>`;
 
   closeDcbDropdown();
+  bar.classList.remove('is-visible');
+  wrap.classList.remove('is-active');
 
-  bar.classList.add('is-visible');
-  wrap.classList.add('is-active');
-  console.log('[DCB] FORCED VISIBLE — classes:', bar.className, wrap.className);
-  console.log('[DCB] computed bar:', getComputedStyle(bar).height, getComputedStyle(bar).opacity, getComputedStyle(bar).display);
-  console.log('[DCB] computed wrap:', getComputedStyle(wrap).display, getComputedStyle(wrap).top, getComputedStyle(wrap).zIndex);
+  _attachDcbScrollHandler();
+  _checkDcbScroll();
+}
+
+let _dcbScrollHandler = null;
+let _dcbScrollRaf = 0;
+
+function _attachDcbScrollHandler() {
+  if (_dcbScrollHandler) return;
+  _dcbScrollHandler = function() {
+    if (_dcbScrollRaf) return;
+    _dcbScrollRaf = requestAnimationFrame(function() {
+      _dcbScrollRaf = 0;
+      _checkDcbScroll();
+    });
+  };
+  window.addEventListener('scroll', _dcbScrollHandler, { passive: true });
+}
+
+function _detachDcbScrollHandler() {
+  if (!_dcbScrollHandler) return;
+  window.removeEventListener('scroll', _dcbScrollHandler);
+  _dcbScrollHandler = null;
+}
+
+function _checkDcbScroll() {
+  if (state.currentPage !== 'doc') return;
+  const bar = document.getElementById('docContextBar');
+  const wrap = document.getElementById('docContextBarWrap');
+  if (!bar || !wrap) return;
+  const title = document.querySelector('.doc-title');
+  if (!title) return;
+  const rect = title.getBoundingClientRect();
+  const HEADER_HEIGHT = 60;
+  const threshold = HEADER_HEIGHT + 10;
+  if (rect.bottom < threshold) {
+    bar.classList.add('is-visible');
+    wrap.classList.add('is-active');
+  } else {
+    bar.classList.remove('is-visible');
+    wrap.classList.remove('is-active');
+    closeDcbDropdown();
+  }
 }
 
 function toggleDcbDropdown() {
