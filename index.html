@@ -7971,11 +7971,17 @@ let _dcbObserver = null;
 let _dcbCurrentCategory = null;
 
 function updateDocContextBar() {
+  console.log('[DCB] updateDocContextBar called', { page: state.currentPage, docId: state.currentDocId });
   const bar = document.getElementById('docContextBar');
   const wrap = document.getElementById('docContextBarWrap');
-  if (!bar || !wrap) return;
+  console.log('[DCB] elements:', { bar: !!bar, wrap: !!wrap });
+  if (!bar || !wrap) {
+    console.log('[DCB] missing elements, abort');
+    return;
+  }
 
   if (state.currentPage !== 'doc' || !state.currentDocId) {
+    console.log('[DCB] not doc page, hide');
     bar.classList.remove('is-visible');
     wrap.classList.remove('is-active');
     closeDcbDropdown();
@@ -7984,6 +7990,7 @@ function updateDocContextBar() {
   }
 
   const doc = DOCS[state.currentDocId];
+  console.log('[DCB] doc found:', !!doc, 'title:', doc && doc.title);
   if (!doc) return;
 
   const cats = doc.categories || [];
@@ -7996,31 +8003,12 @@ function updateDocContextBar() {
   if (docText) docText.innerHTML = `<span class="dcb-doc-highlight">${escapeHtmlContrib(doc.title)}</span>`;
 
   closeDcbDropdown();
-  bar.classList.remove('is-visible');
-  wrap.classList.remove('is-active');
 
-  if (_dcbObserver) _dcbObserver.disconnect();
-  const target = document.querySelector('.doc-title');
-  if (!target) {
-    bar.classList.add('is-visible');
-    wrap.classList.add('is-active');
-    return;
-  }
-  _dcbObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        bar.classList.remove('is-visible');
-        wrap.classList.remove('is-active');
-        closeDcbDropdown();
-      } else {
-        if (entry.boundingClientRect.top < 0) {
-          bar.classList.add('is-visible');
-          wrap.classList.add('is-active');
-        }
-      }
-    });
-  }, { threshold: 0, rootMargin: '-90px 0px 0px 0px' });
-  _dcbObserver.observe(target);
+  bar.classList.add('is-visible');
+  wrap.classList.add('is-active');
+  console.log('[DCB] FORCED VISIBLE — classes:', bar.className, wrap.className);
+  console.log('[DCB] computed bar:', getComputedStyle(bar).height, getComputedStyle(bar).opacity, getComputedStyle(bar).display);
+  console.log('[DCB] computed wrap:', getComputedStyle(wrap).display, getComputedStyle(wrap).top, getComputedStyle(wrap).zIndex);
 }
 
 function toggleDcbDropdown() {
