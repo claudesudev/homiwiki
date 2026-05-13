@@ -250,15 +250,16 @@ body {
 }
 
 .search-suggestions {
-  position: absolute;
-  top: 48px;
-  left: 0;
-  right: 0;
+  position: fixed;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
   background: #ffffff;
-  border: 1px solid #e3e0da;
-  border-radius: 12px;
+  border-top: 1px solid #e3e0da;
+  border-bottom: 1px solid #e3e0da;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-  overflow: hidden;
   max-height: min(500px, 70vh);
   overflow-y: auto;
   display: none;
@@ -270,13 +271,16 @@ body {
 }
 
 .suggestion-item {
-  padding: 12px 14px;
+  padding: 12px 16px;
   cursor: pointer;
   font-size: calc(16px * var(--font-scale));
   font-weight: 400;
   color: #1a1a1a;
   border-bottom: 1px solid #ebe8e2;
   transition: background 0.15s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .suggestion-item:last-child {
@@ -5210,7 +5214,7 @@ searchInput.addEventListener('keydown', (e) => {
     } else {
       searchInput.value = '';
       searchSuggestions.classList.remove('active');
-      renderNotFound(query);
+      navigateTo('not-found', null, query);
     }
   }
 });
@@ -5228,12 +5232,15 @@ function hashToState(hash) {
   const clean = hash.replace(/^#\/?/, '');
   const parts = clean.split('/');
   const page = parts[0] || 'home';
-  const validPages = ['home', 'timeline', 'topics', 'gallery', 'settings', 'contribute', 'doc'];
+  const validPages = ['home', 'timeline', 'topics', 'gallery', 'settings', 'contribute', 'doc', 'not-found'];
   if (!validPages.includes(page)) return { page: 'home', docId: null };
   if (page === 'doc') {
     const docId = parts[1] ? decodeURIComponent(parts[1]) : null;
     if (!docId || !DOCS[docId]) return { page: 'home', docId: null };
     return { page: 'doc', docId };
+  }
+  if (page === 'not-found') {
+    return { page: 'home', docId: null };
   }
   if (page === 'contribute') {
     const n = parseInt(parts[1], 10);
@@ -5251,7 +5258,8 @@ window.navigateTo = function(page, docId = null, originalQuery = null, opts = {}
   if (!opts.fromBack && !opts.fromTab && state.currentPage && !sameDest) {
     state.navStack.push({
       page: state.currentPage,
-      docId: state.currentDocId || null
+      docId: state.currentDocId || null,
+      scrollY: window.scrollY || 0
     });
     if (state.navStack.length > 50) state.navStack.shift();
   }
@@ -5291,7 +5299,8 @@ window.navigateTo = function(page, docId = null, originalQuery = null, opts = {}
     if (wikiBtn) wikiBtn.classList.add('active');
   }
 
-  window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  const restoreY = (opts.fromBack && typeof opts.restoreScroll === 'number') ? opts.restoreScroll : 0;
+  window.scrollTo({ top: restoreY, left: 0, behavior: 'instant' });
 
   switch(page) {
     case 'home': renderHome(); break;
@@ -5301,6 +5310,13 @@ window.navigateTo = function(page, docId = null, originalQuery = null, opts = {}
     case 'settings': renderSettings(); break;
     case 'contribute': renderContribute(); break;
     case 'doc': renderDoc(docId, originalQuery); break;
+    case 'not-found': renderNotFound(originalQuery || ''); break;
+  }
+
+  if (restoreY > 0) {
+    requestAnimationFrame(() => {
+      window.scrollTo({ top: restoreY, left: 0, behavior: 'instant' });
+    });
   }
 
   updateFloatingDock();
@@ -5350,15 +5366,19 @@ window.addEventListener('popstate', (e) => {
     return;
   }
 
+  let restoreScroll = 0;
   if (state.navStack.length > 0) {
-    state.navStack.pop();
+    const popped = state.navStack.pop();
+    if (popped && typeof popped.scrollY === 'number') {
+      restoreScroll = popped.scrollY;
+    }
   }
 
   const sameDest = (target.page === state.currentPage) &&
     (target.page !== 'doc' || target.docId === state.currentDocId);
   if (sameDest) return;
 
-  navigateTo(target.page, target.docId, null, { fromBack: true });
+  navigateTo(target.page, target.docId, null, { fromBack: true, restoreScroll: restoreScroll });
 });
 
 function formatRelativeTime(dateStr) {
@@ -7883,7 +7903,7 @@ function bindWikiLinks() {
           const isRedirected = normalizeSearch(originalText) !== normalizeSearch(DOCS[targetId].title);
           navigateTo('doc', targetId, isRedirected ? originalText : null);
         } else {
-          renderNotFound(originalText);
+          navigateTo('not-found', null, originalText);
         }
       }, 180);
     });
@@ -7894,6 +7914,11 @@ function renderNotFound(query) {
   const content = document.getElementById('pageContent');
 
   const suggestions = getSuggestions(query).slice(0, 4);
+
+  const hasHistory = state.navStack && state.navStack.length > 0;
+  const buttonHtml = hasHistory
+    ? `<button class="btn-primary" style="margin-top:20px" onclick="history.back()">이전으로 돌아가기</button>`
+    : `<button class="btn-primary" style="margin-top:20px" onclick="navigateTo('home')">홈으로 돌아가기</button>`;
 
   content.innerHTML = `
     <div class="not-found">
@@ -7921,7 +7946,7 @@ function renderNotFound(query) {
         </div>
       ` : ''}
 
-      <button class="btn-primary" style="margin-top:20px" onclick="navigateTo('home')">홈으로 돌아가기</button>
+      ${buttonHtml}
     </div>
   `;
 }
