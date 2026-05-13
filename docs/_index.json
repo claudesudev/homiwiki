@@ -44,7 +44,8 @@
         "청라-교통-개인이동수단과-렌탈플랫폼",
         "청라-교통-버스",
         "청라-교통-철도",
-        "청라-교통-택시"
+        "청라-교통-택시",
+        "청라-교통-문제점"
       ],
       "updated": "2026-05-13"
     },
@@ -97,6 +98,14 @@
       "parent": "청라-교통",
       "children": [],
       "updated": "2026-05-13"
+    },
+    "청라-교통-문제점": {
+      "title": "청라/교통/문제점",
+      "subtitle": "Cheongna Transit Problems & Incidents",
+      "category": "청라국제도시",
+      "parent": "청라-교통",
+      "children": [],
+      "updated": "2026-05-13"
     }
   },
   "redirects": {
@@ -110,6 +119,7 @@
     "cheongna-bus": "청라-교통-버스",
     "cheongna-rail": "청라-교통-철도",
     "cheongna-line7": "청라-교통-철도-서울지하철7호선청라연장사업",
-    "cheongna-taxi": "청라-교통-택시"
+    "cheongna-taxi": "청라-교통-택시",
+    "cheongna-problems": "청라-교통-문제점"
   }
 }
