@@ -180,17 +180,140 @@ body {
   z-index: 100;
 }
 
+/* ===== 경로 바 (헤더 아래에 부착, 문서 페이지에서 스크롤 시 노출) ===== */
+.path-breadcrumb {
+  position: fixed;
+  top: 60px; /* top-header 높이 바로 아래 */
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 14px;
+  background: #fbeae3; /* 헤더 톤과 어울리는 연한 살구 — 라이트 톤-1 카드 색과 동일 */
+  color: var(--accent);
+  font-size: calc(13px * var(--font-scale));
+  line-height: 1;
+  white-space: nowrap;
+  z-index: 99; /* 헤더보다 한 단 아래 */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+.path-breadcrumb.is-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+[data-theme="dark"] .path-breadcrumb {
+  background: #3a2920;
+}
+
+.path-breadcrumb-folder {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  color: var(--accent);
+}
+
+/* 경로 텍스트 영역: 가로 스크롤 없이 ... 처리 */
+.path-breadcrumb-track {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+}
+
+.path-breadcrumb-sep {
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.path-breadcrumb-cat {
+  color: var(--accent);
+  cursor: pointer;
+  flex-shrink: 0;
+  position: relative;
+  padding: 4px 0; /* 탭 영역 확보 (시각적 박스는 없음) */
+}
+.path-breadcrumb-cat:active {
+  opacity: 0.6;
+}
+
+/* 현재 위치(말단): 볼드 + 색은 동일, 길면 잘림 */
+.path-breadcrumb-current {
+  font-weight: 700;
+  color: var(--accent);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: default;
+}
+
+/* 카테고리 호버/탭 드롭다운 */
+.path-breadcrumb-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-4px);
+  min-width: 140px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow-md, 0 4px 14px rgba(0,0,0,0.12));
+  padding: 4px 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.14s ease, transform 0.14s ease;
+  z-index: 102;
+}
+.path-breadcrumb-cat.is-open .path-breadcrumb-dropdown,
+.path-breadcrumb-cat:hover .path-breadcrumb-dropdown {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+.path-breadcrumb-dropdown-item {
+  display: block;
+  padding: 8px 12px;
+  font-size: calc(13px * var(--font-scale));
+  color: var(--text-primary);
+  font-weight: 400;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.path-breadcrumb-dropdown-item:hover,
+.path-breadcrumb-dropdown-item:active {
+  background: var(--bg-secondary);
+  color: var(--accent);
+}
+.path-breadcrumb-dropdown-empty {
+  padding: 8px 12px;
+  font-size: calc(12px * var(--font-scale));
+  color: var(--text-tertiary);
+  font-style: italic;
+}
+
+/* 페이지 내용 위쪽 패딩: 헤더(60) + (열린 경로바 36) = 96, 닫혔을 땐 60. */
+/* 단순화를 위해 페이지 내용 자체는 그대로 두고, path-breadcrumb는 헤더 위에 겹쳐 잠깐 보이게 한다. */
+
 .logo {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 3.5px;
-  min-width: 39px;
+  gap: 5px;
+  min-width: 56px;
   height: 38px;
   padding: 0 4px;
   color: #ffffff;
   font-family: 'Do Hyeon', system-ui, -apple-system, sans-serif;
-  font-size: calc(15.4px * var(--font-scale));
+  font-size: calc(22px * var(--font-scale));
   font-weight: 400;
   letter-spacing: -0.3px;
   cursor: pointer;
@@ -198,7 +321,7 @@ body {
   transition: opacity 0.15s ease;
 }
 .logo .logo-icon {
-  height: calc(17.46px * var(--font-scale));
+  height: calc(24.948px * var(--font-scale));
   width: auto;
   flex-shrink: 0;
   display: block;
@@ -207,7 +330,7 @@ body {
   color: inherit;
 }
 .logo span {
-  transform: translateY(1.5px);
+  transform: translateY(2px);
 }
 .logo:active {
   opacity: 0.7;
@@ -2738,16 +2861,9 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
 }
 
 .gallery-empty-icon {
-  width: calc(48px * var(--font-scale));
-  height: calc(48px * var(--font-scale));
-  margin: 0 auto 12px;
-  color: var(--accent);
-  opacity: 0.7;
-}
-
-.gallery-empty-icon svg {
-  width: 100%;
-  height: 100%;
+  font-size: calc(40px * var(--font-scale));
+  opacity: 0.5;
+  margin-bottom: 12px;
 }
 
 .gallery-pagination {
@@ -4390,26 +4506,14 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   gap: 8px;
 }
 
-@keyframes homi-dot-bounce {
-  0%, 80%, 100% { transform: translateY(0); opacity: 0.35; }
-  40% { transform: translateY(-5px); opacity: 1; }
-}
-
 .not-found {
   text-align: center;
   padding: 40px 20px;
 }
 
 .not-found-icon {
-  width: calc(64px * var(--font-scale));
-  height: calc(64px * var(--font-scale));
-  margin: 0 auto 14px;
-  color: var(--accent);
-}
-
-.not-found-icon svg {
-  width: 100%;
-  height: 100%;
+  font-size: calc(56px * var(--font-scale));
+  margin-bottom: 14px;
 }
 
 .not-found-title {
@@ -4500,6 +4604,13 @@ html[data-font-size="xxl"] .topics-hero-overlay {
       <div class="search-suggestions" id="searchSuggestions"></div>
     </div>
   </header>
+
+  <nav class="path-breadcrumb" id="pathBreadcrumb" aria-label="문서 경로" aria-hidden="true">
+    <svg class="path-breadcrumb-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+    </svg>
+    <div class="path-breadcrumb-track" id="pathBreadcrumbTrack"></div>
+  </nav>
 
   <main class="page-content" id="pageContent">
   </main>
@@ -4705,13 +4816,7 @@ function showBootMessage(html) {
 async function loadAllDocs() {
   showBootMessage(`
     <div style="padding:60px 20px;text-align:center;color:var(--text-secondary,#888);font-size:14px;">
-      <div style="width:48px;height:48px;margin:0 auto 12px;color:var(--accent,#cc785c);">
-        <svg viewBox="0 0 48 48" fill="currentColor" aria-hidden="true">
-          <circle cx="14" cy="24" r="3" style="animation: homi-dot-bounce 1.2s ease-in-out infinite;"/>
-          <circle cx="24" cy="24" r="3" style="animation: homi-dot-bounce 1.2s ease-in-out infinite; animation-delay: 0.2s;"/>
-          <circle cx="34" cy="24" r="3" style="animation: homi-dot-bounce 1.2s ease-in-out infinite; animation-delay: 0.4s;"/>
-        </svg>
-      </div>
+      <div style="font-size:32px;margin-bottom:12px;opacity:.5;">⏳</div>
       <div>문서를 불러오는 중…</div>
     </div>
   `);
@@ -4803,12 +4908,7 @@ async function loadAllDocs() {
 function showLoadErrorScreen() {
   showBootMessage(`
     <div style="padding:60px 20px;max-width:480px;margin:0 auto;text-align:center;">
-      <div style="width:64px;height:64px;margin:0 auto 16px;color:var(--accent,#cc785c);">
-        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M24 8L42 38H6z"/>
-          <path d="M24 18v10M24 33v.5"/>
-        </svg>
-      </div>
+      <div style="font-size:48px;margin-bottom:16px;">😅</div>
       <h2 style="margin:0 0 12px;font-size:18px;">문서를 불러오지 못했어요</h2>
       <p style="margin:0 0 20px;font-size:14px;color:var(--text-secondary,#888);line-height:1.6;">
         ${DOCS_LOAD_ERROR ? '오류: ' + DOCS_LOAD_ERROR : ''}<br>
@@ -5088,6 +5188,10 @@ window.navigateTo = function(page, docId = null, originalQuery = null, opts = {}
   }
 
   window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+
+  // 경로 바 초기화: 모든 페이지에서 일단 비우고 숨김.
+  // doc 페이지에 한해 renderDoc 안에서 다시 채움.
+  resetPathBreadcrumb();
 
   switch(page) {
     case 'home': renderHome(); break;
@@ -6020,13 +6124,7 @@ function renderGalleryContent() {
   if (filtered.length === 0) {
     feedHtml = `
       <div class="gallery-empty">
-        <div class="gallery-empty-icon">
-          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="8" y="10" width="32" height="26" rx="2"/>
-            <circle cx="17" cy="19" r="2.5"/>
-            <path d="M8 30l8-8 8 8 6-6 10 10"/>
-          </svg>
-        </div>
+        <div class="gallery-empty-icon">🖼️</div>
         <div>아직 등록된 이미지가 없어요.</div>
       </div>
     `;
@@ -7506,6 +7604,193 @@ function formatContribDate(dateStr) {
   return `${parseInt(m[1], 10)}.${parseInt(m[2], 10)}`;
 }
 
+/* =========================================================
+   경로 바 (path breadcrumb)
+   - 문서 페이지에서만 채움
+   - 스크롤이 시작되어 .doc-title 이 화면에서 사라질 즈음 노출
+   - 맨 위로 돌아가면 다시 숨김
+   ========================================================= */
+
+let __pathBreadcrumbObserver = null;
+let __pathBreadcrumbScrollHandler = null;
+let __pathBreadcrumbActive = false; // 현재 페이지가 경로 바 사용 페이지인지
+
+function resetPathBreadcrumb() {
+  const bar = document.getElementById('pathBreadcrumb');
+  const track = document.getElementById('pathBreadcrumbTrack');
+  if (!bar || !track) return;
+  bar.classList.remove('is-visible');
+  bar.setAttribute('aria-hidden', 'true');
+  track.innerHTML = '';
+  __pathBreadcrumbActive = false;
+  if (__pathBreadcrumbObserver) {
+    __pathBreadcrumbObserver.disconnect();
+    __pathBreadcrumbObserver = null;
+  }
+  if (__pathBreadcrumbScrollHandler) {
+    window.removeEventListener('scroll', __pathBreadcrumbScrollHandler);
+    __pathBreadcrumbScrollHandler = null;
+  }
+}
+
+function escapeAttrSimple(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+/**
+ * 카테고리 목록을 받아 경로 바를 그린다.
+ * @param {Array<{text:string, id?:string|null}>} categories
+ * @param {string} currentTitle  말단(현재 위치) 텍스트
+ */
+function setPathBreadcrumb(categories, currentTitle) {
+  const bar = document.getElementById('pathBreadcrumb');
+  const track = document.getElementById('pathBreadcrumbTrack');
+  if (!bar || !track) return;
+
+  const cats = Array.isArray(categories) ? categories : [];
+  const parts = [];
+
+  cats.forEach((c, idx) => {
+    const text = escapeAttrSimple(c && c.text != null ? c.text : '');
+    if (!text) return;
+    const dataLink = c && c.id ? ` data-link="${escapeAttrSimple(c.id)}"` : '';
+    // 카테고리 자체는 클릭(=드롭다운 열기)이 주 동작.
+    // doc.json 의 id 가 있으면 드롭다운 안에 "이 분류 문서로 이동" 항목을 추가한다.
+    const ddItems = [];
+    if (c && c.id && typeof DOCS !== 'undefined' && DOCS[c.id]) {
+      ddItems.push(`<span class="path-breadcrumb-dropdown-item" data-link="${escapeAttrSimple(c.id)}">"${text}" 문서로 이동</span>`);
+    }
+    ddItems.push(`<span class="path-breadcrumb-dropdown-item" data-cat-search="${text}">"${text}" 분류 검색</span>`);
+
+    parts.push(
+      `<span class="path-breadcrumb-cat" tabindex="0"${dataLink}>` +
+        `<span class="path-breadcrumb-cat-label">${text}</span>` +
+        `<span class="path-breadcrumb-dropdown" role="menu">` +
+          ddItems.join('') +
+        `</span>` +
+      `</span>`
+    );
+    parts.push(`<span class="path-breadcrumb-sep" aria-hidden="true">/</span>`);
+  });
+
+  // 말단: 현재 위치 (클릭 불가, 길면 ... 처리)
+  parts.push(
+    `<span class="path-breadcrumb-current" title="${escapeAttrSimple(currentTitle)}">${escapeAttrSimple(currentTitle)}</span>`
+  );
+
+  track.innerHTML = parts.join('');
+
+  // 드롭다운 항목 동작 바인딩
+  track.querySelectorAll('.path-breadcrumb-dropdown-item').forEach(item => {
+    item.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const link = item.getAttribute('data-link');
+      const catSearch = item.getAttribute('data-cat-search');
+      if (link) {
+        navigateTo('doc', link);
+      } else if (catSearch) {
+        // 검색창에 카테고리 텍스트 넣고 입력 이벤트 발생 — 기존 검색 흐름 재사용
+        const si = document.getElementById('searchInput');
+        if (si) {
+          si.value = catSearch;
+          si.dispatchEvent(new Event('input', { bubbles: true }));
+          si.focus();
+        }
+      }
+    });
+  });
+
+  // 모바일 탭 시 드롭다운 토글 (호버가 없는 환경)
+  track.querySelectorAll('.path-breadcrumb-cat').forEach(catEl => {
+    const labelEl = catEl.querySelector('.path-breadcrumb-cat-label');
+    if (!labelEl) return;
+    labelEl.addEventListener('click', (e) => {
+      e.stopPropagation();
+      // 이미 열려 있으면 닫기, 아니면 다른 것 모두 닫고 이것만 열기
+      const wasOpen = catEl.classList.contains('is-open');
+      track.querySelectorAll('.path-breadcrumb-cat.is-open').forEach(el => el.classList.remove('is-open'));
+      if (!wasOpen) catEl.classList.add('is-open');
+    });
+    catEl.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        labelEl.click();
+      } else if (e.key === 'Escape') {
+        catEl.classList.remove('is-open');
+      }
+    });
+  });
+
+  // 바깥 클릭 시 드롭다운 닫기 (한 번만 등록)
+  if (!window.__pathBreadcrumbOutsideHandler) {
+    window.__pathBreadcrumbOutsideHandler = (e) => {
+      const open = document.querySelectorAll('.path-breadcrumb-cat.is-open');
+      open.forEach(el => {
+        if (!el.contains(e.target)) el.classList.remove('is-open');
+      });
+    };
+    document.addEventListener('click', window.__pathBreadcrumbOutsideHandler);
+  }
+
+  __pathBreadcrumbActive = true;
+  attachPathBreadcrumbScrollWatch();
+}
+
+/**
+ * doc-title 이 거의 다 화면에서 사라질 때 경로 바를 노출.
+ * IntersectionObserver 로 .doc-title 의 가시성을 추적한다.
+ * 폴백으로 scroll 이벤트도 사용.
+ */
+function attachPathBreadcrumbScrollWatch() {
+  const bar = document.getElementById('pathBreadcrumb');
+  if (!bar) return;
+  const title = document.querySelector('.doc-title');
+  if (!title) return;
+
+  const show = () => {
+    if (!__pathBreadcrumbActive) return;
+    bar.classList.add('is-visible');
+    bar.setAttribute('aria-hidden', 'false');
+  };
+  const hide = () => {
+    bar.classList.remove('is-visible');
+    bar.setAttribute('aria-hidden', 'true');
+    // 닫힌 드롭다운 정리
+    bar.querySelectorAll('.path-breadcrumb-cat.is-open').forEach(el => el.classList.remove('is-open'));
+  };
+
+  // IntersectionObserver: 헤더(60px) 만큼 위에서 잘라낸 영역 기준으로 제목이 보이는지 판단
+  if ('IntersectionObserver' in window) {
+    if (__pathBreadcrumbObserver) __pathBreadcrumbObserver.disconnect();
+    __pathBreadcrumbObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        // 제목이 60px(헤더 아래) 안쪽으로 거의 안 보이게 되면 노출
+        if (entry.isIntersecting) {
+          hide();
+        } else {
+          show();
+        }
+      });
+    }, {
+      // 상단에서 60px(헤더) + 약 8px 만큼 잘라내고, 그 위로 제목이 사라지면 비가시로 판정
+      rootMargin: '-68px 0px 0px 0px',
+      threshold: 0
+    });
+    __pathBreadcrumbObserver.observe(title);
+  } else {
+    // 폴백
+    if (__pathBreadcrumbScrollHandler) window.removeEventListener('scroll', __pathBreadcrumbScrollHandler);
+    __pathBreadcrumbScrollHandler = () => {
+      const rect = title.getBoundingClientRect();
+      if (rect.bottom < 68) show(); else hide();
+    };
+    window.addEventListener('scroll', __pathBreadcrumbScrollHandler, { passive: true });
+    __pathBreadcrumbScrollHandler();
+  }
+}
+
 function renderDoc(docId, originalQuery = null) {
   const doc = DOCS[docId];
   if (!doc) {
@@ -7627,6 +7912,11 @@ function renderDoc(docId, originalQuery = null) {
   `;
 
   bindWikiLinks();
+
+  // 경로 바 채우기. 카테고리 없는 광고/특수 문서는 건너뜀.
+  if (Array.isArray(doc.categories) && doc.categories.length > 0) {
+    setPathBreadcrumb(doc.categories, doc.title);
+  }
 }
 
 function renderInfobox(info) {
@@ -7698,12 +7988,7 @@ function renderNotFound(query) {
 
   content.innerHTML = `
     <div class="not-found">
-      <div class="not-found-icon">
-        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="20" cy="20" r="11"/>
-          <path d="M28.5 28.5L38 38"/>
-        </svg>
-      </div>
+      <div class="not-found-icon">🔍</div>
       <div class="not-found-title">문서를 찾을 수 없어요</div>
       <div class="not-found-desc">
         <strong>"${query}"</strong>에 해당하는 문서가 아직 없습니다.<br>
@@ -7712,7 +7997,7 @@ function renderNotFound(query) {
 
       ${suggestions.length > 0 ? `
         <div style="margin-top:24px;text-align:left">
-          <h4 style="font-size:calc(13px * var(--font-scale));color:var(--text-secondary);margin-bottom:10px;font-weight:600;display:flex;align-items:center;gap:6px"><svg width="16" height="16" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 26c0-5 4-9 8-9s8 4 8 9c0 4-3 5-3 8H19c0-3-3-4-3-8z"/><path d="M20 38h8M22 41h4"/></svg>이런 문서는 어때요?</h4>
+          <h4 style="font-size:calc(13px * var(--font-scale));color:var(--text-secondary);margin-bottom:10px;font-weight:600">💡 이런 문서는 어때요?</h4>
           ${suggestions.map(id => `
             <div class="list-item" onclick="navigateTo('doc','${id}')">
               <div class="list-item-content" style="padding-left:4px">
