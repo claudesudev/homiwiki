@@ -1760,6 +1760,207 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
   flex-shrink: 0;
 }
 
+/* ===== 문서 컨텍스트 바 ===== */
+.doc-context-bar-wrap {
+  display: none;
+  position: sticky;
+  top: 60px;
+  z-index: 50;
+}
+html[data-page="doc"] .doc-context-bar-wrap {
+  display: block;
+}
+
+.doc-context-bar {
+  height: 0;
+  overflow: hidden;
+  background: var(--bg-primary);
+  border-bottom: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  gap: 6px;
+  font-size: 12px;
+  min-width: 0;
+  font-family: inherit;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity 0.22s ease-out, transform 0.22s ease-out, height 0.22s ease-out, border-color 0.22s;
+  pointer-events: none;
+}
+html[data-page="doc"] .doc-context-bar.is-visible {
+  height: 34px;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  border-bottom-color: var(--border);
+}
+.dcb-home {
+  color: var(--accent);
+  flex-shrink: 0;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+}
+.dcb-sep {
+  font-size: 11px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+}
+.dcb-cat-wrap {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 1;
+  max-width: 50%;
+  min-width: 50px;
+  cursor: pointer;
+  gap: 5px;
+  border: 1px solid var(--accent-light);
+  border-radius: 6px;
+  padding: 2px 5px 2px 8px;
+  background: none;
+  font: inherit;
+}
+.dcb-cat-text {
+  color: var(--accent);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+.dcb-cat-chev {
+  color: var(--accent);
+  font-size: 12px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  transition: transform 0.18s ease;
+}
+.dcb-cat-wrap[aria-expanded="true"] .dcb-cat-chev {
+  transform: rotate(180deg);
+}
+.dcb-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 1.5px;
+  height: 13px;
+  flex-shrink: 0;
+}
+.dcb-bars > span {
+  width: 2px;
+  background: #e24b4a;
+  border-radius: 1px;
+  transform-origin: bottom;
+  animation: dcb-wave 2s ease-in-out infinite;
+  --high: 0.55;
+  --low: 0.3;
+  opacity: var(--high);
+}
+.dcb-bars > span.last { --high: 1; --low: 0.65; opacity: 1; }
+.dcb-bars > span:nth-child(1) { height: 8px;  animation-delay: 0s; }
+.dcb-bars > span:nth-child(2) { height: 10px; animation-delay: 0.3s; }
+.dcb-bars > span:nth-child(3) { height: 12px; animation-delay: 0.6s; }
+.dcb-bars > span:nth-child(4) { height: 13px; animation-delay: 0.9s; }
+@keyframes dcb-wave {
+  0%, 100% { transform: scaleY(1);    opacity: var(--high, 1); }
+  50%      { transform: scaleY(0.65); opacity: var(--low, 0.5); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dcb-bars > span { animation: none; }
+}
+.dcb-doc {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.dcb-doc-highlight {
+  background: linear-gradient(transparent 0%, transparent 30%, var(--bg-accent-soft) 30%, var(--bg-accent-soft) 100%);
+  padding: 0 2px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* 카테고리 펼침 드롭다운 */
+.dcb-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease;
+  z-index: 49;
+}
+.dcb-dropdown.is-open {
+  max-height: 320px;
+  overflow-y: auto;
+}
+.dcb-dropdown-inner {
+  padding: 8px 14px 12px;
+}
+.dcb-dropdown-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 6px;
+}
+.dcb-dropdown-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dcb-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text-primary);
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+}
+.dcb-dropdown-item:hover {
+  background: var(--bg-secondary);
+}
+.dcb-dropdown-item.current {
+  background: var(--bg-accent-soft);
+}
+.dcb-dropdown-item-title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.dcb-dropdown-item-tag {
+  font-size: 10px;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.dcb-dropdown-empty {
+  font-size: 12px;
+  color: var(--text-muted);
+  padding: 6px 8px;
+}
+
 .bottom-toolbar {
   position: fixed;
   bottom: 0;
@@ -4482,6 +4683,34 @@ html[data-font-size="xxl"] .topics-hero-overlay {
     </div>
   </header>
 
+  <div class="doc-context-bar-wrap" id="docContextBarWrap">
+    <div class="doc-context-bar" id="docContextBar" role="navigation" aria-label="문서 위치">
+      <button class="dcb-home" onclick="navigateTo('home', null, null, {fromTab:true})" aria-label="홈으로">홈</button>
+      <span class="dcb-sep" aria-hidden="true">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </span>
+      <button class="dcb-cat-wrap" id="dcbCatBtn" type="button" aria-expanded="false" aria-controls="dcbDropdown">
+        <span class="dcb-cat-text" id="dcbCatText">분류</span>
+        <span class="dcb-cat-chev" aria-hidden="true">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </span>
+      </button>
+      <span class="dcb-sep" aria-hidden="true">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </span>
+      <span class="dcb-bars" aria-hidden="true">
+        <span></span><span></span><span></span><span class="last"></span>
+      </span>
+      <span class="dcb-doc" id="dcbDocText"><span class="dcb-doc-highlight">문서</span></span>
+    </div>
+    <div class="dcb-dropdown" id="dcbDropdown" aria-hidden="true">
+      <div class="dcb-dropdown-inner">
+        <p class="dcb-dropdown-label" id="dcbDropdownLabel">같은 분류 문서</p>
+        <ul class="dcb-dropdown-list" id="dcbDropdownList"></ul>
+      </div>
+    </div>
+  </div>
+
   <main class="page-content" id="pageContent">
   </main>
 
@@ -5070,6 +5299,7 @@ window.navigateTo = function(page, docId = null, originalQuery = null, opts = {}
   }
 
   updateFloatingDock();
+  updateDocContextBar();
 };
 
 window.addEventListener('popstate', (e) => {
@@ -7729,6 +7959,141 @@ function updateFloatingDock() {
     }
   }
 }
+
+/* ===== 문서 컨텍스트 바 ===== */
+let _dcbObserver = null;
+let _dcbCurrentCategory = null;
+
+function updateDocContextBar() {
+  const bar = document.getElementById('docContextBar');
+  if (!bar) return;
+
+  if (state.currentPage !== 'doc' || !state.currentDocId) {
+    bar.classList.remove('is-visible');
+    closeDcbDropdown();
+    if (_dcbObserver) { _dcbObserver.disconnect(); _dcbObserver = null; }
+    return;
+  }
+
+  const doc = DOCS[state.currentDocId];
+  if (!doc) return;
+
+  const cats = doc.categories || [];
+  const primaryCat = cats.length > 0 ? cats[0].text : '';
+  _dcbCurrentCategory = primaryCat;
+
+  const catText = document.getElementById('dcbCatText');
+  const docText = document.getElementById('dcbDocText');
+  if (catText) catText.textContent = primaryCat || '분류';
+  if (docText) docText.innerHTML = `<span class="dcb-doc-highlight">${escapeHtmlContrib(doc.title)}</span>`;
+
+  closeDcbDropdown();
+  bar.classList.remove('is-visible');
+
+  if (_dcbObserver) _dcbObserver.disconnect();
+  const target = document.querySelector('.doc-title');
+  if (!target) {
+    bar.classList.add('is-visible');
+    return;
+  }
+  _dcbObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        bar.classList.remove('is-visible');
+        closeDcbDropdown();
+      } else {
+        if (entry.boundingClientRect.top < 0) {
+          bar.classList.add('is-visible');
+        }
+      }
+    });
+  }, { threshold: 0, rootMargin: '-90px 0px 0px 0px' });
+  _dcbObserver.observe(target);
+}
+
+function toggleDcbDropdown() {
+  const dropdown = document.getElementById('dcbDropdown');
+  const btn = document.getElementById('dcbCatBtn');
+  if (!dropdown || !btn) return;
+  const isOpen = dropdown.classList.contains('is-open');
+  if (isOpen) {
+    closeDcbDropdown();
+  } else {
+    openDcbDropdown();
+  }
+}
+
+function openDcbDropdown() {
+  const dropdown = document.getElementById('dcbDropdown');
+  const btn = document.getElementById('dcbCatBtn');
+  const list = document.getElementById('dcbDropdownList');
+  const label = document.getElementById('dcbDropdownLabel');
+  if (!dropdown || !btn || !list) return;
+  if (!_dcbCurrentCategory) return;
+
+  const siblings = [];
+  Object.keys(DOCS).forEach((id) => {
+    const d = DOCS[id];
+    if (!d || !d.categories) return;
+    if (d.type === 'sponsored') return;
+    const has = d.categories.some(c => c.text === _dcbCurrentCategory);
+    if (has) siblings.push({ id, title: d.title, subtitle: d.subtitle || '' });
+  });
+
+  if (label) label.textContent = `${_dcbCurrentCategory} · ${siblings.length}개 문서`;
+
+  if (siblings.length === 0) {
+    list.innerHTML = '<li class="dcb-dropdown-empty">같은 분류의 다른 문서가 없습니다</li>';
+  } else {
+    list.innerHTML = siblings.map(s => {
+      const isCurrent = s.id === state.currentDocId;
+      return `
+        <li>
+          <button type="button" class="dcb-dropdown-item ${isCurrent ? 'current' : ''}"
+                  onclick="${isCurrent ? 'closeDcbDropdown()' : `goToDcbDoc('${s.id.replace(/'/g, "\\'")}')`}">
+            <span class="dcb-dropdown-item-title">${escapeHtmlContrib(s.title)}</span>
+            ${isCurrent ? '<span class="dcb-dropdown-item-tag">현재</span>' : ''}
+          </button>
+        </li>
+      `;
+    }).join('');
+  }
+
+  dropdown.classList.add('is-open');
+  dropdown.setAttribute('aria-hidden', 'false');
+  btn.setAttribute('aria-expanded', 'true');
+}
+
+function closeDcbDropdown() {
+  const dropdown = document.getElementById('dcbDropdown');
+  const btn = document.getElementById('dcbCatBtn');
+  if (!dropdown || !btn) return;
+  dropdown.classList.remove('is-open');
+  dropdown.setAttribute('aria-hidden', 'true');
+  btn.setAttribute('aria-expanded', 'false');
+}
+
+window.goToDcbDoc = function(docId) {
+  closeDcbDropdown();
+  navigateTo('doc', docId);
+};
+
+document.addEventListener('click', function(e) {
+  const wrap = document.getElementById('docContextBarWrap');
+  const dropdown = document.getElementById('dcbDropdown');
+  if (!wrap || !dropdown) return;
+  if (!dropdown.classList.contains('is-open')) return;
+  if (wrap.contains(e.target)) return;
+  closeDcbDropdown();
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  const btn = document.getElementById('dcbCatBtn');
+  if (btn) btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    toggleDcbDropdown();
+  });
+});
 
 window.scrollToTop = function() {
   if (state.openPanel) closeAllDockPopups();
