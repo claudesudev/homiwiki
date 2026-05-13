@@ -1763,12 +1763,20 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
 /* ===== 문서 컨텍스트 바 ===== */
 .doc-context-bar-wrap {
   display: none;
-  position: sticky;
+  position: fixed;
   top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
   z-index: 50;
+  pointer-events: none;
 }
 html[data-page="doc"] .doc-context-bar-wrap {
   display: block;
+}
+html[data-page="doc"] .doc-context-bar-wrap.is-active {
+  pointer-events: auto;
 }
 
 .doc-context-bar {
@@ -1786,13 +1794,11 @@ html[data-page="doc"] .doc-context-bar-wrap {
   opacity: 0;
   transform: translateY(-6px);
   transition: opacity 0.22s ease-out, transform 0.22s ease-out, height 0.22s ease-out, border-color 0.22s;
-  pointer-events: none;
 }
 html[data-page="doc"] .doc-context-bar.is-visible {
   height: 34px;
   opacity: 1;
   transform: translateY(0);
-  pointer-events: auto;
   border-bottom-color: var(--border);
 }
 .dcb-home {
@@ -7966,10 +7972,12 @@ let _dcbCurrentCategory = null;
 
 function updateDocContextBar() {
   const bar = document.getElementById('docContextBar');
-  if (!bar) return;
+  const wrap = document.getElementById('docContextBarWrap');
+  if (!bar || !wrap) return;
 
   if (state.currentPage !== 'doc' || !state.currentDocId) {
     bar.classList.remove('is-visible');
+    wrap.classList.remove('is-active');
     closeDcbDropdown();
     if (_dcbObserver) { _dcbObserver.disconnect(); _dcbObserver = null; }
     return;
@@ -7989,21 +7997,25 @@ function updateDocContextBar() {
 
   closeDcbDropdown();
   bar.classList.remove('is-visible');
+  wrap.classList.remove('is-active');
 
   if (_dcbObserver) _dcbObserver.disconnect();
   const target = document.querySelector('.doc-title');
   if (!target) {
     bar.classList.add('is-visible');
+    wrap.classList.add('is-active');
     return;
   }
   _dcbObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         bar.classList.remove('is-visible');
+        wrap.classList.remove('is-active');
         closeDcbDropdown();
       } else {
         if (entry.boundingClientRect.top < 0) {
           bar.classList.add('is-visible');
+          wrap.classList.add('is-active');
         }
       }
     });
