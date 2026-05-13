@@ -1783,7 +1783,6 @@ html[data-page="doc"] .doc-context-bar-wrap.is-active {
   height: 0;
   overflow: hidden;
   background: var(--bg-primary);
-  border-bottom: 1px solid transparent;
   display: flex;
   align-items: center;
   padding: 0 14px;
@@ -1793,13 +1792,13 @@ html[data-page="doc"] .doc-context-bar-wrap.is-active {
   font-family: inherit;
   opacity: 0;
   transform: translateY(-6px);
-  transition: opacity 0.22s ease-out, transform 0.22s ease-out, height 0.22s ease-out, border-color 0.22s;
+  transition: opacity 0.22s ease-out, transform 0.22s ease-out, height 0.22s ease-out;
 }
 html[data-page="doc"] .doc-context-bar.is-visible {
   height: 34px;
   opacity: 1;
   transform: translateY(0);
-  border-bottom-color: var(--border);
+  border-bottom: 1px solid var(--border);
 }
 .dcb-home {
   color: var(--accent);
