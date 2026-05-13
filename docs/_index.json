@@ -40,13 +40,22 @@
       "category": "청라국제도시",
       "parent": null,
       "children": [
-        "청라-교통-자차"
+        "청라-교통-자차",
+        "청라-교통-개인이동수단과-렌탈플랫폼"
       ],
       "updated": "2026-05-13"
     },
     "청라-교통-자차": {
       "title": "청라/교통/자차",
       "subtitle": "Cheongna Car Use",
+      "category": "청라국제도시",
+      "parent": "청라-교통",
+      "children": [],
+      "updated": "2026-05-13"
+    },
+    "청라-교통-개인이동수단과-렌탈플랫폼": {
+      "title": "청라/교통/개인이동수단과 렌탈플랫폼",
+      "subtitle": "Cheongna Personal Mobility & Rental Platforms",
       "category": "청라국제도시",
       "parent": "청라-교통",
       "children": [],
@@ -59,6 +68,7 @@
     "cheongna_celebrities": "청라-유명인",
     "online-refund": "온라인-환불",
     "cheongna-transit": "청라-교통",
-    "cheongna-car": "청라-교통-자차"
+    "cheongna-car": "청라-교통-자차",
+    "cheongna-mobility": "청라-교통-개인이동수단과-렌탈플랫폼"
   }
 }
