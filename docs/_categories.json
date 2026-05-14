@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "updated": "2026-05-14",
+  "tree": {
+    "인천": {
+      "label": "인천",
+      "hidden_in_breadcrumb": true,
+      "children": {
+        "청라": {
+          "label": "청라",
+          "children": {
+            "교통": { "label": "교통" },
+            "편의시설": { "label": "편의시설" },
+            "장보기": { "label": "장보기" },
+            "가게": { "label": "가게" },
+            "아파트": { "label": "아파트" }
+          }
+        }
+      }
+    },
+    "생활": {
+      "label": "생활",
+      "children": {
+        "이사입주": { "label": "이사입주" }
+      }
+    },
+    "AI": {
+      "label": "AI"
+    }
+  }
+}
