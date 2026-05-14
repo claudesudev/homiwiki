@@ -4837,6 +4837,27 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   will-change: opacity;
 }
 
+/* 좌측 액센트 바 — 폴더위치바임을 즉시 식별시키는 시그니처 디테일
+   (옅은 살구색, 6px, 인셋, 양끝 둥근). 점등(is-active)의 진한 살구와는
+   톤 차이로 위계 분리. is-open(드롭다운 펼침) 시 풀길이로 함께 노출. */
+.doc-breadcrumb::before {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 7px;
+  bottom: 7px;
+  width: 6px;
+  background: #d89478;
+  border-radius: 3px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* 다크모드: 어두운 배경 위에서 시인성 확보용 톤다운 */
+[data-theme="dark"] .doc-breadcrumb::before {
+  background: #c98770;
+}
+
 .doc-breadcrumb.is-visible {
   opacity: 1;
   pointer-events: auto;
@@ -4847,12 +4868,14 @@ html[data-font-size="xxl"] .topics-hero-overlay {
               0 2px 6px rgba(0,0,0,0.04);
 }
 
-/* 상단 띠 — 좌측 정렬, 항상 자리잡음 */
+/* 상단 띠 — 좌측 정렬, 항상 자리잡음
+   좌측 패딩(18px)은 ::before 액센트 바(left:6px + width:6px = 12px 끝)와
+   첫 step 사이에 6px 호흡을 확보. */
 .bc-bar {
   display: flex;
   align-items: center;
   height: 42px;
-  padding: 0 12px;
+  padding: 0 12px 0 18px;
   gap: 4px;
   font-size: calc(13px * var(--font-scale));
   border-bottom: 1px solid transparent;
