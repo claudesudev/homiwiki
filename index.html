@@ -4838,9 +4838,9 @@ html[data-font-size="xxl"] .topics-hero-overlay {
 }
 
 /* 좌측 액센트 바 — 폴더위치바임을 즉시 식별시키는 시그니처 디테일
-   (옅은 살구색, 6px, 인셋, 양끝 둥근). 점등(is-active)의 진한 살구와는
-   톤 차이로 위계 분리. bar 영역(높이 42px)에만 한정 — is-open으로 드롭다운이
-   펼쳐져도 바는 상단 띠에만 머무름. */
+   위키 링크의 플래시 배경(#d6e6f5)을 그대로 차용해 "이 컴포넌트는 링크 메타포로
+   움직인다"는 시각 단서를 한 단계 끌어올림. bar 영역(높이 42px)에만 한정 —
+   is-open으로 드롭다운이 펼쳐져도 바는 상단 띠에만 머무름. */
 .doc-breadcrumb::before {
   content: '';
   position: absolute;
@@ -4848,15 +4848,10 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   top: 7px;
   height: 28px;
   width: 6px;
-  background: #d89478;
+  background: var(--link-flash-bg);
   border-radius: 3px;
   pointer-events: none;
   z-index: 1;
-}
-
-/* 다크모드: 어두운 배경 위에서 시인성 확보용 톤다운 */
-[data-theme="dark"] .doc-breadcrumb::before {
-  background: #c98770;
 }
 
 .doc-breadcrumb.is-visible {
@@ -4893,7 +4888,7 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   border-bottom-color: var(--border-light);
 }
 
-/* 단계 버튼: 차콜 통일, 볼드 없음, 위계 없음 */
+/* 단계 버튼: 부모 step은 차콜, 현재(leaf)는 검정 볼드, 클릭 점등은 위키 링크 효과 */
 .bc-step {
   display: inline-flex;
   align-items: center;
@@ -4908,7 +4903,9 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   color: var(--text-secondary);
   cursor: pointer;
   flex-shrink: 0;
-  transition: background 0.18s ease, color 0.18s ease;
+  transition: background 0.18s ease, color 0.18s ease,
+              box-shadow 0.15s ease,
+              text-decoration-color 0.15s ease;
   -webkit-tap-highlight-color: transparent;
   line-height: 1.2;
   white-space: nowrap;
@@ -4917,17 +4914,29 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   background: var(--bg-secondary);
 }
 
-/* leaf(현재 페이지)도 다른 step과 동일 톤 — 위계 없음 */
+/* leaf(현재 페이지): 검정 볼드 — 위계 최상. 클릭해도 점등 효과 적용 안 함
+   (이미 현재 페이지이므로 이동 의미 없음). */
 .bc-step.is-leaf {
-  color: var(--text-secondary);
-  font-weight: 500;
+  color: var(--text-primary);
+  font-weight: 700;
+  cursor: default;
+}
+.bc-step.is-leaf:active {
+  background: transparent;
 }
 
-/* 점등(클릭된 단계): 살색 */
-.bc-step.is-active {
-  background: var(--bg-accent-soft);
-  color: var(--accent);
+/* 점등(클릭된 부모 단계, 또는 명시적 is-clicking): 위키 링크 클릭 효과 그대로
+   — 옅은 하늘 배경 + 같은 색 2px 외곽 글로우 + 링크색 밑줄. */
+.bc-step.is-active:not(.is-leaf),
+.bc-step.is-clicking:not(.is-leaf) {
+  background: var(--link-flash-bg);
+  color: var(--link);
   font-weight: 600;
+  box-shadow: 0 0 0 2px var(--link-flash-bg);
+  text-decoration: underline;
+  text-decoration-color: var(--link);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 2px;
 }
 
 .bc-step .bc-icon {
@@ -4937,8 +4946,12 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   color: var(--text-secondary);
   transition: color 0.18s ease;
 }
-.bc-step.is-active .bc-icon {
-  color: var(--accent);
+.bc-step.is-leaf .bc-icon {
+  color: var(--text-primary);
+}
+.bc-step.is-active:not(.is-leaf) .bc-icon,
+.bc-step.is-clicking:not(.is-leaf) .bc-icon {
+  color: var(--link);
 }
 
 .bc-step .bc-label {
@@ -4981,24 +4994,37 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   padding: 11px 16px 11px 27px;
   cursor: pointer;
   font-size: calc(13.5px * var(--font-scale));
-  color: var(--text-secondary);
+  color: var(--link);
   font-weight: 500;
   border-bottom: 1px solid var(--border-light);
-  transition: background 0.15s ease;
+  transition: background 0.15s ease,
+              box-shadow 0.15s ease,
+              text-decoration-color 0.15s ease;
   -webkit-tap-highlight-color: transparent;
 }
 .bc-panel-item:last-child {
   border-bottom: none;
 }
-.bc-panel-item:active {
-  background: var(--bg-secondary);
+/* 클릭 점등 — 위키 링크의 active 효과 그대로 (배경 + 글로우 + 밑줄) */
+.bc-panel-item:not(.is-current):active,
+.bc-panel-item.is-clicking:not(.is-current) {
+  background: var(--link-flash-bg);
+  box-shadow: inset 0 0 0 1.5px var(--link-flash-bg);
+}
+.bc-panel-item:not(.is-current):active .bc-pi-label,
+.bc-panel-item.is-clicking:not(.is-current) .bc-pi-label {
+  text-decoration: underline;
+  text-decoration-color: var(--link);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 2.5px;
+  font-weight: 600;
 }
 
 .bc-panel-item .bc-pi-icon {
   width: 14px;
   height: 14px;
   flex-shrink: 0;
-  color: var(--text-secondary);
+  color: var(--link);
 }
 .bc-panel-item .bc-pi-label {
   flex: 1;
@@ -5015,20 +5041,21 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   font-weight: 500;
 }
 
-/* "현재" 줄: 살색 점등 (텍스트/아이콘 모두 accent) */
+/* "현재" 줄: 검정 볼드 — 위계 최상. 클릭 불가, 점등 효과 없음. */
 .bc-panel-item.is-current {
-  background: var(--bg-accent-soft);
+  background: transparent;
+  cursor: default;
 }
 .bc-panel-item.is-current .bc-pi-label {
-  color: var(--accent);
-  font-weight: 600;
+  color: var(--text-primary);
+  font-weight: 700;
 }
 .bc-panel-item.is-current .bc-pi-icon {
-  color: var(--accent);
+  color: var(--text-primary);
 }
 .bc-panel-item.is-current .bc-pi-sub {
-  color: var(--accent);
-  opacity: 0.75;
+  color: var(--text-muted);
+  font-weight: 500;
 }
 
 /* 형제 없을 때 메시지 */
@@ -9267,19 +9294,16 @@ function closeBreadcrumbDropdown() {
 }
 
 function handleBreadcrumbSiblingClick(type, id) {
-  // 1) 클릭한 항목에 점등 이동 — 기존 "현재" 줄의 점등을 떼고 클릭한 줄에 적용
-  //    (시각적으로 "이 항목이 활성화되었다"는 신호를 한 프레임 보여준 뒤 이동)
+  // 1) 클릭한 항목에 위키 링크 클릭 효과(is-clicking) 잠깐 부여 — 한 프레임
+  //    페인트한 뒤 이동. 다른 위키 링크(.wiki-link, .tl-wlink)와 동일한 인터랙션.
   const panel = document.getElementById('bcPanel');
   if (panel) {
-    panel.querySelectorAll('.bc-panel-item.is-current').forEach(el => {
-      el.classList.remove('is-current');
-      const sub = el.querySelector('.bc-pi-sub');
-      if (sub && sub.textContent === '현재') sub.remove();
-    });
     const target = panel.querySelector(
       `.bc-panel-item[data-bc-target-type="${type}"][data-bc-target-id="${cssEscapeId(id)}"]`
     );
-    if (target) target.classList.add('is-current');
+    if (target && !target.classList.contains('is-clicking')) {
+      target.classList.add('is-clicking');
+    }
   }
 
   // 2) 다음 프레임에 페이지 이동 — navigateTo 내부에서 renderBreadcrumb가 다시 호출되며
