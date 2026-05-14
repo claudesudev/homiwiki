@@ -5544,7 +5544,7 @@ function showLoadErrorScreen() {
         </svg>
       </div>
       <h2 style="margin:0 0 12px;font-size:18px;">문서를 불러오지 못했어요</h2>
-      <p style="margin:0 0 20px;font-size:14px;color:var(--text-secondary,#888);line-height:1.6;">
+      <p style="margin:0 0 50px;font-size:14px;color:var(--text-secondary,#888);line-height:1.6;">
         ${DOCS_LOAD_ERROR ? '오류: ' + DOCS_LOAD_ERROR : ''}<br>
         새로고침해 보시거나, 잠시 후 다시 들러주세요.
       </p>
@@ -9667,7 +9667,7 @@ async function bootstrapRoute() {
             아래 메시지를 운영자에게 전달해주시면 빠르게 고칠 수 있어요.
           </p>
           <pre style="background:#f5f5f5;color:#c00;padding:12px;border-radius:6px;font-size:12px;line-height:1.5;white-space:pre-wrap;word-break:break-all;overflow:auto;max-height:300px;">${msg.replace(/[<>&]/g, c=>({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]))}</pre>
-          <div style="text-align:center;margin-top:16px;">
+          <div style="text-align:center;margin-top:50px;">
             <button onclick="location.reload()" style="padding:10px 20px;border:1px solid #ddd;background:#fff;border-radius:6px;cursor:pointer;font-size:14px;">새로고침</button>
           </div>
         </div>
