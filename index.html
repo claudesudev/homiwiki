@@ -2726,9 +2726,8 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
 }
 
 .gallery-empty-icon {
-  font-size: calc(40px * var(--font-scale));
-  opacity: 0.5;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
+  line-height: 0;
 }
 
 .gallery-pagination {
@@ -4377,8 +4376,8 @@ html[data-font-size="xxl"] .topics-hero-overlay {
 }
 
 .not-found-icon {
-  font-size: calc(56px * var(--font-scale));
-  margin-bottom: 14px;
+  margin-bottom: 18px;
+  line-height: 0;
 }
 
 .not-found-title {
@@ -4668,6 +4667,56 @@ html[data-font-size="xxl"] .topics-hero-overlay {
 .bc-panel-empty strong {
   color: var(--text-secondary);
   font-weight: 600;
+}
+
+/* ==========================================================================
+   빈 상태 / 안내 화면 라인아트 아이콘
+   --------------------------------------------------------------------------
+   이전엔 이모지(⏳ 😅 🖼️ 🔍 💡 ⚠️)를 썼지만, 라인아트 SVG로 통일.
+   - .ho-spin    : 회전 (로딩)
+   - .ho-elastic : 큰 첫 튕김 + 작은 잔여 튕김 2회 (에러/빈 상태/검색실패)
+   - .ho-wifi-*  : Wi-Fi 호 순차 깜빡 (부팅 실패)
+   모두 prefers-reduced-motion 대응.
+   ========================================================================== */
+@keyframes ho-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes ho-elastic {
+  0%, 100% { transform: translateY(0); }
+  18%      { transform: translateY(-14px); }
+  36%      { transform: translateY(0); }
+  50%      { transform: translateY(-5px); }
+  64%      { transform: translateY(0); }
+  76%      { transform: translateY(-2px); }
+  88%      { transform: translateY(0); }
+}
+@keyframes ho-wifi-fade {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.2; }
+}
+.ho-icon {
+  color: var(--text-secondary);
+  display: inline-block;
+}
+.ho-spin {
+  animation: ho-spin 1.2s linear infinite;
+  transform-origin: center;
+}
+.ho-elastic {
+  animation: ho-elastic 2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+}
+.ho-wifi-0 { animation: ho-wifi-fade 1.5s ease-in-out infinite; animation-delay: 0s;    }
+.ho-wifi-1 { animation: ho-wifi-fade 1.5s ease-in-out infinite; animation-delay: 0.25s; }
+.ho-wifi-2 { animation: ho-wifi-fade 1.5s ease-in-out infinite; animation-delay: 0.5s;  }
+.ho-wifi-3 { animation: ho-wifi-fade 1.5s ease-in-out infinite; animation-delay: 0.75s; }
+@media (prefers-reduced-motion: reduce) {
+  .ho-spin,
+  .ho-elastic,
+  .ho-wifi-0, .ho-wifi-1, .ho-wifi-2, .ho-wifi-3 {
+    animation: none !important;
+    opacity: 1 !important;
+  }
 }
 
 </style>
@@ -4960,7 +5009,14 @@ function showBootMessage(html) {
 async function loadAllDocs() {
   showBootMessage(`
     <div style="padding:60px 20px;text-align:center;color:var(--text-secondary,#888);font-size:14px;">
-      <div style="font-size:32px;margin-bottom:12px;opacity:.5;">⏳</div>
+      <div style="margin-bottom:14px;line-height:0;">
+        <svg class="ho-icon ho-spin" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 2v4"/><path d="M12 18v4"/>
+          <path d="m4.93 4.93 2.83 2.83"/><path d="m16.24 16.24 2.83 2.83"/>
+          <path d="M2 12h4"/><path d="M18 12h4"/>
+          <path d="m4.93 19.07 2.83-2.83"/><path d="m16.24 7.76 2.83-2.83"/>
+        </svg>
+      </div>
       <div>문서를 불러오는 중…</div>
     </div>
   `);
@@ -5074,7 +5130,14 @@ async function loadAllDocs() {
 function showLoadErrorScreen() {
   showBootMessage(`
     <div style="padding:60px 20px;max-width:480px;margin:0 auto;text-align:center;">
-      <div style="font-size:48px;margin-bottom:16px;">😅</div>
+      <div style="margin-bottom:18px;line-height:0;">
+        <svg class="ho-icon ho-elastic" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="9" y1="13" x2="15" y2="19"/>
+          <line x1="15" y1="13" x2="9" y2="19"/>
+        </svg>
+      </div>
       <h2 style="margin:0 0 12px;font-size:18px;">문서를 불러오지 못했어요</h2>
       <p style="margin:0 0 20px;font-size:14px;color:var(--text-secondary,#888);line-height:1.6;">
         ${DOCS_LOAD_ERROR ? '오류: ' + DOCS_LOAD_ERROR : ''}<br>
@@ -6294,7 +6357,14 @@ function renderGalleryContent() {
   if (filtered.length === 0) {
     feedHtml = `
       <div class="gallery-empty">
-        <div class="gallery-empty-icon">🖼️</div>
+        <div class="gallery-empty-icon">
+          <svg class="ho-icon ho-elastic" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <path d="m3 16 5-5c.928-.893 2.072-.893 3 0l5 5"/>
+            <path d="m14 14 1-1c.928-.893 2.072-.893 3 0l3 3"/>
+            <circle cx="16" cy="8" r="1.5"/>
+          </svg>
+        </div>
         <div>아직 등록된 이미지가 없어요.</div>
       </div>
     `;
@@ -7959,7 +8029,12 @@ function renderNotFound(query) {
 
   content.innerHTML = `
     <div class="not-found">
-      <div class="not-found-icon">🔍</div>
+      <div class="not-found-icon">
+        <svg class="ho-icon ho-elastic" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"/>
+          <path d="m21 21-4.3-4.3"/>
+        </svg>
+      </div>
       <div class="not-found-title">문서를 찾을 수 없어요</div>
       <div class="not-found-desc">
         <strong>"${query}"</strong>에 해당하는 문서가 아직 없습니다.<br>
@@ -7968,7 +8043,14 @@ function renderNotFound(query) {
 
       ${suggestions.length > 0 ? `
         <div style="margin-top:24px;text-align:left">
-          <h4 style="font-size:calc(13px * var(--font-scale));color:var(--text-secondary);margin-bottom:10px;font-weight:600">💡 이런 문서는 어때요?</h4>
+          <h4 style="display:flex;align-items:center;gap:6px;font-size:calc(13px * var(--font-scale));color:var(--text-secondary);margin-bottom:10px;font-weight:600">
+            <svg class="ho-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/>
+              <path d="M9 18h6"/>
+              <path d="M10 22h4"/>
+            </svg>
+            <span>이런 문서는 어때요?</span>
+          </h4>
           ${suggestions.map(id => `
             <div class="list-item" onclick="navigateTo('doc','${id}')">
               <div class="list-item-content" style="padding-left:4px">
@@ -8685,7 +8767,14 @@ async function bootstrapRoute() {
       const msg = (err && err.stack) ? err.stack : String(err);
       el.innerHTML = `
         <div style="padding:40px 20px;max-width:640px;margin:0 auto;">
-          <div style="font-size:32px;text-align:center;margin-bottom:12px;">⚠️</div>
+          <div style="text-align:center;margin-bottom:14px;line-height:0;">
+            <svg class="ho-icon" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle class="ho-wifi-0" cx="12" cy="20" r="0.7" fill="currentColor" stroke="none"/>
+              <path class="ho-wifi-1" d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+              <path class="ho-wifi-2" d="M5 12.55a11 11 0 0 1 14 0"/>
+              <path class="ho-wifi-3" d="M1.42 9a16 16 0 0 1 21.16 0"/>
+            </svg>
+          </div>
           <h2 style="margin:0 0 12px;font-size:18px;text-align:center;">사이트 부팅 중 오류가 발생했어요</h2>
           <p style="margin:0 0 16px;font-size:13px;color:#888;text-align:center;line-height:1.6;">
             아래 메시지를 운영자에게 전달해주시면 빠르게 고칠 수 있어요.
