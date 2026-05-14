@@ -5696,17 +5696,16 @@ window.selectSuggestion = function(docId) {
   if (typeof updateClearBtn === 'function') updateClearBtn();
   searchSuggestions.classList.remove('active');
   hidePopular();
-  try { searchInput.blur(); } catch (_) {}
-  // 오버레이 카드를 갈음: 뒤로가기 1번에 직전 페이지로 가도록 history.back()
-  // 후 그 자리에 navigateTo가 새 카드를 푸시
-  if (consumeSearchOverlayForNavigation()) {
-    // back() 호출 시 popstate가 trigger되어 검색 오버레이 상태가 닫힘.
-    // 단, popstate 안에서 underlying 페이지로 그대로 머물도록 처리 필요 (아래 popstate 핸들러)
-    // 그 뒤에 navigateTo로 새 페이지 push → 결과: 직전 페이지 카드 → 새 페이지 카드
-    history.back();
-    setTimeout(() => navigateTo('doc', docId), 0);
-  } else {
+  const consumed = consumeSearchOverlayForNavigation();
+  const finalize = () => {
     navigateTo('doc', docId);
+    try { searchInput.blur(); } catch (_) {}
+  };
+  if (consumed) {
+    history.back();
+    setTimeout(finalize, 50);
+  } else {
+    finalize();
   }
 };
 
@@ -5749,17 +5748,21 @@ window.selectPopular = function(idx) {
   const item = list[idx];
   if (!item) return;
   hidePopular();
-  try { searchInput.blur(); } catch (_) {}
   // 매칭되는 실제 문서가 있으면 바로 이동
   if (item.targetDocId && DOCS[item.targetDocId]) {
     searchInput.value = '';
     if (typeof updateClearBtn === 'function') updateClearBtn();
-    if (consumeSearchOverlayForNavigation()) {
-      const targetId = item.targetDocId;
+    const targetId = item.targetDocId;
+    const consumed = consumeSearchOverlayForNavigation();
+    const finalize = () => {
+      navigateTo('doc', targetId);
+      try { searchInput.blur(); } catch (_) {}
+    };
+    if (consumed) {
       history.back();
-      setTimeout(() => navigateTo('doc', targetId), 0);
+      setTimeout(finalize, 50);
     } else {
-      navigateTo('doc', item.targetDocId);
+      finalize();
     }
     return;
   }
@@ -5990,37 +5993,33 @@ window.submitSearch = function() {
     try { searchInput.focus(); } catch (e) {}
     return;
   }
-  try { searchInput.blur(); } catch (_) {}
   const docId = resolveDocId(query);
 
-  // 오버레이가 열려있으면 먼저 닫음 (history.back으로 카드 제거)
-  // 그 다음 navigateTo/enterNotFound가 새 카드를 푸시
+  // 오버레이가 열려있으면 갈음. navigate 직전에 history.back()으로
+  // 오버레이 카드를 제거하고 그 자리에 새 카드를 푸시.
   const consumed = consumeSearchOverlayForNavigation();
 
-  if (docId && DOCS[docId]) {
+  // 다음 동작 함수: 결과 페이지로 이동하면서 input clear + blur (자연 blur)
+  const finalize = () => {
     searchInput.value = '';
     if (typeof updateClearBtn === 'function') updateClearBtn();
     searchSuggestions.classList.remove('active');
-    if (consumed) {
-      history.back();
-      setTimeout(() => navigateTo('doc', docId), 0);
-    } else {
+    if (docId && DOCS[docId]) {
       navigateTo('doc', docId);
-    }
-  } else {
-    searchInput.value = '';
-    if (typeof updateClearBtn === 'function') updateClearBtn();
-    searchSuggestions.classList.remove('active');
-    // not-found는 별도 라우트가 아니라 '검색 결과 없음' 상태지만,
-    // 뒤로가기 시 직전 페이지가 아닌 not-found로 돌아오게 하려면
-    // history에 한 칸 쌓고 state도 정상 갱신해야 한다.
-    // (그렇지 않으면 navStack에 직전 doc이 쌓여서 뒤로가기 시 거기로 튐)
-    if (consumed) {
-      history.back();
-      setTimeout(() => enterNotFound(query), 0);
     } else {
       enterNotFound(query);
     }
+    // 모바일 키보드가 페이지 전환 후 자연스럽게 사라지도록 blur
+    try { searchInput.blur(); } catch (_) {}
+  };
+
+  if (consumed) {
+    // popstate가 비동기로 발생. popstate 핸들러에서 __searchOverlay 케이스를 처리한 뒤
+    // 다음 tick에 navigate. 그래야 popstate 처리 중 navigateTo가 끼어들지 않음.
+    history.back();
+    setTimeout(finalize, 50);
+  } else {
+    finalize();
   }
 };
 
@@ -6102,6 +6101,20 @@ window.navigateTo = function(page, docId = null, originalQuery = null, opts = {}
   const sameDest = state.currentPage &&
     (page === state.currentPage) &&
     (page !== 'doc' || docId === state.currentDocId);
+
+  // navigateTo 호출 = 페이지 이동 의도가 있다는 것. 검색창 무조건 리셋.
+  // (마지막 검색어가 남아있으면 사용자가 매번 수기로 지워야 함)
+  if (typeof searchInput !== 'undefined' && searchInput) {
+    if (searchInput.value) {
+      searchInput.value = '';
+      if (typeof updateClearBtn === 'function') updateClearBtn();
+    }
+    // 자동완성/인기검색어 패널도 닫음
+    if (typeof searchSuggestions !== 'undefined' && searchSuggestions) {
+      searchSuggestions.classList.remove('active');
+    }
+    if (typeof hidePopular === 'function') hidePopular();
+  }
 
   if (!opts.fromBack && !opts.fromTab && state.currentPage && !sameDest) {
     state.navStack.push({
