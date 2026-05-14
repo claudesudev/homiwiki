@@ -4592,28 +4592,152 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   gap: 8px;
 }
 
+/* ==========================================================================
+   문서 못 찾음 (Not Found) — 네이버 스타일 차용 V2
+   검색어를 큰 글씨로 강조 + 도움말 + 추천 문서 무조건 노출
+   ========================================================================== */
 .not-found {
-  text-align: center;
-  padding: 40px 20px;
+  text-align: left;
+  padding: 24px 20px 40px;
 }
 
-.not-found-icon {
-  margin-bottom: 18px;
-  line-height: 0;
-}
-
-.not-found-title {
+/* 검색어 큰 글씨 (V2 핵심) */
+.nf-query {
+  display: block;
   font-size: calc(22px * var(--font-scale));
   font-weight: 700;
   color: var(--text-primary);
   margin-bottom: 8px;
-  letter-spacing: 0;
+  word-break: break-all;
+  line-height: 1.3;
+}
+.nf-query::before,
+.nf-query::after {
+  color: var(--accent);
+}
+.nf-query::before { content: '"'; }
+.nf-query::after { content: '"'; }
+
+/* 부제 */
+.nf-subhead {
+  font-size: calc(14px * var(--font-scale));
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+  line-height: 1.5;
 }
 
-.not-found-desc {
+/* 도움말 리스트 (네이버 스타일 점 prefix) */
+.nf-hints {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px;
   font-size: calc(13px * var(--font-scale));
+  line-height: 1.7;
   color: var(--text-tertiary);
-  margin-bottom: 20px;
+}
+.nf-hints li {
+  position: relative;
+  padding-left: 14px;
+  margin-bottom: 4px;
+}
+.nf-hints li::before {
+  content: '·';
+  position: absolute;
+  left: 4px;
+  top: -1px;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* 구분선 */
+.nf-divider {
+  border-top: 1px solid var(--border-light);
+  margin: 0 0 18px;
+}
+
+/* 추천 섹션 헤더 */
+.nf-rec-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: calc(14px * var(--font-scale));
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+.nf-rec-head svg {
+  width: 16px;
+  height: 16px;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+/* 추천 카드 리스트 */
+.nf-rec-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--border-light);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+.nf-rec-item {
+  background: var(--bg-primary);
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.nf-rec-item:active {
+  background: var(--bg-secondary);
+}
+.nf-rec-thumb {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #fce8df 0%, #f5dcce 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--accent);
+}
+[data-theme="dark"] .nf-rec-thumb {
+  background: linear-gradient(135deg, rgba(204, 120, 92, 0.2) 0%, rgba(204, 120, 92, 0.1) 100%);
+}
+.nf-rec-thumb svg {
+  width: 18px;
+  height: 18px;
+}
+.nf-rec-body {
+  flex: 1;
+  min-width: 0;
+}
+.nf-rec-title {
+  font-size: calc(14px * var(--font-scale));
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.nf-rec-meta {
+  font-size: calc(12px * var(--font-scale));
+  color: var(--text-tertiary);
+}
+.nf-rec-chev {
+  color: var(--text-tertiary);
+  flex-shrink: 0;
+  opacity: 0.5;
+}
+.nf-rec-chev svg {
+  width: 14px;
+  height: 14px;
 }
 
 .btn-primary {
@@ -5562,6 +5686,9 @@ function renderSuggestions(query) {
     return `<div class="suggestion-item" onclick="selectSuggestion('${docId}')">${searchIcon}<span class="sug-text">${titleHtml}${adTag}</span></div>`;
   }).join('');
   searchSuggestions.classList.add('active');
+  // 연관검색어가 인기검색어 없이 바로 나오는 케이스 (예: focus 시 값이 이미 있을 때)
+  // 이미 오버레이 켜져있으면 pushSearchOverlayState 내부에서 막힘
+  pushSearchOverlayState();
 }
 
 window.selectSuggestion = function(docId) {
@@ -5569,7 +5696,18 @@ window.selectSuggestion = function(docId) {
   if (typeof updateClearBtn === 'function') updateClearBtn();
   searchSuggestions.classList.remove('active');
   hidePopular();
-  navigateTo('doc', docId);
+  try { searchInput.blur(); } catch (_) {}
+  // 오버레이 카드를 갈음: 뒤로가기 1번에 직전 페이지로 가도록 history.back()
+  // 후 그 자리에 navigateTo가 새 카드를 푸시
+  if (consumeSearchOverlayForNavigation()) {
+    // back() 호출 시 popstate가 trigger되어 검색 오버레이 상태가 닫힘.
+    // 단, popstate 안에서 underlying 페이지로 그대로 머물도록 처리 필요 (아래 popstate 핸들러)
+    // 그 뒤에 navigateTo로 새 페이지 push → 결과: 직전 페이지 카드 → 새 페이지 카드
+    history.back();
+    setTimeout(() => navigateTo('doc', docId), 0);
+  } else {
+    navigateTo('doc', docId);
+  }
 };
 
 // 인기 검색어 — 더미 데이터로 TOPICS_LIST 상위 10개 사용
@@ -5611,23 +5749,68 @@ window.selectPopular = function(idx) {
   const item = list[idx];
   if (!item) return;
   hidePopular();
-  // 매칭되는 실제 문서가 있으면 바로 이동, 아니면 검색창에 채우고 submit
+  try { searchInput.blur(); } catch (_) {}
+  // 매칭되는 실제 문서가 있으면 바로 이동
   if (item.targetDocId && DOCS[item.targetDocId]) {
     searchInput.value = '';
     if (typeof updateClearBtn === 'function') updateClearBtn();
-    navigateTo('doc', item.targetDocId);
+    if (consumeSearchOverlayForNavigation()) {
+      const targetId = item.targetDocId;
+      history.back();
+      setTimeout(() => navigateTo('doc', targetId), 0);
+    } else {
+      navigateTo('doc', item.targetDocId);
+    }
     return;
   }
+  // 매칭 문서 없으면 검색창에 채우고 submit
   searchInput.value = item.name;
   if (typeof updateClearBtn === 'function') updateClearBtn();
   submitSearch();
 };
+
+// ==========================================================================
+// 검색 오버레이 (인기검색어 + 연관검색어) history 관리
+// 패널이 열리면 history에 가상 카드 한 장 push → 뒤로가기로 패널만 닫힘
+// 인기 ↔ 연관 자동 전환은 같은 가상 카드 안에서 콘텐츠만 바뀜 (한 칸으로 묶음)
+// 패널 안에서 navigateTo/submitSearch 호출 시 오버레이 카드를 갈음 (replaceState)
+// ==========================================================================
+let searchOverlayOpen = false;
+
+function pushSearchOverlayState() {
+  if (searchOverlayOpen) return; // 이미 열려있으면 안 쌓음
+  searchOverlayOpen = true;
+  try {
+    // 현재 페이지 hash 그대로 두되 state만 오버레이로 표시
+    history.pushState(
+      {
+        page: '__searchOverlay',
+        underlyingPage: state.currentPage,
+        underlyingDocId: state.currentDocId || null
+      },
+      '',
+      location.hash || ''
+    );
+  } catch (_) {}
+}
+
+// 사용자가 패널에서 어떤 페이지로 이동할 때 (검색 결과 클릭 / 검색 실행)
+// 호출하면 오버레이 카드가 다음 navigateTo의 pushState에 의해 자연스럽게 갈음됨.
+// 단, 오버레이가 열려있으면 먼저 history.back() 후 처리해야 카드가 쌓이지 않음.
+// 그래서 여기선 플래그만 내림 → 호출자가 직접 history 정리.
+function consumeSearchOverlayForNavigation() {
+  if (!searchOverlayOpen) return false;
+  searchOverlayOpen = false;
+  // 오버레이 카드를 갈아치우기 위해 replaceState 사용 신호 (호출자가 사용)
+  return true;
+}
 
 function showPopular() {
   if (!searchPopular) return;
   if (searchPopular.childElementCount === 0) renderPopular();
   if (searchPopular.childElementCount > 0) {
     searchPopular.classList.add('active');
+    pushSearchOverlayState();
   }
 }
 function hidePopular() {
@@ -5785,6 +5968,13 @@ searchInput.addEventListener('blur', () => {
   setTimeout(() => {
     searchSuggestions.classList.remove('active');
     hidePopular();
+    // 오버레이가 history에 쌓여있으면 history.back으로 정리
+    // (사용자가 input 바깥을 탭해서 자연 닫힌 경우에도 history 카드 정리)
+    // 단, 이미 navigation 중이면 이중 처리 안 되도록 플래그 확인
+    if (searchOverlayOpen) {
+      searchOverlayOpen = false;
+      try { history.back(); } catch (_) {}
+    }
   }, 200);
 });
 
@@ -5800,12 +5990,23 @@ window.submitSearch = function() {
     try { searchInput.focus(); } catch (e) {}
     return;
   }
+  try { searchInput.blur(); } catch (_) {}
   const docId = resolveDocId(query);
+
+  // 오버레이가 열려있으면 먼저 닫음 (history.back으로 카드 제거)
+  // 그 다음 navigateTo/enterNotFound가 새 카드를 푸시
+  const consumed = consumeSearchOverlayForNavigation();
+
   if (docId && DOCS[docId]) {
     searchInput.value = '';
     if (typeof updateClearBtn === 'function') updateClearBtn();
     searchSuggestions.classList.remove('active');
-    navigateTo('doc', docId);
+    if (consumed) {
+      history.back();
+      setTimeout(() => navigateTo('doc', docId), 0);
+    } else {
+      navigateTo('doc', docId);
+    }
   } else {
     searchInput.value = '';
     if (typeof updateClearBtn === 'function') updateClearBtn();
@@ -5814,7 +6015,12 @@ window.submitSearch = function() {
     // 뒤로가기 시 직전 페이지가 아닌 not-found로 돌아오게 하려면
     // history에 한 칸 쌓고 state도 정상 갱신해야 한다.
     // (그렇지 않으면 navStack에 직전 doc이 쌓여서 뒤로가기 시 거기로 튐)
-    enterNotFound(query);
+    if (consumed) {
+      history.back();
+      setTimeout(() => enterNotFound(query), 0);
+    } else {
+      enterNotFound(query);
+    }
   }
 };
 
@@ -5965,10 +6171,45 @@ window.addEventListener('popstate', (e) => {
       page: e.state.page,
       docId: e.state.docId || null,
       contribStep: e.state.contribStep || null,
-      query: e.state.query || null
+      query: e.state.query || null,
+      underlyingPage: e.state.underlyingPage || null,
+      underlyingDocId: e.state.underlyingDocId || null
     };
   } else {
     target = hashToState(location.hash);
+  }
+
+  // ───────────────────────────────────────────────────────────────
+  // CASE 0: 검색 오버레이로 돌아온 경우
+  // 사용자가 패널에서 뒤로가기를 눌렀거나, navigation 처리 중 history.back()이 호출된 경우
+  // 둘 다 패널만 닫고 underlying 페이지는 그대로 유지
+  // ───────────────────────────────────────────────────────────────
+  if (target.page === '__searchOverlay') {
+    // 패널 닫기 + input blur
+    if (typeof searchSuggestions !== 'undefined' && searchSuggestions) {
+      searchSuggestions.classList.remove('active');
+    }
+    if (typeof hidePopular === 'function') hidePopular();
+    if (typeof searchInput !== 'undefined' && searchInput) {
+      try { searchInput.blur(); } catch (_) {}
+    }
+    searchOverlayOpen = false;
+    // 페이지 자체는 그대로 두기 — currentPage/Doc도 유지
+    return;
+  }
+
+  // 만약 오버레이 상태에서 뒤로가기가 호출되어 다른 상태로 갔다면
+  // (예: 사용자가 패널 열린 채로 뒤로 두 번 빠르게 눌러서 underlying 페이지의 이전 카드로 감)
+  // 오버레이 플래그를 끄고 패널을 닫음
+  if (searchOverlayOpen) {
+    if (typeof searchSuggestions !== 'undefined' && searchSuggestions) {
+      searchSuggestions.classList.remove('active');
+    }
+    if (typeof hidePopular === 'function') hidePopular();
+    if (typeof searchInput !== 'undefined' && searchInput) {
+      try { searchInput.blur(); } catch (_) {}
+    }
+    searchOverlayOpen = false;
   }
 
   // not-found 상태로 복귀
@@ -8565,47 +8806,88 @@ function bindWikiLinks() {
 function renderNotFound(query) {
   const content = document.getElementById('pageContent');
 
-  const suggestions = getSuggestions(query).slice(0, 4);
+  // 추천 문서를 무조건 노출 (동네 위키 특성상 큰 카테고리 안에서 항상 보여줄 게 있음)
+  // 1) 검색어 연관 문서가 있으면 우선 사용
+  // 2) 부족하면 TOPICS_LIST(인기/주요 문서)에서 채움
+  // 3) 중복 제거하고 최대 5개
+  let recommended = getSuggestions(query).slice(0, 5);
+  if (recommended.length < 5 && typeof TOPICS_LIST !== 'undefined' && Array.isArray(TOPICS_LIST)) {
+    const seen = new Set(recommended);
+    for (const t of TOPICS_LIST) {
+      if (recommended.length >= 5) break;
+      const id = t.target;
+      if (id && DOCS[id] && !seen.has(id)) {
+        recommended.push(id);
+        seen.add(id);
+      }
+    }
+  }
+
+  // 카드용 아이콘 (랜덤 대신 인덱스별 회전 — 매번 같은 카드엔 같은 아이콘)
+  const CARD_ICONS = [
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>',
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>',
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>',
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>'
+  ];
+
+  const escQuery = String(query)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+
+  const recCardsHtml = recommended.map((id, idx) => {
+    const doc = DOCS[id];
+    if (!doc) return '';
+    const title = String(doc.title || '')
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    // 메타: 가급적 한글로 (카테고리 등). subtitle이 영문이면 안 쓰는 게 좋음
+    const meta = doc.category || doc.tag || '';
+    const metaEsc = String(meta).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const icon = CARD_ICONS[idx % CARD_ICONS.length];
+    return `
+      <div class="nf-rec-item" onclick="navigateTo('doc','${id}')" role="link" tabindex="0">
+        <div class="nf-rec-thumb">${icon}</div>
+        <div class="nf-rec-body">
+          <div class="nf-rec-title">${title}</div>
+          ${metaEsc ? `<div class="nf-rec-meta">${metaEsc}</div>` : ''}
+        </div>
+        <div class="nf-rec-chev">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </div>
+      </div>
+    `;
+  }).join('');
 
   content.innerHTML = `
     <div class="not-found">
-      <div class="not-found-icon">
-        <svg class="ho-icon ho-elastic" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="11" cy="11" r="7"/>
-          <path d="m21 21-4.3-4.3"/>
-        </svg>
-      </div>
-      <div class="not-found-title">문서를 찾을 수 없어요</div>
-      <div class="not-found-desc">
-        <strong>"${query}"</strong>에 해당하는 문서가 아직 없습니다.<br>
-        다른 검색어로 시도해보세요.
-      </div>
+      <span class="nf-query">${escQuery}</span>
+      <div class="nf-subhead">호미위키에 아직 없는 문서예요</div>
 
-      ${suggestions.length > 0 ? `
-        <div style="margin-top:24px;text-align:left">
-          <h4 style="display:flex;align-items:center;gap:6px;font-size:calc(13px * var(--font-scale));color:var(--text-secondary);margin-bottom:10px;font-weight:600">
-            <svg class="ho-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/>
-              <path d="M9 18h6"/>
-              <path d="M10 22h4"/>
-            </svg>
-            <span>이런 문서는 어때요?</span>
-          </h4>
-          ${suggestions.map(id => `
-            <div class="list-item" onclick="navigateTo('doc','${id}')">
-              <div class="list-item-content" style="padding-left:4px">
-                <div class="list-item-title">${DOCS[id].title}</div>
-                <div class="list-item-desc">${DOCS[id].subtitle || ''}</div>
-              </div>
-              <svg class="list-item-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="9 18 15 12 9 6"/>
-              </svg>
-            </div>
-          `).join('')}
+      <ul class="nf-hints">
+        <li>단어의 철자가 정확한지 확인해 주세요.</li>
+        <li>검색어를 줄이거나, 더 일반적인 단어로 검색해 보세요.</li>
+      </ul>
+
+      <div class="nf-divider"></div>
+
+      ${recommended.length > 0 ? `
+        <h4 class="nf-rec-head">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
+          </svg>
+          <span>이런 문서는 어때요?</span>
+        </h4>
+        <div class="nf-rec-list" role="list">
+          ${recCardsHtml}
         </div>
       ` : ''}
 
-      <button class="btn-primary" style="margin-top:20px" onclick="navigateTo('home')">홈으로 돌아가기</button>
+      <div style="text-align:center">
+        <button class="btn-primary" onclick="navigateTo('home')">홈으로 돌아가기</button>
+      </div>
     </div>
   `;
 }
