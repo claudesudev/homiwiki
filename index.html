@@ -1856,6 +1856,17 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
   color: var(--text-muted);
 }
 
+/* 다크모드 토글 버튼: 현재 테마 상태를 보여줌
+   - 라이트 모드 → 해 (지금 낮이다)
+   - 다크 모드   → 달 (지금 밤이다)
+   탭하면 반대 테마로 전환됨. (iOS/macOS, Twitter, GitHub 등이 따르는 관례) */
+.dock-theme-icon { display: none; }
+[data-theme="light"] .dock-theme-icon-light { display: block; }
+[data-theme="dark"]  .dock-theme-icon-dark  { display: block; }
+/* 기본값(data-theme 미설정시)은 라이트로 간주 */
+:root:not([data-theme]) .dock-theme-icon-light,
+[data-theme=""] .dock-theme-icon-light { display: block; }
+
 .dock-popup {
   position: fixed;
   background: var(--bg-tertiary);
@@ -4772,14 +4783,25 @@ html[data-font-size="xxl"] .topics-hero-overlay {
         <rect x="11" y="16.1" width="10" height="3.8" rx="1.9"/>
       </svg>
     </button>
-    <button class="dock-btn" id="dockTopBtn" onclick="scrollToTop()" aria-label="맨 위로">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="18 15 12 9 6 15"/>
+    <button class="dock-btn" id="dockSearchBtn" onclick="focusSearch()" aria-label="검색">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M10.5 2a8.5 8.5 0 0 1 6.7 13.7l4.5 4.5a1 1 0 0 1-1.4 1.4l-4.5-4.5A8.5 8.5 0 1 1 10.5 2zm0 3a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11z"/>
       </svg>
     </button>
-    <button class="dock-btn cta" id="dockFollowBtn" onclick="toggleDockPopup('follow')" aria-label="다음문서보기">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="9 18 15 12 9 6"/>
+    <button class="dock-btn" id="dockThemeBtn" onclick="toggleTheme()" aria-label="라이트/다크 모드 전환">
+      <svg class="dock-theme-icon dock-theme-icon-light" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4"/>
+        <path d="M12 2v2"/>
+        <path d="M12 20v2"/>
+        <path d="m4.93 4.93 1.41 1.41"/>
+        <path d="m17.66 17.66 1.41 1.41"/>
+        <path d="M2 12h2"/>
+        <path d="M20 12h2"/>
+        <path d="m4.93 19.07 1.41-1.41"/>
+        <path d="m17.66 6.34 1.41-1.41"/>
+      </svg>
+      <svg class="dock-theme-icon dock-theme-icon-dark" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
       </svg>
     </button>
   </div>
@@ -8075,8 +8097,8 @@ const PAGES_WITH_DOCK = ['doc', 'gallery'];
 function updateFloatingDock() {
   const dock = document.getElementById('floatingDock');
   const tocBtn = document.getElementById('dockTocBtn');
-  const topBtn = document.getElementById('dockTopBtn');
-  const followBtn = document.getElementById('dockFollowBtn');
+  // 검색/테마 버튼은 항상 활성 — 페이지 콘텐츠와 무관하게 일관 동작
+  // (예전에 있던 dockTopBtn, dockFollowBtn은 dock 재구성으로 제거됨)
 
   if (!PAGES_WITH_DOCK.includes(state.currentPage)) {
     dock.style.display = 'none';
@@ -8084,9 +8106,7 @@ function updateFloatingDock() {
   }
   dock.style.display = 'flex';
 
-  tocBtn.classList.remove('disabled', 'inactive');
-  topBtn.classList.remove('disabled', 'inactive');
-  followBtn.classList.remove('disabled', 'inactive');
+  if (tocBtn) tocBtn.classList.remove('disabled', 'inactive');
 
   if (state.currentPage === 'doc') {
     const doc = DOCS[state.currentDocId];
@@ -8094,24 +8114,47 @@ function updateFloatingDock() {
     const l1Count = doc && doc.toc ? doc.toc.filter(it => it.level === 1).length : 0;
     const hasRelated = !!(doc && doc.related && doc.related.length > 0);
     const effectiveTocCount = l1Count + (hasRelated ? 1 : 0);
-    if (!doc || effectiveTocCount <= 1) {
+    if (tocBtn && (!doc || effectiveTocCount <= 1)) {
       tocBtn.classList.add('disabled');
     }
-
-    if (!doc || !doc.related || doc.related.length === 0) {
-      followBtn.classList.add('disabled');
-    }
-  } else if (state.currentPage === 'gallery') {
-    const target = EDITOR_CONFIG.fallbackFollowTarget;
-    if (!target || !DOCS[target]) {
-      followBtn.classList.add('disabled');
-    }
   }
+  // gallery 페이지에서는 목차 외 별도 비활성 조건 없음
 }
 
 window.scrollToTop = function() {
   if (state.openPanel) closeAllDockPopups();
   window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+};
+
+// dock 검색 버튼: 맨 위로 스크롤 + 검색창 focus + 키보드 자동 열기.
+// 모바일에서 input.focus()를 직접 호출하면 키보드가 떠야 정상.
+// 단, iOS Safari는 "사용자 제스처 컨텍스트"에서만 키보드를 띄우므로
+// 이 함수는 반드시 onclick 등 직접 액션 안에서 호출되어야 한다.
+window.focusSearch = function() {
+  if (state.openPanel) closeAllDockPopups();
+  const input = document.getElementById('searchInput');
+  if (!input) return;
+  // 1) 스크롤은 즉시 시작 (smooth)
+  window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  // 2) focus도 즉시 — 사용자 제스처 컨텍스트를 잃지 않기 위함.
+  //    스크롤이 끝난 뒤 focus하면 iOS에서 키보드가 안 열림.
+  try { input.focus({ preventScroll: true }); } catch (e) { input.focus(); }
+  // 3) 빈 검색창에 자연스럽게 들어가도록 select 호출 (값 있으면 전체 선택)
+  if (input.value) {
+    try { input.select(); } catch (e) {}
+  }
+};
+
+// 다크모드 토글: setTheme이 이미 localStorage 저장도 처리해줌
+window.toggleTheme = function() {
+  const cur = document.documentElement.getAttribute('data-theme') || 'light';
+  const next = cur === 'dark' ? 'light' : 'dark';
+  if (typeof window.setTheme === 'function') {
+    window.setTheme(next);
+  } else {
+    document.documentElement.setAttribute('data-theme', next);
+    try { localStorage.setItem('homi:theme', next); } catch (e) {}
+  }
 };
 
 // ============================================================================
@@ -8490,12 +8533,18 @@ window.toggleDockPopup = function(type) {
 
   if (type === 'toc') {
     renderTocPopup();
-    document.getElementById('tocPopup').classList.add('open');
-    document.getElementById('dockTocBtn').classList.add('active');
+    const pop = document.getElementById('tocPopup');
+    const btn = document.getElementById('dockTocBtn');
+    if (pop) pop.classList.add('open');
+    if (btn) btn.classList.add('active');
   } else if (type === 'follow') {
-    renderFollowPopup();
-    document.getElementById('followPopup').classList.add('open');
-    document.getElementById('dockFollowBtn').classList.add('active');
+    // 'follow' 패널은 dock 재구성으로 더 이상 활성 트리거가 없음.
+    // 외부에서 호출될 경우를 대비해 안전 가드만 유지.
+    if (typeof renderFollowPopup === 'function') renderFollowPopup();
+    const pop = document.getElementById('followPopup');
+    const btn = document.getElementById('dockFollowBtn');
+    if (pop) pop.classList.add('open');
+    if (btn) btn.classList.add('active');
   }
   state.openPanel = type;
 
