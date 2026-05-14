@@ -226,5 +226,21 @@
       "id": "rag",
       "desc": "거짓말 줄이려는 실전 꼼수"
     }
+  ],
+  "aliases": [
+    "Claude",
+    "claude.ai",
+    "클로드 AI",
+    "Anthropic Claude",
+    "앤트로픽 클로드",
+    "앤트로픽 AI",
+    "클로드 코드",
+    "Claude Code",
+    "Claude Opus",
+    "Claude Sonnet",
+    "Claude Haiku",
+    "클로드 옵서스",
+    "클로드 소넷",
+    "클로드 4"
   ]
 }
