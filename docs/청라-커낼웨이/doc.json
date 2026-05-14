@@ -1,5 +1,5 @@
 {
-  "title": "청라 커낼웨이",
+  "title": "커낼웨이",
   "subtitle": "Cheongna Canal Way",
   "updated": "2026-05-07",
   "contributors": [
@@ -25,19 +25,9 @@
     }
   ],
   "categories": [
-    {
-      "text": "인천광역시",
-      "id": null
-    },
-    {
-      "text": "수변공원",
-      "id": null
-    },
-    {
-      "text": "청라국제도시",
-      "id": null
-    }
+    "청라"
   ],
+  "parent": null,
   "infobox": {
     "title": "청라국제도시 커낼웨이 수로",
     "subtitle": "Cheongna Canal Way",
