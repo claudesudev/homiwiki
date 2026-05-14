@@ -184,13 +184,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
-  min-width: 56px;
+  gap: 3.5px;
+  min-width: 0;
   height: 38px;
-  padding: 0 4px;
+  padding: 0 2px;
   color: #ffffff;
   font-family: 'Do Hyeon', system-ui, -apple-system, sans-serif;
-  font-size: calc(22px * var(--font-scale));
+  font-size: calc(15.4px * var(--font-scale));
   font-weight: 400;
   letter-spacing: -0.3px;
   cursor: pointer;
@@ -198,7 +198,7 @@ body {
   transition: opacity 0.15s ease;
 }
 .logo .logo-icon {
-  height: calc(24.948px * var(--font-scale));
+  height: calc(17.46px * var(--font-scale));
   width: auto;
   flex-shrink: 0;
   display: block;
@@ -207,7 +207,7 @@ body {
   color: inherit;
 }
 .logo span {
-  transform: translateY(2px);
+  transform: translateY(1px);
 }
 .logo:active {
   opacity: 0.7;
@@ -236,6 +236,17 @@ body {
   font-family: inherit;
   transition: box-shadow 0.15s ease;
   outline: none;
+  -webkit-appearance: none;
+          appearance: none;
+}
+/* type="search"의 브라우저 기본 clear 버튼 숨김 (자체 UI 사용) */
+.search-input::-webkit-search-decoration,
+.search-input::-webkit-search-cancel-button,
+.search-input::-webkit-search-results-button,
+.search-input::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+          appearance: none;
+  display: none;
 }
 
 .search-input::placeholder {
@@ -4669,7 +4680,23 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   <header class="top-header">
     <div class="logo" onclick="navigateTo('home', null, null, {fromTab:true})" role="link" aria-label="홈으로"><svg class="logo-icon" viewBox="0 0 206 204" fill="currentColor" aria-hidden="true"><g transform="translate(-5.032588,198.772005) scale(0.100000,-0.100000)"><path d="M455 1976 c-65 -16 -127 -49 -160 -83 -61 -65 -210 -441 -234 -594 -12 -69 -14 -260 -5 -296 4 -13 10 -23 14 -23 4 0 27 26 52 57 102 129 292 300 456 409 109 73 350 190 421 205 108 22 291 -9 371 -63 75 -51 75 -51 76 -326 2 -265 10 -334 49 -420 31 -68 31 -76 0 -90 -14 -7 -28 -19 -31 -27 -4 -8 17 -75 45 -148 28 -72 80 -213 117 -312 36 -99 71 -186 77 -194 24 -29 55 -31 139 -6 154 46 168 53 168 86 0 17 -16 65 -36 107 -20 42 -53 118 -74 167 -149 355 -155 365 -211 365 -35 0 -49 20 -86 121 -27 73 -27 77 -28 334 -1 169 -5 269 -12 286 -31 72 -120 134 -258 179 -22 7 -80 32 -130 56 -89 42 -209 96 -355 159 -139 60 -260 77 -365 51z"/></g></svg><span>호미위키</span></div>
     <div class="search-container">
-      <input type="text" class="search-input" id="searchInput" placeholder="여기에서 검색" aria-label="여기에서 검색" autocomplete="off">
+      <input
+        type="search"
+        class="search-input"
+        id="searchInput"
+        name="search"
+        placeholder="여기에서 검색"
+        aria-label="여기에서 검색"
+        role="searchbox"
+        inputmode="search"
+        enterkeyhint="search"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck="false"
+        data-form-type="other"
+        data-lpignore="true"
+        data-1p-ignore="true">
       <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <circle cx="11" cy="11" r="8"/>
         <path d="m21 21-4.3-4.3"/>
