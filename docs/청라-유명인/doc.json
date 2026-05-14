@@ -1,5 +1,5 @@
 {
-  "title": "거주(또는 거주했던) 유명인",
+  "title": "청라 연예인, 유명인",
   "subtitle": "Cheongna Notable Residents",
   "updated": "2026-05-08",
   "contributors": [
@@ -162,5 +162,10 @@
       "id": "cheongna-dome"
     }
   ],
-  "aliases": []
+  "aliases": [
+  "청라 연예인",
+  "청라 셀럽",
+  "청라 사는 연예인",
+  "청라국제도시 유명인"
+]
 }
