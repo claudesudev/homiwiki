@@ -175,46 +175,8 @@ body {
   background: #cc785c;
   display: flex;
   align-items: center;
-  padding: 0 10px;
-  gap: 8px;
+  padding: 0 12px;
   z-index: 100;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 3.5px;
-  min-width: 0;
-  height: 38px;
-  padding: 0 2px;
-  color: #ffffff;
-  font-family: 'Do Hyeon', system-ui, -apple-system, sans-serif;
-  font-size: calc(15.4px * var(--font-scale));
-  font-weight: 400;
-  letter-spacing: -0.3px;
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: opacity 0.15s ease;
-}
-.logo .logo-icon {
-  height: calc(34.93px * var(--font-scale));
-  width: auto;
-  flex-shrink: 0;
-  display: block;
-  transform: rotate(0deg);
-  transform-origin: center;
-  color: inherit;
-}
-.logo span {
-  transform: translateY(1px);
-}
-.logo:active {
-  opacity: 0.7;
-}
-
-[data-theme="dark"] .logo {
-  color: #ffffff;
 }
 
 .search-container {
@@ -224,12 +186,58 @@ body {
   align-items: center;
 }
 
+/* 검색창 안 호미 아이콘 — 좌측에 절대 위치, placeholder 위아래 거의 닿게 크게 */
+.search-homi {
+  position: absolute;
+  left: 12px;
+  width: 32px;
+  height: 32px;
+  color: #cc785c;
+  pointer-events: auto;
+  cursor: pointer;
+  z-index: 2;
+  flex-shrink: 0;
+}
+.search-homi:active { opacity: 0.7; }
+
+/* 우측 액션 영역 (돋보기, 화살표) */
+.search-actions {
+  position: absolute;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  z-index: 2;
+}
+.search-action-btn {
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6b6b6b;
+  cursor: pointer;
+  padding: 0;
+  border-radius: 50%;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s ease;
+}
+.search-action-btn svg {
+  width: 18px;
+  height: 18px;
+}
+.search-action-btn:active {
+  background: rgba(0,0,0,0.06);
+}
+
 .search-input {
   width: 100%;
   height: 44px;
   border: 1px solid transparent;
   border-radius: 999px;
-  padding: 0 38px 0 16px;
+  padding: 0 68px 0 52px; /* 좌: 호미 32px + 간격, 우: 액션 버튼 2개 + 간격 */
   background: #ffffff;
   color: #1a1a1a;
   font-size: calc(16px * var(--font-scale));
@@ -253,13 +261,6 @@ body {
   color: #9a9a9a;
 }
 
-.search-icon {
-  position: absolute;
-  right: 14px;
-  color: #a85a42;
-  pointer-events: none;
-}
-
 .search-suggestions {
   position: absolute;
   top: 48px;
@@ -281,26 +282,33 @@ body {
 }
 
 .suggestion-item {
-  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 9px 16px 9px 32px;
   cursor: pointer;
-  font-size: calc(16px * var(--font-scale));
+  font-size: calc(14px * var(--font-scale));
   font-weight: 400;
-  color: #1a1a1a;
-  border-bottom: 1px solid #ebe8e2;
+  color: #3a3a3a;
   transition: background 0.15s;
-}
-
-.suggestion-item:last-child {
-  border-bottom: none;
 }
 
 .suggestion-item:active {
   background: #f5f0e8;
 }
 
-.suggestion-item .sub {
-  margin-left: 6px;
-  color: #9a9a9a;
+/* 자동완성 항목 좌측 돋보기 아이콘 — 작고 흐린 회색 */
+.suggestion-item .sug-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  color: #b8b3aa;
+}
+
+/* 검색어와 매칭되는 부분 볼드 처리 */
+.suggestion-item b {
+  font-weight: 700;
+  color: #3a3a3a;
 }
 
 .suggestion-item .ad-tag {
@@ -4742,15 +4750,15 @@ html[data-font-size="xxl"] .topics-hero-overlay {
 <div class="app-container">
 
   <header class="top-header">
-    <div class="logo" onclick="navigateTo('home', null, null, {fromTab:true})" role="link" aria-label="홈으로"><svg class="logo-icon" viewBox="0 0 206 204" fill="currentColor" aria-hidden="true"><g transform="translate(-5.032588,198.772005) scale(0.100000,-0.100000)"><path d="M455 1976 c-65 -16 -127 -49 -160 -83 -61 -65 -210 -441 -234 -594 -12 -69 -14 -260 -5 -296 4 -13 10 -23 14 -23 4 0 27 26 52 57 102 129 292 300 456 409 109 73 350 190 421 205 108 22 291 -9 371 -63 75 -51 75 -51 76 -326 2 -265 10 -334 49 -420 31 -68 31 -76 0 -90 -14 -7 -28 -19 -31 -27 -4 -8 17 -75 45 -148 28 -72 80 -213 117 -312 36 -99 71 -186 77 -194 24 -29 55 -31 139 -6 154 46 168 53 168 86 0 17 -16 65 -36 107 -20 42 -53 118 -74 167 -149 355 -155 365 -211 365 -35 0 -49 20 -86 121 -27 73 -27 77 -28 334 -1 169 -5 269 -12 286 -31 72 -120 134 -258 179 -22 7 -80 32 -130 56 -89 42 -209 96 -355 159 -139 60 -260 77 -365 51z"/></g></svg><span>호미위키</span></div>
     <div class="search-container">
+      <svg class="search-homi" viewBox="0 0 206 204" fill="currentColor" aria-hidden="true" onclick="navigateTo('home', null, null, {fromTab:true})" role="link" aria-label="홈으로"><g transform="translate(-5.032588,198.772005) scale(0.100000,-0.100000)"><path d="M455 1976 c-65 -16 -127 -49 -160 -83 -61 -65 -210 -441 -234 -594 -12 -69 -14 -260 -5 -296 4 -13 10 -23 14 -23 4 0 27 26 52 57 102 129 292 300 456 409 109 73 350 190 421 205 108 22 291 -9 371 -63 75 -51 75 -51 76 -326 2 -265 10 -334 49 -420 31 -68 31 -76 0 -90 -14 -7 -28 -19 -31 -27 -4 -8 17 -75 45 -148 28 -72 80 -213 117 -312 36 -99 71 -186 77 -194 24 -29 55 -31 139 -6 154 46 168 53 168 86 0 17 -16 65 -36 107 -20 42 -53 118 -74 167 -149 355 -155 365 -211 365 -35 0 -49 20 -86 121 -27 73 -27 77 -28 334 -1 169 -5 269 -12 286 -31 72 -120 134 -258 179 -22 7 -80 32 -130 56 -89 42 -209 96 -355 159 -139 60 -260 77 -365 51z"/></g></svg>
       <input
         type="search"
         class="search-input"
         id="searchInput"
         name="search"
-        placeholder="여기에서 검색"
-        aria-label="여기에서 검색"
+        placeholder="검색은 호미위키"
+        aria-label="검색은 호미위키"
         role="searchbox"
         inputmode="search"
         enterkeyhint="search"
@@ -4761,10 +4769,14 @@ html[data-font-size="xxl"] .topics-hero-overlay {
         data-form-type="other"
         data-lpignore="true"
         data-1p-ignore="true">
-      <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="11" cy="11" r="8"/>
-        <path d="m21 21-4.3-4.3"/>
-      </svg>
+      <div class="search-actions" aria-hidden="false">
+        <button type="button" class="search-action-btn" id="searchActionSearch" aria-label="검색" onclick="submitSearch()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        </button>
+        <button type="button" class="search-action-btn" id="searchActionGo" aria-label="이동" onclick="submitSearch()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
       <div class="search-suggestions" id="searchSuggestions"></div>
     </div>
   </header>
@@ -5299,17 +5311,38 @@ function getSuggestions(query) {
   return Array.from(results).slice(0, 30);
 }
 
+// 검색 매칭되는 부분을 볼드(<b>)로 감싸기 — XSS 방지를 위해 escape 후 처리
+function highlightMatch(text, query) {
+  if (!text) return '';
+  // 1) HTML 이스케이프
+  const esc = (s) => String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+  const safeText = esc(text);
+  if (!query) return safeText;
+  const safeQuery = esc(query.trim());
+  if (!safeQuery) return safeText;
+  // 정규식 특수문자 이스케이프
+  const reSafe = safeQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return safeText.replace(new RegExp(reSafe, 'gi'), (m) => `<b>${m}</b>`);
+}
+
 function renderSuggestions(query) {
   const suggestions = getSuggestions(query);
   if (suggestions.length === 0) {
     searchSuggestions.classList.remove('active');
     return;
   }
+  const searchIcon = `<svg class="sug-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>`;
   searchSuggestions.innerHTML = suggestions.map(docId => {
     const doc = DOCS[docId];
-    const sub = doc.subtitle ? `<span class="sub">${doc.subtitle}</span>` : '';
+    // 영문 subtitle은 표시하지 않음 (네이버 스타일 UX)
+    const titleHtml = highlightMatch(doc.title, query);
     const adTag = doc.type === 'sponsored' ? `<span class="ad-tag" aria-label="광고 문서">AD</span>` : '';
-    return `<div class="suggestion-item" onclick="selectSuggestion('${docId}')">${doc.title}${sub}${adTag}</div>`;
+    return `<div class="suggestion-item" onclick="selectSuggestion('${docId}')">${searchIcon}<span class="sug-text">${titleHtml}${adTag}</span></div>`;
   }).join('');
   searchSuggestions.classList.add('active');
 }
@@ -5346,28 +5379,37 @@ searchInput.addEventListener('blur', () => {
   setTimeout(() => searchSuggestions.classList.remove('active'), 200);
 });
 
+// 검색 실행 — Enter 키와 우측 액션 버튼(돋보기/화살표)이 공통으로 호출
+window.submitSearch = function() {
+  if (searchDebounceTimer) {
+    clearTimeout(searchDebounceTimer);
+    searchDebounceTimer = null;
+  }
+  const query = (searchInput.value || '').trim();
+  if (!query) {
+    // 입력값 없으면 검색창에 focus만 줌 (안드/iOS에서 키보드 호출)
+    try { searchInput.focus(); } catch (e) {}
+    return;
+  }
+  const docId = resolveDocId(query);
+  if (docId && DOCS[docId]) {
+    searchInput.value = '';
+    searchSuggestions.classList.remove('active');
+    navigateTo('doc', docId);
+  } else {
+    searchInput.value = '';
+    searchSuggestions.classList.remove('active');
+    // not-found는 별도 라우트가 아니라 '검색 결과 없음' 상태지만,
+    // 뒤로가기 시 직전 페이지가 아닌 not-found로 돌아오게 하려면
+    // history에 한 칸 쌓고 state도 정상 갱신해야 한다.
+    // (그렇지 않으면 navStack에 직전 doc이 쌓여서 뒤로가기 시 거기로 튐)
+    enterNotFound(query);
+  }
+};
+
 searchInput.addEventListener('keydown', (e) => {
   if (e.key === 'Enter') {
-    if (searchDebounceTimer) {
-      clearTimeout(searchDebounceTimer);
-      searchDebounceTimer = null;
-    }
-    const query = e.target.value.trim();
-    if (!query) return;
-    const docId = resolveDocId(query);
-    if (docId && DOCS[docId]) {
-      searchInput.value = '';
-      searchSuggestions.classList.remove('active');
-      navigateTo('doc', docId);
-    } else {
-      searchInput.value = '';
-      searchSuggestions.classList.remove('active');
-      // not-found는 별도 라우트가 아니라 '검색 결과 없음' 상태지만,
-      // 뒤로가기 시 직전 페이지가 아닌 not-found로 돌아오게 하려면
-      // history에 한 칸 쌓고 state도 정상 갱신해야 한다.
-      // (그렇지 않으면 navStack에 직전 doc이 쌓여서 뒤로가기 시 거기로 튐)
-      enterNotFound(query);
-    }
+    submitSearch();
   }
 });
 
