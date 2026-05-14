@@ -4839,13 +4839,14 @@ html[data-font-size="xxl"] .topics-hero-overlay {
 
 /* 좌측 액센트 바 — 폴더위치바임을 즉시 식별시키는 시그니처 디테일
    (옅은 살구색, 6px, 인셋, 양끝 둥근). 점등(is-active)의 진한 살구와는
-   톤 차이로 위계 분리. is-open(드롭다운 펼침) 시 풀길이로 함께 노출. */
+   톤 차이로 위계 분리. bar 영역(높이 42px)에만 한정 — is-open으로 드롭다운이
+   펼쳐져도 바는 상단 띠에만 머무름. */
 .doc-breadcrumb::before {
   content: '';
   position: absolute;
   left: 6px;
   top: 7px;
-  bottom: 7px;
+  height: 28px;
   width: 6px;
   background: #d89478;
   border-radius: 3px;
@@ -4977,7 +4978,7 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 11px 16px;
+  padding: 11px 16px 11px 27px;
   cursor: pointer;
   font-size: calc(13.5px * var(--font-scale));
   color: var(--text-secondary);
@@ -5032,7 +5033,7 @@ html[data-font-size="xxl"] .topics-hero-overlay {
 
 /* 형제 없을 때 메시지 */
 .bc-panel-empty {
-  padding: 14px 16px 16px;
+  padding: 14px 16px 16px 27px;
   text-align: left;
   font-size: calc(13px * var(--font-scale));
   color: var(--text-tertiary);
@@ -5960,14 +5961,19 @@ function triggerHomiKongOnce() {
   void homiEl.offsetWidth;
   homiEl.classList.add('kong-once');
 
-  // 파편 동기화 — 키 누르자마자 즉시 파편 발사
+  // 파편 동기화 — 호미 콩 피크(45%, ~190ms)에 맞춰 파편 발사
   if (particlesEl) {
-    void particlesEl.offsetWidth;
-    particlesEl.classList.add('burst');
-    const idBurst = setTimeout(() => {
+    const idDelay = setTimeout(() => {
+      if (!particlesEl) return;
       particlesEl.classList.remove('burst');
-    }, HOMI_PARTICLE_BURST_DURATION);
-    homiKongOnceTimeoutIds.push(idBurst);
+      void particlesEl.offsetWidth;
+      particlesEl.classList.add('burst');
+      const idBurst = setTimeout(() => {
+        particlesEl.classList.remove('burst');
+      }, HOMI_PARTICLE_BURST_DURATION);
+      homiKongOnceTimeoutIds.push(idBurst);
+    }, 200);
+    homiKongOnceTimeoutIds.push(idDelay);
   }
 
   // 단발 콩 종료 + 락 해제
