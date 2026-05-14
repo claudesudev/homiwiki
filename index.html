@@ -186,12 +186,14 @@ body {
   align-items: center;
 }
 
-/* 검색창 안 호미 아이콘 — 좌측에 절대 위치, placeholder 위아래 거의 닿게 크게 */
+/* 검색창 안 호미 아이콘 — 좌측에 절대 위치, 검색창 높이에 닿을락 말락하게 크게 */
 .search-homi {
   position: absolute;
-  left: 12px;
-  width: 32px;
-  height: 32px;
+  left: 10px;
+  top: 50%;
+  transform: translateY(calc(-50% + 1px));
+  width: 44px;
+  height: 44px;
   color: #cc785c;
   pointer-events: auto;
   cursor: pointer;
@@ -234,13 +236,13 @@ body {
 
 .search-input {
   width: 100%;
-  height: 44px;
+  height: 49px;
   border: 1px solid transparent;
   border-radius: 999px;
-  padding: 0 68px 0 52px; /* 좌: 호미 32px + 간격, 우: 액션 버튼 2개 + 간격 */
+  padding: 0 68px 0 64px; /* 좌: 호미 44px + 간격, 우: 액션 버튼 2개 + 간격 */
   background: #ffffff;
   color: #1a1a1a;
-  font-size: calc(16px * var(--font-scale));
+  font-size: calc(17px * var(--font-scale));
   font-family: inherit;
   transition: box-shadow 0.15s ease;
   outline: none;
@@ -263,7 +265,7 @@ body {
 
 .search-suggestions {
   position: absolute;
-  top: 48px;
+  top: 63px;
   left: 0;
   right: 0;
   background: #ffffff;
@@ -275,6 +277,7 @@ body {
   overflow-y: auto;
   display: none;
   z-index: 200;
+  padding-top: 20px;
   padding-bottom: 50px;
 }
 
@@ -286,7 +289,7 @@ body {
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 9px 16px 9px 24px;
+  padding: 9px 16px 9px 36px;
   cursor: pointer;
   font-size: calc(14px * var(--font-scale));
   font-weight: 400;
@@ -323,6 +326,102 @@ body {
   font-weight: 700;
   letter-spacing: 0.05em;
   vertical-align: middle;
+}
+
+/* ==========================================================================
+   인기 검색어 패널
+   --------------------------------------------------------------------------
+   검색창 focus + 빈 입력값일 때 노출.
+   - .search-popular: 자동완성과 동일한 위치/크기 (search-suggestions 위치 공유)
+   - 헤더: 불꽃 아이콘(애니메이션) + "인기 검색어" 라벨
+   - 항목: 순위 + 검색어, 톱3는 살색 강조, 4-10은 회색
+   - 정렬: 헤더 텍스트 / 항목 텍스트 모두 placeholder와 같은 라인(64px)에서 시작
+   ========================================================================== */
+.search-popular {
+  position: absolute;
+  top: 63px;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border: 1px solid #e3e0da;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.10);
+  overflow: hidden;
+  max-height: min(560px, 75vh);
+  overflow-y: auto;
+  display: none;
+  z-index: 200;
+  padding: 18px 0 28px;
+}
+.search-popular.active {
+  display: block;
+}
+
+.popular-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 20px 14px 36px; /* 정렬: 36 + 20(불꽃) + 8(gap) = 64px = placeholder 시작점 */
+}
+.popular-header .popular-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--accent);
+  flex-shrink: 0;
+  animation: ho-flame-strong 2s ease-in-out infinite;
+  transform-origin: center bottom;
+  display: inline-block;
+}
+.popular-header .popular-label {
+  font-size: calc(16px * var(--font-scale));
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.popular-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 20px 8px 32px; /* 정렬: 32 + 18(rank) + 14(gap) = 64px */
+  font-size: calc(14px * var(--font-scale));
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.popular-item:active {
+  background: var(--bg-secondary);
+}
+.popular-item .pop-rank {
+  font-weight: 400;
+  font-size: calc(12px * var(--font-scale));
+  width: 18px;
+  text-align: right;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-muted);
+}
+.popular-item .pop-rank.r1 { color: var(--accent); font-weight: 600; }
+.popular-item .pop-rank.r2 { color: var(--accent); font-weight: 600; opacity: 0.85; }
+.popular-item .pop-rank.r3 { color: var(--accent); font-weight: 600; opacity: 0.7; }
+.popular-item .pop-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 400;
+}
+
+@keyframes ho-flame-strong {
+  0%   { transform: rotate(-6deg) scale(1); }
+  25%  { transform: rotate(8deg) scale(1.2); }
+  50%  { transform: rotate(-4deg) scale(0.95); }
+  75%  { transform: rotate(6deg) scale(1.15); }
+  100% { transform: rotate(-6deg) scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .popular-header .popular-icon { animation: none; }
 }
 
 .page-content {
@@ -4758,8 +4857,8 @@ html[data-font-size="xxl"] .topics-hero-overlay {
         class="search-input"
         id="searchInput"
         name="search"
-        placeholder="검색은 호미위키"
-        aria-label="검색은 호미위키"
+        placeholder="호미위키에게 물어보세요"
+        aria-label="호미위키에게 물어보세요"
         role="searchbox"
         inputmode="search"
         enterkeyhint="search"
@@ -4779,6 +4878,7 @@ html[data-font-size="xxl"] .topics-hero-overlay {
         </button>
       </div>
       <div class="search-suggestions" id="searchSuggestions"></div>
+      <div class="search-popular" id="searchPopular" aria-label="인기 검색어 목록"></div>
     </div>
   </header>
 
@@ -5351,8 +5451,69 @@ function renderSuggestions(query) {
 window.selectSuggestion = function(docId) {
   searchInput.value = '';
   searchSuggestions.classList.remove('active');
+  hidePopular();
   navigateTo('doc', docId);
 };
+
+// 인기 검색어 — 더미 데이터로 TOPICS_LIST 상위 10개 사용
+// 운영자가 TOPICS_LIST 순서를 바꾸면 자동으로 반영됨
+// 향후 별도 popularSearches.json으로 분리 가능
+function getPopularList() {
+  if (typeof TOPICS_LIST === 'undefined' || !Array.isArray(TOPICS_LIST)) return [];
+  return TOPICS_LIST.slice(0, 10).map((t, idx) => ({
+    rank: idx + 1,
+    name: t.name,
+    targetDocId: t.target || null
+  }));
+}
+
+// 불꽃 SVG (헤더 아이콘)
+const POPULAR_FLAME_SVG = `<svg class="popular-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>`;
+
+const searchPopular = document.getElementById('searchPopular');
+
+function renderPopular() {
+  if (!searchPopular) return;
+  const list = getPopularList();
+  if (list.length === 0) return;
+  const header = `<div class="popular-header">${POPULAR_FLAME_SVG}<span class="popular-label">인기 검색어</span></div>`;
+  const items = list.map(item => {
+    const rankCls = item.rank <= 3 ? `r${item.rank}` : 'rest';
+    // 이름 escape (XSS 방지)
+    const esc = String(item.name)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    return `<div class="popular-item" onclick="selectPopular(${item.rank - 1})"><span class="pop-rank ${rankCls}">${item.rank}</span><span class="pop-name">${esc}</span></div>`;
+  }).join('');
+  searchPopular.innerHTML = header + items;
+}
+
+// 인기 항목 클릭 — 검색창에 텍스트 채우고 submit (검색 흐름 그대로 탐)
+window.selectPopular = function(idx) {
+  const list = getPopularList();
+  const item = list[idx];
+  if (!item) return;
+  hidePopular();
+  // 매칭되는 실제 문서가 있으면 바로 이동, 아니면 검색창에 채우고 submit
+  if (item.targetDocId && DOCS[item.targetDocId]) {
+    searchInput.value = '';
+    navigateTo('doc', item.targetDocId);
+    return;
+  }
+  searchInput.value = item.name;
+  submitSearch();
+};
+
+function showPopular() {
+  if (!searchPopular) return;
+  if (searchPopular.childElementCount === 0) renderPopular();
+  if (searchPopular.childElementCount > 0) {
+    searchPopular.classList.add('active');
+  }
+}
+function hidePopular() {
+  if (searchPopular) searchPopular.classList.remove('active');
+}
 
 let searchDebounceTimer = null;
 searchInput.addEventListener('input', (e) => {
@@ -5363,8 +5524,12 @@ searchInput.addEventListener('input', (e) => {
       searchDebounceTimer = null;
     }
     searchSuggestions.classList.remove('active');
+    // 빈 입력 = 인기 검색어 노출
+    showPopular();
     return;
   }
+  // 입력 시작 = 인기 검색어 숨김
+  hidePopular();
   if (searchDebounceTimer) clearTimeout(searchDebounceTimer);
   searchDebounceTimer = setTimeout(() => {
     renderSuggestions(val);
@@ -5373,11 +5538,18 @@ searchInput.addEventListener('input', (e) => {
 });
 
 searchInput.addEventListener('focus', (e) => {
-  if (e.target.value) renderSuggestions(e.target.value);
+  if (e.target.value) {
+    renderSuggestions(e.target.value);
+  } else {
+    showPopular();
+  }
 });
 
 searchInput.addEventListener('blur', () => {
-  setTimeout(() => searchSuggestions.classList.remove('active'), 200);
+  setTimeout(() => {
+    searchSuggestions.classList.remove('active');
+    hidePopular();
+  }, 200);
 });
 
 // 검색 실행 — Enter 키와 우측 액션 버튼(돋보기/화살표)이 공통으로 호출
