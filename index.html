@@ -594,29 +594,6 @@ body {
   overflow-y: auto;
 }
 
-.doc-categories {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 16px;
-  padding: 10px 12px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-light);
-  border-radius: 8px;
-  font-size: calc(12.5px * var(--font-scale));
-  color: var(--text-tertiary);
-}
-
-.doc-categories strong {
-  color: var(--text-secondary);
-  font-weight: 500;
-}
-
-.doc-categories .cat-link {
-  color: var(--link);
-  cursor: pointer;
-}
-
 .infobox {
   background: var(--bg-tertiary);
   border: 1px solid var(--border);
@@ -4464,6 +4441,171 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   .doc-figure figcaption { font-size: 12px; }
 }
 
+/* ==========================================================================
+   브레드크럼 (스크롤 시 등장) — GitHub/Shopify 풍 mono + 폴더 아이콘
+   ========================================================================== */
+.doc-breadcrumb {
+  position: fixed;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-100%);
+  width: 100%;
+  max-width: 480px;
+  height: 38px;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 0;
+  z-index: 99;
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.18s ease;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  white-space: nowrap;
+}
+.doc-breadcrumb::-webkit-scrollbar { display: none; }
+
+.doc-breadcrumb.is-visible {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.bc-step {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 8px;
+  background: transparent;
+  border: 0;
+  border-radius: 5px;
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: calc(12.5px * var(--font-scale));
+  font-weight: 400;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.12s ease, color 0.12s ease;
+  -webkit-tap-highlight-color: transparent;
+  line-height: 1;
+}
+.bc-step:active {
+  background: var(--bg-secondary);
+}
+.bc-step.is-active {
+  color: var(--text-primary);
+  font-weight: 700;
+  background: var(--bg-secondary);
+}
+.bc-step .bc-icon {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+  opacity: 0.75;
+}
+.bc-step.is-active .bc-icon {
+  opacity: 1;
+}
+.bc-step .bc-label {
+  font-family: inherit;
+  white-space: nowrap;
+}
+
+.bc-sep {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 2px;
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: calc(12.5px * var(--font-scale));
+  color: var(--text-muted);
+  font-weight: 400;
+  user-select: none;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+/* 드롭다운 (형제 항목 리스트) — 검색 자동완성 스타일 */
+.bc-dropdown {
+  position: fixed;
+  top: 98px; /* 60px header + 38px breadcrumb */
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 16px);
+  max-width: 464px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg);
+  z-index: 110;
+  max-height: min(420px, 60vh);
+  overflow-y: auto;
+  display: none;
+  /* 드롭다운은 브레드크럼 단계 위치를 기준으로 JS가 left/transform을 재계산 */
+}
+.bc-dropdown.is-open {
+  display: block;
+}
+
+.bc-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 14px;
+  cursor: pointer;
+  font-size: calc(14.5px * var(--font-scale));
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-light);
+  transition: background 0.12s;
+  -webkit-tap-highlight-color: transparent;
+}
+.bc-dropdown-item:last-child {
+  border-bottom: none;
+}
+.bc-dropdown-item:active {
+  background: var(--bg-secondary);
+}
+.bc-dropdown-item .bc-dd-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  color: var(--text-tertiary);
+}
+.bc-dropdown-item .bc-dd-label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.bc-dropdown-item .bc-dd-sub {
+  font-size: calc(12px * var(--font-scale));
+  color: var(--text-muted);
+  flex-shrink: 0;
+  margin-left: 6px;
+}
+
+.bc-dropdown-empty {
+  padding: 22px 18px;
+  text-align: center;
+  font-size: calc(13.5px * var(--font-scale));
+  color: var(--text-tertiary);
+  line-height: 1.5;
+}
+.bc-dropdown-empty strong {
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+/* 브레드크럼이 보이는 동안 .app-container 상단 패딩을 추가 보정하지 않는다
+   (브레드크럼은 콘텐츠 위에 떠 있고, 첫 줄을 가려도 무방한 디자인 — 사용자가
+   스크롤한 상태에서만 등장하므로 페이지 최상단에서는 영향 없음). */
+
 </style>
 </head>
 <body>
@@ -4481,6 +4623,9 @@ html[data-font-size="xxl"] .topics-hero-overlay {
       <div class="search-suggestions" id="searchSuggestions"></div>
     </div>
   </header>
+
+  <nav class="doc-breadcrumb" id="docBreadcrumb" aria-label="문서 경로" role="navigation"></nav>
+  <div class="bc-dropdown" id="bcDropdown" role="listbox" aria-label="형제 항목 목록"></div>
 
   <main class="page-content" id="pageContent">
   </main>
@@ -4678,6 +4823,53 @@ let DOCS = {};
 let DOCS_LOADED = false;
 let DOCS_LOAD_ERROR = null;
 
+// ─────────────────────────────────────────────────────────────
+// 카테고리 트리 (브레드크럼용)
+//   CATEGORIES_TREE      : _categories.json의 tree 그대로
+//   CATEGORY_LABEL[id]   : 카테고리 ID → 표시 라벨
+//   CATEGORY_PARENT[id]  : 자식 ID → 부모 ID  (최상위는 null)
+//   CATEGORY_CHILDREN[id]: 부모 ID → 자식 ID 배열 (가나다순)
+//   CATEGORY_HIDDEN      : breadcrumb에서 숨길 카테고리 ID 집합
+//   CATEGORY_ROOTS       : 최상위 카테고리 ID 배열 (가나다순, hidden 포함)
+// ─────────────────────────────────────────────────────────────
+let CATEGORIES_TREE = null;
+const CATEGORY_LABEL = {};
+const CATEGORY_PARENT = {};
+const CATEGORY_CHILDREN = {};
+const CATEGORY_HIDDEN = new Set();
+let CATEGORY_ROOTS = [];
+
+function buildCategoryIndex() {
+  // 트리 순회: 각 노드의 라벨, 부모, 자식, hidden 여부 기록
+  const walk = (node, id, parentId) => {
+    CATEGORY_LABEL[id] = (node && node.label) || id;
+    CATEGORY_PARENT[id] = parentId;
+    if (node && node.hidden_in_breadcrumb) CATEGORY_HIDDEN.add(id);
+    const childIds = node && node.children ? Object.keys(node.children) : [];
+    childIds.sort((a, b) => a.localeCompare(b, 'ko'));
+    CATEGORY_CHILDREN[id] = childIds;
+    for (const childId of childIds) {
+      walk(node.children[childId], childId, id);
+    }
+  };
+  const rootIds = Object.keys(CATEGORIES_TREE || {});
+  rootIds.sort((a, b) => a.localeCompare(b, 'ko'));
+  CATEGORY_ROOTS = rootIds;
+  for (const rid of rootIds) {
+    walk(CATEGORIES_TREE[rid], rid, null);
+  }
+}
+
+// 어떤 doc.categories 항목이 string이 아닌 옛 {text,id} 객체일 때를 위한 정규화
+function normalizeDocCategoryIds(doc) {
+  if (!doc || !Array.isArray(doc.categories)) return [];
+  return doc.categories.map(c => {
+    if (typeof c === 'string') return c;
+    if (c && typeof c === 'object') return c.id || c.text || null;
+    return null;
+  }).filter(Boolean);
+}
+
 function showBootMessage(html) {
   const el = document.getElementById('pageContent');
   if (el) el.innerHTML = html;
@@ -4699,10 +4891,18 @@ async function loadAllDocs() {
     // _index.json 스키마 호환:
     //   v1: { docs: ["id1", "id2", ...] }
     //   v2: { version: 2, docs: { id1: {meta}, id2: {meta} }, redirects: {...} }
+    //   v3: { version: 3, docs: ["id1", "id2", ...], redirects: {...} }  ← 슬림
     let docIds;
     if (indexData.version === 2 && indexData.docs && !Array.isArray(indexData.docs)) {
       docIds = Object.keys(indexData.docs);
       // redirect 맵을 REDIRECT_MAP에 머지 (옛 ID → 새 ID 자동 리다이렉트)
+      if (indexData.redirects && typeof REDIRECT_MAP !== 'undefined') {
+        for (const [oldId, newId] of Object.entries(indexData.redirects)) {
+          REDIRECT_MAP[oldId] = newId;
+        }
+      }
+    } else if (indexData.version >= 3 && Array.isArray(indexData.docs)) {
+      docIds = indexData.docs;
       if (indexData.redirects && typeof REDIRECT_MAP !== 'undefined') {
         for (const [oldId, newId] of Object.entries(indexData.redirects)) {
           REDIRECT_MAP[oldId] = newId;
@@ -4761,6 +4961,20 @@ async function loadAllDocs() {
 
     for (const [id, doc] of results) {
       if (doc) DOCS[id] = doc;
+    }
+
+    // _categories.json 로드 (실패해도 본문 표시는 가능; 브레드크럼만 비활성화됨)
+    try {
+      const catRes = await fetch('docs/_categories.json', { cache: 'no-cache' });
+      if (catRes.ok) {
+        const catData = await catRes.json();
+        if (catData && catData.tree) {
+          CATEGORIES_TREE = catData.tree;
+          buildCategoryIndex();
+        }
+      }
+    } catch (e) {
+      console.warn('[homiwiki] _categories.json 로드 실패:', e);
     }
 
     DOCS_LOADED = true;
@@ -5068,6 +5282,9 @@ window.navigateTo = function(page, docId = null, originalQuery = null, opts = {}
     case 'contribute': renderContribute(); break;
     case 'doc': renderDoc(docId, originalQuery); break;
   }
+
+  // 브레드크럼 갱신 (doc 페이지가 아니면 자동으로 숨김)
+  if (typeof renderBreadcrumb === 'function') renderBreadcrumb();
 
   updateFloatingDock();
 };
@@ -5432,8 +5649,11 @@ async function runOneSearchDemo(scenario, myRunId, skipToResult) {
     resSub.textContent   = doc.subtitle || '';
     resMeta.textContent  = '최근 수정: ' + (doc.updated || '―');
     resTags.innerHTML = (doc.categories || []).slice(0, 3).map(c => {
+      // v3: 카테고리 항목은 leaf 카테고리 ID 문자열. v2 호환: {text, id} 객체.
+      const raw = (typeof c === 'string') ? c : (c && (c.text || c.id)) || '';
+      const label = (typeof CATEGORY_LABEL !== 'undefined' && CATEGORY_LABEL[raw]) || raw;
       const tmp = document.createElement('div');
-      tmp.innerHTML = c.text;
+      tmp.innerHTML = label;
       return `<span class="search-demo-result-tag">${tmp.textContent}</span>`;
     }).join('');
     const tmpDiv = document.createElement('div');
@@ -5502,8 +5722,10 @@ async function runOneSearchDemo(scenario, myRunId, skipToResult) {
   resSub.textContent   = doc.subtitle || '';
   resMeta.textContent  = '최근 수정: ' + (doc.updated || '―');
   resTags.innerHTML = (doc.categories || []).slice(0, 3).map(c => {
+    const raw = (typeof c === 'string') ? c : (c && (c.text || c.id)) || '';
+    const label = (typeof CATEGORY_LABEL !== 'undefined' && CATEGORY_LABEL[raw]) || raw;
     const tmp = document.createElement('div');
-    tmp.innerHTML = c.text;
+    tmp.innerHTML = label;
     return `<span class="search-demo-result-tag">${tmp.textContent}</span>`;
   }).join('');
 
@@ -7520,13 +7742,6 @@ function renderDoc(docId, originalQuery = null) {
       </button>
     </div>
 
-    <div class="doc-categories">
-      <strong>분류:</strong>
-      ${doc.categories.map(cat =>
-        cat.id ? `<span class="cat-link wiki-link" data-link="${cat.id}">${cat.text}</span>` : `<span>${cat.text}</span>`
-      ).join(' · ')}
-    </div>
-
     ${doc.infobox ? renderInfobox(doc.infobox) : ''}
 
     ${adNoticeHtml}
@@ -7734,6 +7949,308 @@ window.scrollToTop = function() {
   if (state.openPanel) closeAllDockPopups();
   window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
 };
+
+// ============================================================================
+// 브레드크럼 (doc 페이지에서만; 스크롤 시 슬라이드 다운)
+// ============================================================================
+
+const BC_FOLDER_SVG = `<svg class="bc-icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M1.75 1A1.75 1.75 0 0 0 0 2.75v10.5C0 14.216.784 15 1.75 15h12.5A1.75 1.75 0 0 0 16 13.25v-8.5A1.75 1.75 0 0 0 14.25 3H7.5a.25.25 0 0 1-.2-.1l-.9-1.2C6.07 1.26 5.55 1 5 1H1.75Z"/></svg>`;
+const BC_FILE_SVG = `<svg class="bc-icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16h-9.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h9.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 9 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/></svg>`;
+const BC_DD_FOLDER_SVG = `<svg class="bc-dd-icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M1.75 1A1.75 1.75 0 0 0 0 2.75v10.5C0 14.216.784 15 1.75 15h12.5A1.75 1.75 0 0 0 16 13.25v-8.5A1.75 1.75 0 0 0 14.25 3H7.5a.25.25 0 0 1-.2-.1l-.9-1.2C6.07 1.26 5.55 1 5 1H1.75Z"/></svg>`;
+const BC_DD_FILE_SVG = `<svg class="bc-dd-icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16h-9.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h9.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 9 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/></svg>`;
+
+// 브레드크럼 현재 상태 (open된 단계 인덱스 / -1이면 닫힘)
+let __bcChain = []; // [{type:'category'|'doc', id, label}]
+let __bcOpenIdx = -1;
+let __bcScrollVisible = false;
+const BC_SHOW_THRESHOLD = 50; // px
+
+// 현재 doc에 대한 브레드크럼 체인 빌드
+//   체인: [최상위 카테고리, ..., leaf 카테고리, 문서]
+//   hidden_in_breadcrumb 카테고리는 제외
+function buildBreadcrumbChain(docId) {
+  const doc = DOCS[docId];
+  if (!doc) return [];
+  const leafIds = normalizeDocCategoryIds(doc);
+  if (leafIds.length === 0) return [];
+
+  // 첫 번째 leaf만 사용 (현재 데이터 모델: 보통 하나)
+  const leafId = leafIds[0];
+  if (!(leafId in CATEGORY_LABEL)) {
+    // 알 수 없는 카테고리: 문서만 보여줌
+    return [{ type: 'doc', id: docId, label: doc.title }];
+  }
+
+  // leaf → root까지 부모 체인 수집
+  const ancestors = [];
+  let cur = leafId;
+  let safety = 16;
+  while (cur && safety-- > 0) {
+    ancestors.unshift(cur);
+    cur = CATEGORY_PARENT[cur];
+  }
+
+  // hidden 제거
+  const visible = ancestors.filter(id => !CATEGORY_HIDDEN.has(id));
+
+  const chain = visible.map(id => ({
+    type: 'category',
+    id,
+    label: CATEGORY_LABEL[id] || id
+  }));
+  chain.push({ type: 'doc', id: docId, label: doc.title });
+  return chain;
+}
+
+// 한 단계의 형제 항목 목록 (본인 제외, 가나다순)
+function getBreadcrumbSiblings(stepIdx) {
+  const step = __bcChain[stepIdx];
+  if (!step) return [];
+
+  if (step.type === 'category') {
+    // 형제: 같은 부모의 다른 자식 카테고리들
+    const parentId = CATEGORY_PARENT[step.id];
+    let siblingIds;
+    if (parentId == null) {
+      // 최상위
+      siblingIds = CATEGORY_ROOTS.slice();
+    } else {
+      siblingIds = (CATEGORY_CHILDREN[parentId] || []).slice();
+    }
+    // hidden 제외 + 본인 제외
+    siblingIds = siblingIds.filter(id => id !== step.id && !CATEGORY_HIDDEN.has(id));
+    return siblingIds.map(id => ({
+      type: 'category',
+      id,
+      label: CATEGORY_LABEL[id] || id
+    }));
+  }
+
+  // type === 'doc': 형제 = 같은 leaf 카테고리에 속한 다른 문서들
+  const currentDoc = DOCS[step.id];
+  if (!currentDoc) return [];
+  const myLeafIds = normalizeDocCategoryIds(currentDoc);
+  if (myLeafIds.length === 0) return [];
+  const myLeaf = myLeafIds[0];
+
+  const siblings = [];
+  for (const [id, doc] of Object.entries(DOCS)) {
+    if (id === step.id) continue;
+    if (!doc || doc.type === 'sponsored') continue; // 광고문서는 형제 목록에서 제외
+    const cats = normalizeDocCategoryIds(doc);
+    if (cats.includes(myLeaf)) {
+      siblings.push({ type: 'doc', id, label: doc.title, subtitle: doc.subtitle || '' });
+    }
+  }
+  siblings.sort((a, b) => a.label.localeCompare(b.label, 'ko'));
+  return siblings;
+}
+
+// 브레드크럼 렌더링 (state.currentDocId 기준)
+function renderBreadcrumb() {
+  const bar = document.getElementById('docBreadcrumb');
+  if (!bar) return;
+
+  closeBreadcrumbDropdown();
+
+  if (state.currentPage !== 'doc' || !state.currentDocId) {
+    __bcChain = [];
+    bar.innerHTML = '';
+    bar.classList.remove('is-visible');
+    __bcScrollVisible = false;
+    return;
+  }
+
+  __bcChain = buildBreadcrumbChain(state.currentDocId);
+  if (__bcChain.length === 0) {
+    bar.innerHTML = '';
+    bar.classList.remove('is-visible');
+    __bcScrollVisible = false;
+    return;
+  }
+
+  const parts = __bcChain.map((step, idx) => {
+    const isLast = idx === __bcChain.length - 1;
+    const icon = step.type === 'doc' ? BC_FILE_SVG : BC_FOLDER_SVG;
+    const labelEsc = escapeBcText(step.label);
+    const stepBtn = `<button type="button" class="bc-step" data-bc-idx="${idx}" aria-haspopup="listbox" aria-expanded="false">${icon}<span class="bc-label">${labelEsc}</span></button>`;
+    if (isLast) return stepBtn;
+    return stepBtn + `<span class="bc-sep" aria-hidden="true">/</span>`;
+  });
+  bar.innerHTML = parts.join('');
+
+  // 단계 클릭 핸들러
+  bar.querySelectorAll('.bc-step').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const idx = parseInt(btn.dataset.bcIdx, 10);
+      toggleBreadcrumbDropdown(idx);
+    });
+  });
+
+  // 스크롤 상태 동기화
+  applyBreadcrumbVisibility();
+}
+
+function escapeBcText(s) {
+  return String(s).replace(/[&<>"']/g, c =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])
+  );
+}
+
+function applyBreadcrumbVisibility() {
+  const bar = document.getElementById('docBreadcrumb');
+  if (!bar) return;
+  if (state.currentPage !== 'doc' || __bcChain.length === 0) {
+    bar.classList.remove('is-visible');
+    __bcScrollVisible = false;
+    return;
+  }
+  const y = window.scrollY || window.pageYOffset || 0;
+  const shouldShow = y > BC_SHOW_THRESHOLD;
+  if (shouldShow !== __bcScrollVisible) {
+    __bcScrollVisible = shouldShow;
+    bar.classList.toggle('is-visible', shouldShow);
+    if (!shouldShow) closeBreadcrumbDropdown();
+  }
+}
+
+function toggleBreadcrumbDropdown(idx) {
+  if (__bcOpenIdx === idx) {
+    closeBreadcrumbDropdown();
+    return;
+  }
+  openBreadcrumbDropdown(idx);
+}
+
+function openBreadcrumbDropdown(idx) {
+  const bar = document.getElementById('docBreadcrumb');
+  const dd = document.getElementById('bcDropdown');
+  if (!bar || !dd) return;
+
+  const step = __bcChain[idx];
+  if (!step) return;
+
+  __bcOpenIdx = idx;
+
+  // 모든 step의 active 토글
+  bar.querySelectorAll('.bc-step').forEach(btn => {
+    const i = parseInt(btn.dataset.bcIdx, 10);
+    btn.classList.toggle('is-active', i === idx);
+    btn.setAttribute('aria-expanded', i === idx ? 'true' : 'false');
+  });
+
+  // 누른 step이 가로 스크롤 밖에 있으면 보이게 끌어옴
+  const activeBtn = bar.querySelector(`.bc-step[data-bc-idx="${idx}"]`);
+  if (activeBtn) {
+    try {
+      activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    } catch (e) {}
+  }
+
+  // 형제 목록
+  const siblings = getBreadcrumbSiblings(idx);
+  if (siblings.length === 0) {
+    dd.innerHTML = `<div class="bc-dropdown-empty">아직 <strong>${escapeBcText(step.label)}</strong>만 있어요</div>`;
+  } else {
+    dd.innerHTML = siblings.map(s => {
+      const icon = s.type === 'doc' ? BC_DD_FILE_SVG : BC_DD_FOLDER_SVG;
+      const sub = (s.type === 'doc' && s.subtitle)
+        ? `<span class="bc-dd-sub">${escapeBcText(s.subtitle)}</span>`
+        : '';
+      return `<div class="bc-dropdown-item" role="option" data-bc-target-type="${s.type}" data-bc-target-id="${escapeBcText(s.id)}" tabindex="0">${icon}<span class="bc-dd-label">${escapeBcText(s.label)}</span>${sub}</div>`;
+    }).join('');
+
+    dd.querySelectorAll('.bc-dropdown-item').forEach(item => {
+      item.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const type = item.dataset.bcTargetType;
+        const id = item.dataset.bcTargetId;
+        handleBreadcrumbSiblingClick(type, id);
+      });
+    });
+  }
+
+  dd.classList.add('is-open');
+}
+
+function closeBreadcrumbDropdown() {
+  const bar = document.getElementById('docBreadcrumb');
+  const dd = document.getElementById('bcDropdown');
+  if (dd) {
+    dd.classList.remove('is-open');
+    dd.innerHTML = '';
+  }
+  if (bar) {
+    bar.querySelectorAll('.bc-step').forEach(btn => {
+      btn.classList.remove('is-active');
+      btn.setAttribute('aria-expanded', 'false');
+    });
+  }
+  __bcOpenIdx = -1;
+}
+
+function handleBreadcrumbSiblingClick(type, id) {
+  closeBreadcrumbDropdown();
+  if (type === 'doc') {
+    navigateTo('doc', id);
+    return;
+  }
+  // type === 'category': 카테고리에 해당하는 첫 문서로 이동
+  // (현재 데이터 모델에 카테고리 페이지가 별도로 없으므로, 그 카테고리에
+  //  속한 문서가 정확히 하나면 그쪽으로, 둘 이상이면 가나다순 첫 번째로 이동)
+  const candidates = [];
+  for (const [docId, doc] of Object.entries(DOCS)) {
+    if (!doc || doc.type === 'sponsored') continue;
+    const cats = normalizeDocCategoryIds(doc);
+    // 정확히 그 카테고리이거나, 그 카테고리의 후손인 leaf
+    if (cats.some(c => c === id || isCategoryDescendantOf(c, id))) {
+      candidates.push({ id: docId, title: doc.title });
+    }
+  }
+  if (candidates.length === 0) {
+    // 도착할 문서가 없으면 동작 무시 (브레드크럼만 닫힌 상태로 끝)
+    return;
+  }
+  candidates.sort((a, b) => a.title.localeCompare(b.title, 'ko'));
+  navigateTo('doc', candidates[0].id);
+}
+
+function isCategoryDescendantOf(childId, ancestorId) {
+  let cur = CATEGORY_PARENT[childId];
+  let safety = 16;
+  while (cur && safety-- > 0) {
+    if (cur === ancestorId) return true;
+    cur = CATEGORY_PARENT[cur];
+  }
+  return false;
+}
+
+// 외부 클릭 / Esc로 드롭다운 닫기
+document.addEventListener('click', (e) => {
+  if (__bcOpenIdx === -1) return;
+  const bar = document.getElementById('docBreadcrumb');
+  const dd = document.getElementById('bcDropdown');
+  if ((bar && bar.contains(e.target)) || (dd && dd.contains(e.target))) return;
+  closeBreadcrumbDropdown();
+}, true);
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && __bcOpenIdx !== -1) {
+    closeBreadcrumbDropdown();
+  }
+});
+
+// 스크롤 핸들러 (rAF throttle)
+let __bcScrollTicking = false;
+window.addEventListener('scroll', () => {
+  if (__bcScrollTicking) return;
+  __bcScrollTicking = true;
+  requestAnimationFrame(() => {
+    applyBreadcrumbVisibility();
+    __bcScrollTicking = false;
+  });
+}, { passive: true });
 
 function getFirstValidRelated(doc) {
   if (!doc || !doc.related || doc.related.length === 0) return null;
