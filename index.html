@@ -234,6 +234,109 @@ body {
   background: rgba(0,0,0,0.06);
 }
 
+/* ==========================================================================
+   X(clear) 버튼 — 입력값 있을 때만 표시 (iOS 표준 스타일)
+   회색 알약 안에 흰 X. 텍스트 끝과 search-actions 사이에 위치.
+   ========================================================================== */
+.search-clear-btn {
+  position: absolute;
+  right: 70px; /* search-actions 영역(2개 버튼 28px*2 + gap 2px + right padding 8px = 약 66~70px) 앞 */
+  top: 50%;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 22px;
+  border: none;
+  background: #d4cfc8;
+  border-radius: 50%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
+  color: #ffffff;
+  z-index: 2;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s ease;
+}
+.search-clear-btn svg {
+  width: 12px;
+  height: 12px;
+}
+.search-clear-btn:active {
+  background: #b8b3aa;
+}
+.search-clear-btn.visible {
+  display: flex;
+}
+
+/* ==========================================================================
+   호미 콩콩 파편 — 검색창 좌측 끝(호미 머리가 닿는 지점)에서 방사형으로 튐
+   - 컨테이너: 좌측 끝 + 검색창 바닥 위치, 전체 +50도 회전 (호미 회전과 정렬)
+   - 발동: searchInput focus 시 .kong 클래스가 호미에 토글되며 파편 동기화
+   - 1회 콩콩 = 2번 찍힘 (총 1.2s)
+   ========================================================================== */
+.search-homi-particles {
+  position: absolute;
+  left: 11px;
+  top: calc(50% + 18px);
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 3;
+  transform: rotate(28deg);
+}
+.search-homi-particles .hp-line {
+  position: absolute;
+  width: 3px;
+  height: 10px;
+  border-radius: 2px;
+  margin-left: -1.5px;
+  margin-top: -5px;
+  background: var(--accent);
+  opacity: 0;
+  pointer-events: none;
+  /* 변수: --tx, --ty(px 단위 숫자), --rot(deg) */
+  transform: translate(0, 0) rotate(var(--rot)) scale(0.4);
+}
+/* 발동: .burst 클래스 토글로 파편 튀김. JS에서 콩 타이밍에 맞춰 추가/제거. */
+.search-homi-particles.burst .hp-line {
+  animation: hp-burst 0.35s ease-out 1;
+}
+@keyframes hp-burst {
+  0%   { opacity: 0; transform: translate(0, 0) rotate(var(--rot)) scale(0.4); }
+  40%  { opacity: 1; transform: translate(calc(var(--tx) * 1px), calc(var(--ty) * 1px)) rotate(var(--rot)) scale(1); }
+  100% { opacity: 0; transform: translate(calc(var(--tx) * 1.5px), calc(var(--ty) * 1.5px)) rotate(var(--rot)) scale(0.6); }
+}
+
+/* 호미 콩콩 모션 — focus 시 .kong 클래스로 발동 (총 1.2초, 2회 찍기) */
+.search-homi.kong {
+  animation: homi-kong-twice 1.2s ease-in-out 1;
+}
+@keyframes homi-kong-twice {
+  0%   { transform: translateY(calc(-50% + 1px)) rotate(0deg); }
+  20%  { transform: translateY(calc(-50% + 1px)) rotate(-45deg); }
+  40%  { transform: translateY(calc(-50% + 1px)) rotate(0deg); }
+  60%  { transform: translateY(calc(-50% + 1px)) rotate(-45deg); }
+  80%  { transform: translateY(calc(-50% + 1px)) rotate(0deg); }
+  100% { transform: translateY(calc(-50% + 1px)) rotate(0deg); }
+}
+
+/* 호미 1회 콩 — input 이벤트마다 발동 (타이핑 박자에 맞춰 콩콩콩) */
+.search-homi.kong-once {
+  animation: homi-kong-once 0.42s ease-in-out 1;
+}
+@keyframes homi-kong-once {
+  0%   { transform: translateY(calc(-50% + 1px)) rotate(0deg); }
+  45%  { transform: translateY(calc(-50% + 1px)) rotate(-45deg); }
+  100% { transform: translateY(calc(-50% + 1px)) rotate(0deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .search-homi.kong,
+  .search-homi.kong-once { animation: none; }
+  .search-homi-particles.burst .hp-line { animation: none; }
+}
+
 .search-input {
   width: 100%;
   height: 49px;
@@ -4852,6 +4955,12 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   <header class="top-header">
     <div class="search-container">
       <svg class="search-homi" viewBox="0 0 206 204" fill="currentColor" aria-hidden="true" onclick="navigateTo('home', null, null, {fromTab:true})" role="link" aria-label="홈으로"><g transform="translate(-5.032588,198.772005) scale(0.100000,-0.100000)"><path d="M455 1976 c-65 -16 -127 -49 -160 -83 -61 -65 -210 -441 -234 -594 -12 -69 -14 -260 -5 -296 4 -13 10 -23 14 -23 4 0 27 26 52 57 102 129 292 300 456 409 109 73 350 190 421 205 108 22 291 -9 371 -63 75 -51 75 -51 76 -326 2 -265 10 -334 49 -420 31 -68 31 -76 0 -90 -14 -7 -28 -19 -31 -27 -4 -8 17 -75 45 -148 28 -72 80 -213 117 -312 36 -99 71 -186 77 -194 24 -29 55 -31 139 -6 154 46 168 53 168 86 0 17 -16 65 -36 107 -20 42 -53 118 -74 167 -149 355 -155 365 -211 365 -35 0 -49 20 -86 121 -27 73 -27 77 -28 334 -1 169 -5 269 -12 286 -31 72 -120 134 -258 179 -22 7 -80 32 -130 56 -89 42 -209 96 -355 159 -139 60 -260 77 -365 51z"/></g></svg>
+      <!-- 호미 콩콩 파편 컨테이너 — 호미 머리(좌측 끝)가 닿는 지점에 위치, 컨테이너 전체 +50도 회전 -->
+      <div class="search-homi-particles" id="searchHomiParticles" aria-hidden="true">
+        <span class="hp-line" style="--tx:0; --ty:-12; --rot:0deg;"></span>
+        <span class="hp-line" style="--tx:-10; --ty:-7; --rot:-50deg;"></span>
+        <span class="hp-line" style="--tx:10; --ty:-7; --rot:50deg;"></span>
+      </div>
       <input
         type="search"
         class="search-input"
@@ -4869,6 +4978,13 @@ html[data-font-size="xxl"] .topics-hero-overlay {
         data-form-type="other"
         data-lpignore="true"
         data-1p-ignore="true">
+      <!-- 입력값 있을 때만 표시되는 X(clear) 버튼 -->
+      <button type="button" class="search-clear-btn" id="searchClearBtn" aria-label="검색어 지우기" onclick="clearSearchInput()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
       <div class="search-actions" aria-hidden="false">
         <button type="button" class="search-action-btn" id="searchActionSearch" aria-label="검색" onclick="submitSearch()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
@@ -5450,6 +5566,7 @@ function renderSuggestions(query) {
 
 window.selectSuggestion = function(docId) {
   searchInput.value = '';
+  if (typeof updateClearBtn === 'function') updateClearBtn();
   searchSuggestions.classList.remove('active');
   hidePopular();
   navigateTo('doc', docId);
@@ -5497,10 +5614,12 @@ window.selectPopular = function(idx) {
   // 매칭되는 실제 문서가 있으면 바로 이동, 아니면 검색창에 채우고 submit
   if (item.targetDocId && DOCS[item.targetDocId]) {
     searchInput.value = '';
+    if (typeof updateClearBtn === 'function') updateClearBtn();
     navigateTo('doc', item.targetDocId);
     return;
   }
   searchInput.value = item.name;
+  if (typeof updateClearBtn === 'function') updateClearBtn();
   submitSearch();
 };
 
@@ -5515,9 +5634,34 @@ function hidePopular() {
   if (searchPopular) searchPopular.classList.remove('active');
 }
 
+// X(clear) 버튼 표시/숨김 토글 — input 핸들러보다 먼저 정의 (호이스팅 안전)
+const searchClearBtn = document.getElementById('searchClearBtn');
+function updateClearBtn() {
+  if (!searchClearBtn) return;
+  if (searchInput.value && searchInput.value.length > 0) {
+    searchClearBtn.classList.add('visible');
+  } else {
+    searchClearBtn.classList.remove('visible');
+  }
+}
+window.clearSearchInput = function() {
+  searchInput.value = '';
+  updateClearBtn();
+  searchSuggestions.classList.remove('active');
+  // 입력값 비었으니 인기 검색어 노출
+  showPopular();
+  // 포커스 유지 (사용자가 바로 새 검색어 입력 가능하게)
+  try { searchInput.focus(); } catch (e) {}
+};
+
 let searchDebounceTimer = null;
 searchInput.addEventListener('input', (e) => {
   const val = e.target.value;
+  // clear 버튼 표시/숨김 갱신
+  updateClearBtn();
+  // 호미 1회 콩 발동 — 타이핑할 때마다 콩콩콩 (사용자 박자와 동기화)
+  // 빈값/추가 입력/백스페이스 모두 input 이벤트 발생하므로 다 발동됨
+  if (typeof triggerHomiKongOnce === 'function') triggerHomiKongOnce();
   if (!val.trim()) {
     if (searchDebounceTimer) {
       clearTimeout(searchDebounceTimer);
@@ -5537,7 +5681,99 @@ searchInput.addEventListener('input', (e) => {
   }, 150);
 });
 
+// 호미 콩콩 발동 — focus 시 호미가 두 번 콩 찍히고 파편이 두 번 튐
+// 호미 keyframe: 20%=1차콩(-45도), 60%=2차콩(-45도) — 총 1.2초
+// 파편 발동 타이밍: 호미보다 0.2초 먼저 (체감상 동기화)
+const HOMI_KONG_DURATION = 1200;
+const HOMI_KONG_HITS = [40, 520]; // 호미보다 200ms 앞당겨 발동 (체감 동기화)
+let homiKongTimeoutIds = [];
+
+function triggerHomiKong() {
+  const homiEl = document.querySelector('.search-homi');
+  const particlesEl = document.getElementById('searchHomiParticles');
+  if (!homiEl) return;
+
+  // 진행 중인 콩콩 취소
+  homiKongTimeoutIds.forEach(id => clearTimeout(id));
+  homiKongTimeoutIds = [];
+  homiEl.classList.remove('kong');
+  if (particlesEl) particlesEl.classList.remove('burst');
+
+  // 다음 프레임에 클래스 추가 (리플로우 트리거)
+  requestAnimationFrame(() => {
+    homiEl.classList.add('kong');
+    // 콩 찍히는 순간마다 파편 burst
+    HOMI_KONG_HITS.forEach(hitTime => {
+      const id1 = setTimeout(() => {
+        if (!particlesEl) return;
+        particlesEl.classList.remove('burst');
+        // reflow → 다시 추가하면 애니메이션 재시작
+        void particlesEl.offsetWidth;
+        particlesEl.classList.add('burst');
+        const id2 = setTimeout(() => {
+          particlesEl.classList.remove('burst');
+        }, 250);
+        homiKongTimeoutIds.push(id2);
+      }, hitTime);
+      homiKongTimeoutIds.push(id1);
+    });
+    // 호미 콩콩 끝나면 .kong 제거
+    const idEnd = setTimeout(() => homiEl.classList.remove('kong'), HOMI_KONG_DURATION + 20);
+    homiKongTimeoutIds.push(idEnd);
+  });
+}
+
+// 호미 1회 콩 (짧은 단발) — input 이벤트마다 발동
+// 타이핑 박자에 맞춰 콩콩콩... 키 멈추면 자연 종료
+// 스로틀: 호미가 한 사이클 끝나기 전엔 새 input 무시 (사이클을 항상 완주)
+const HOMI_KONG_ONCE_DURATION = 420; // CSS keyframe과 동일
+const HOMI_PARTICLE_BURST_DURATION = 350;
+let homiKongOnceTimeoutIds = [];
+let homiKongInProgress = false; // 스로틀 락
+
+function triggerHomiKongOnce() {
+  // 스로틀: 이전 콩이 아직 진행 중이면 새 콩 발동 안 함
+  if (homiKongInProgress) return;
+
+  const homiEl = document.querySelector('.search-homi');
+  const particlesEl = document.getElementById('searchHomiParticles');
+  if (!homiEl) return;
+
+  homiKongInProgress = true;
+
+  // 이전 타임아웃 정리 (안전)
+  homiKongOnceTimeoutIds.forEach(id => clearTimeout(id));
+  homiKongOnceTimeoutIds = [];
+  homiEl.classList.remove('kong-once');
+  if (particlesEl) particlesEl.classList.remove('burst');
+
+  // 리플로우 → 클래스 다시 추가 (애니메이션 재시작)
+  void homiEl.offsetWidth;
+  homiEl.classList.add('kong-once');
+
+  // 파편 동기화 — 키 누르자마자 즉시 파편 발사
+  if (particlesEl) {
+    void particlesEl.offsetWidth;
+    particlesEl.classList.add('burst');
+    const idBurst = setTimeout(() => {
+      particlesEl.classList.remove('burst');
+    }, HOMI_PARTICLE_BURST_DURATION);
+    homiKongOnceTimeoutIds.push(idBurst);
+  }
+
+  // 단발 콩 종료 + 락 해제
+  const idEnd = setTimeout(() => {
+    homiEl.classList.remove('kong-once');
+    homiKongInProgress = false;
+  }, HOMI_KONG_ONCE_DURATION + 20);
+  homiKongOnceTimeoutIds.push(idEnd);
+}
+
+// X(clear) 버튼 — 함수 정의는 input 핸들러 위에 있음
+
 searchInput.addEventListener('focus', (e) => {
+  // focus 시에는 호미 모션 발동 안 함 (모바일 키보드 펼침에 가려짐)
+  // 대신 input 이벤트마다 호미가 콩 찍힘 (사용자 타이핑 박자와 동기화)
   if (e.target.value) {
     renderSuggestions(e.target.value);
   } else {
@@ -5567,10 +5803,12 @@ window.submitSearch = function() {
   const docId = resolveDocId(query);
   if (docId && DOCS[docId]) {
     searchInput.value = '';
+    if (typeof updateClearBtn === 'function') updateClearBtn();
     searchSuggestions.classList.remove('active');
     navigateTo('doc', docId);
   } else {
     searchInput.value = '';
+    if (typeof updateClearBtn === 'function') updateClearBtn();
     searchSuggestions.classList.remove('active');
     // not-found는 별도 라우트가 아니라 '검색 결과 없음' 상태지만,
     // 뒤로가기 시 직전 페이지가 아닌 not-found로 돌아오게 하려면
