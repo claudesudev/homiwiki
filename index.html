@@ -5362,10 +5362,49 @@ searchInput.addEventListener('keydown', (e) => {
     } else {
       searchInput.value = '';
       searchSuggestions.classList.remove('active');
-      renderNotFound(query);
+      // not-found는 별도 라우트가 아니라 '검색 결과 없음' 상태지만,
+      // 뒤로가기 시 직전 페이지가 아닌 not-found로 돌아오게 하려면
+      // history에 한 칸 쌓고 state도 정상 갱신해야 한다.
+      // (그렇지 않으면 navStack에 직전 doc이 쌓여서 뒤로가기 시 거기로 튐)
+      enterNotFound(query);
     }
   }
 });
+
+// not-found 진입 — 정식 라우트는 아니지만 history/state를 정합하게 유지
+function enterNotFound(query) {
+  // 이전 페이지를 navStack에 쌓는다 (뒤로가기로 직전 페이지 복귀 가능)
+  if (state.currentPage) {
+    state.navStack.push({
+      page: state.currentPage,
+      docId: state.currentDocId || null
+    });
+    if (state.navStack.length > 50) state.navStack.shift();
+  }
+  state.currentPage = 'notfound';
+  state.currentDocId = null;
+  document.documentElement.setAttribute('data-page', 'notfound');
+
+  // history에 not-found 상태 한 칸 쌓기 (해시는 검색 쿼리 인코딩)
+  try {
+    history.pushState(
+      { page: 'notfound', query },
+      '',
+      '#/search/' + encodeURIComponent(query)
+    );
+  } catch (e) {
+    try { location.hash = '#/search/' + encodeURIComponent(query); } catch(_) {}
+  }
+
+  closeAllDockPopups();
+  document.querySelectorAll('.toolbar-btn').forEach(btn => btn.classList.remove('active'));
+  window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+
+  renderNotFound(query);
+
+  if (typeof renderBreadcrumb === 'function') renderBreadcrumb();
+  updateFloatingDock();
+}
 
 function stateToHash(page, docId) {
   if (page === 'doc' && docId) return '#/doc/' + encodeURIComponent(docId);
@@ -5380,7 +5419,7 @@ function hashToState(hash) {
   const clean = hash.replace(/^#\/?/, '');
   const parts = clean.split('/');
   const page = parts[0] || 'home';
-  const validPages = ['home', 'timeline', 'topics', 'gallery', 'settings', 'contribute', 'doc'];
+  const validPages = ['home', 'timeline', 'topics', 'gallery', 'settings', 'contribute', 'doc', 'search'];
   if (!validPages.includes(page)) return { page: 'home', docId: null };
   if (page === 'doc') {
     const docId = parts[1] ? decodeURIComponent(parts[1]) : null;
@@ -5391,6 +5430,11 @@ function hashToState(hash) {
     const n = parseInt(parts[1], 10);
     const step = (n >= 2 && n <= 5) ? n : 1;
     return { page: 'contribute', docId: null, contribStep: step };
+  }
+  if (page === 'search') {
+    const query = parts[1] ? decodeURIComponent(parts[1]) : '';
+    if (!query) return { page: 'home', docId: null };
+    return { page: 'notfound', docId: null, query };
   }
   return { page, docId: null };
 }
@@ -5467,10 +5511,26 @@ window.addEventListener('popstate', (e) => {
     target = {
       page: e.state.page,
       docId: e.state.docId || null,
-      contribStep: e.state.contribStep || null
+      contribStep: e.state.contribStep || null,
+      query: e.state.query || null
     };
   } else {
     target = hashToState(location.hash);
+  }
+
+  // not-found 상태로 복귀
+  if (target.page === 'notfound') {
+    if (state.navStack.length > 0) state.navStack.pop();
+    state.currentPage = 'notfound';
+    state.currentDocId = null;
+    document.documentElement.setAttribute('data-page', 'notfound');
+    closeAllDockPopups();
+    document.querySelectorAll('.toolbar-btn').forEach(btn => btn.classList.remove('active'));
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    renderNotFound(target.query || '');
+    if (typeof renderBreadcrumb === 'function') renderBreadcrumb();
+    updateFloatingDock();
+    return;
   }
 
   if (state.currentPage === 'contribute' && target.page === 'contribute') {
