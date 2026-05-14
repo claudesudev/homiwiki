@@ -351,7 +351,7 @@ body {
   overflow-y: auto;
   display: none;
   z-index: 200;
-  padding: 18px 0 28px;
+  padding: 20px 0 31px;
 }
 .search-popular.active {
   display: block;
@@ -360,12 +360,12 @@ body {
 .popular-header {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 0 20px 14px 36px; /* 정렬: 36 + 20(불꽃) + 8(gap) = 64px = placeholder 시작점 */
+  gap: 9px;
+  padding: 0 22px 15px 33px; /* 정렬: 33 + 22(불꽃) + 9(gap) = 64px = placeholder 시작점 */
 }
 .popular-header .popular-icon {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   color: var(--accent);
   flex-shrink: 0;
   animation: ho-flame-strong 2s ease-in-out infinite;
@@ -373,7 +373,7 @@ body {
   display: inline-block;
 }
 .popular-header .popular-label {
-  font-size: calc(16px * var(--font-scale));
+  font-size: calc(17.6px * var(--font-scale));
   font-weight: 700;
   color: var(--text-primary);
 }
@@ -381,9 +381,9 @@ body {
 .popular-item {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 8px 20px 8px 32px; /* 정렬: 32 + 18(rank) + 14(gap) = 64px */
-  font-size: calc(14px * var(--font-scale));
+  gap: 15px;
+  padding: 9px 22px 9px 29px; /* 정렬: 29 + 20(rank) + 15(gap) = 64px */
+  font-size: calc(15.4px * var(--font-scale));
   color: var(--text-primary);
   cursor: pointer;
   transition: background 0.15s;
@@ -394,8 +394,8 @@ body {
 }
 .popular-item .pop-rank {
   font-weight: 400;
-  font-size: calc(12px * var(--font-scale));
-  width: 18px;
+  font-size: calc(13.2px * var(--font-scale));
+  width: 20px;
   text-align: right;
   flex-shrink: 0;
   font-variant-numeric: tabular-nums;
