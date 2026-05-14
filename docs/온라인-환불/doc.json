@@ -20,19 +20,9 @@
     }
   ],
   "categories": [
-    {
-      "text": "생활 기본기",
-      "id": null
-    },
-    {
-      "text": "소비자 권리",
-      "id": null
-    },
-    {
-      "text": "처음 해보는 일",
-      "id": null
-    }
+    "생활"
   ],
+  "parent": null,
   "infobox": {
     "title": "온라인 환불하는 법",
     "subtitle": "How to Return Online Orders",
