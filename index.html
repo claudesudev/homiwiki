@@ -198,7 +198,7 @@ body {
   transition: opacity 0.15s ease;
 }
 .logo .logo-icon {
-  height: calc(17.46px * var(--font-scale));
+  height: calc(34.93px * var(--font-scale));
   width: auto;
   flex-shrink: 0;
   display: block;
@@ -4462,15 +4462,16 @@ html[data-font-size="xxl"] .topics-hero-overlay {
    톤:
      모든 step과 드롭다운 항목은 차콜 흑회색으로 위계 없이 통일.
      살색(accent) 점등은 두 곳에만: bar의 클릭된 step + 드롭다운의 "현재" 줄.
-   노출 전환 (L3):
-     transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) + opacity 0.5s ease-out
-     translateY: -12px → 0 (짧은 미세 이동, 느긋한 정착)
+   노출 전환 (F2):
+     opacity만 0.35s ease-out으로 페이드.
+     위치는 고정 (translateX(-50%) 가운데 정렬만 유지) — 이동 없음으로 끝점 추적
+     문제 제거, 가장 부드러운 페이드 느낌.
    ========================================================================== */
 .doc-breadcrumb {
   position: fixed;
   top: 68px;
   left: 50%;
-  transform: translateX(-50%) translateY(-12px);
+  transform: translateX(-50%);
   width: calc(100% - 20px);
   max-width: 460px;
   background: var(--bg-elevated);
@@ -4480,15 +4481,13 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   z-index: 99;
   opacity: 0;
   pointer-events: none;
-  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1),
-              opacity 0.5s ease-out,
+  transition: opacity 0.35s ease-out,
               box-shadow 0.28s ease;
   overflow: hidden;
-  will-change: transform, opacity;
+  will-change: opacity;
 }
 
 .doc-breadcrumb.is-visible {
-  transform: translateX(-50%) translateY(0);
   opacity: 1;
   pointer-events: auto;
 }
