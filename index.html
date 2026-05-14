@@ -4914,24 +4914,20 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   background: var(--bg-secondary);
 }
 
-/* leaf(현재 페이지): 검정 볼드 — 위계 최상. 클릭해도 점등 효과 적용 안 함
-   (이미 현재 페이지이므로 이동 의미 없음). */
+/* leaf(현재 페이지): 검정 + 평범한 두께 — 색만 진해서 위계 표시.
+   클릭 시 점등은 일반 step과 동일하게 동작 (형제 문서 보기 위해 펼치는 것이
+   주 용도이므로 시각 피드백 필요). */
 .bc-step.is-leaf {
   color: var(--text-primary);
-  font-weight: 700;
-  cursor: default;
-}
-.bc-step.is-leaf:active {
-  background: transparent;
+  font-weight: 500;
 }
 
-/* 점등(클릭된 부모 단계, 또는 명시적 is-clicking): 위키 링크 클릭 효과 그대로
+/* 점등(클릭된 단계 또는 명시적 is-clicking): 위키 링크 클릭 효과 그대로
    — 옅은 하늘 배경 + 같은 색 2px 외곽 글로우 + 링크색 밑줄. */
-.bc-step.is-active:not(.is-leaf),
-.bc-step.is-clicking:not(.is-leaf) {
+.bc-step.is-active,
+.bc-step.is-clicking {
   background: var(--link-flash-bg);
   color: var(--link);
-  font-weight: 600;
   box-shadow: 0 0 0 2px var(--link-flash-bg);
   text-decoration: underline;
   text-decoration-color: var(--link);
@@ -4949,8 +4945,8 @@ html[data-font-size="xxl"] .topics-hero-overlay {
 .bc-step.is-leaf .bc-icon {
   color: var(--text-primary);
 }
-.bc-step.is-active:not(.is-leaf) .bc-icon,
-.bc-step.is-clicking:not(.is-leaf) .bc-icon {
+.bc-step.is-active .bc-icon,
+.bc-step.is-clicking .bc-icon {
   color: var(--link);
 }
 
@@ -5017,7 +5013,6 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   text-decoration-color: var(--link);
   text-decoration-thickness: 1.5px;
   text-underline-offset: 2.5px;
-  font-weight: 600;
 }
 
 .bc-panel-item .bc-pi-icon {
@@ -5041,14 +5036,14 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   font-weight: 500;
 }
 
-/* "현재" 줄: 검정 볼드 — 위계 최상. 클릭 불가, 점등 효과 없음. */
+/* "현재" 줄: 검정 + 평범한 두께 — 색만 진해서 위계 표시. 클릭 불가. */
 .bc-panel-item.is-current {
   background: transparent;
   cursor: default;
 }
 .bc-panel-item.is-current .bc-pi-label {
   color: var(--text-primary);
-  font-weight: 700;
+  font-weight: 500;
 }
 .bc-panel-item.is-current .bc-pi-icon {
   color: var(--text-primary);
