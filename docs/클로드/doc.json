@@ -25,19 +25,9 @@
     }
   ],
   "categories": [
-    {
-      "text": "대화형 인공지능",
-      "id": "ai"
-    },
-    {
-      "text": "2023년 출시",
-      "id": null
-    },
-    {
-      "text": "Anthropic 프로젝트",
-      "id": "anthropic"
-    }
+    "AI"
   ],
+  "parent": null,
   "infobox": {
     "title": "클로드",
     "subtitle": "Claude",
