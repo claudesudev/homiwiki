@@ -4442,34 +4442,39 @@ html[data-font-size="xxl"] .topics-hero-overlay {
 }
 
 /* ==========================================================================
-   브레드크럼 (스크롤 시 등장) — GitHub/Shopify 풍 mono + 폴더 아이콘
+   브레드크럼 (스크롤 시 등장) — M2 카드 컨테이너, 차콜 통일 + 살색 점등
+   --------------------------------------------------------------------------
+   구조:
+     .doc-breadcrumb (wrapper, fixed) — 노출/숨김 + 모양 변화
+       └ .bc-bar (상단 띠, 좌측 정렬, 항상 자리잡음)
+       └ .bc-panel (드롭다운 영역, is-open일 때만 펼침)
+   톤:
+     모든 step과 드롭다운 항목은 차콜 흑회색으로 위계 없이 통일.
+     살색(accent) 점등은 두 곳에만: bar의 클릭된 step + 드롭다운의 "현재" 줄.
+   노출 전환 (L3):
+     transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) + opacity 0.5s ease-out
+     translateY: -12px → 0 (짧은 미세 이동, 느긋한 정착)
    ========================================================================== */
 .doc-breadcrumb {
   position: fixed;
-  top: 60px;
+  top: 68px;
   left: 50%;
-  transform: translateX(-50%) translateY(-100%);
-  width: 100%;
-  max-width: 480px;
-  height: 38px;
-  background: var(--bg-primary);
-  border-bottom: 1px solid var(--border-light);
-  display: flex;
-  align-items: center;
-  padding: 0 12px;
-  gap: 0;
+  transform: translateX(-50%) translateY(-12px);
+  width: calc(100% - 20px);
+  max-width: 460px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.03);
   z-index: 99;
   opacity: 0;
   pointer-events: none;
-  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
-              opacity 0.18s ease;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  white-space: nowrap;
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.5s ease-out,
+              box-shadow 0.28s ease;
+  overflow: hidden;
+  will-change: transform, opacity;
 }
-.doc-breadcrumb::-webkit-scrollbar { display: none; }
 
 .doc-breadcrumb.is-visible {
   transform: translateX(-50%) translateY(0);
@@ -4477,134 +4482,183 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   pointer-events: auto;
 }
 
+.doc-breadcrumb.is-open {
+  box-shadow: 0 10px 28px rgba(0,0,0,0.10),
+              0 2px 6px rgba(0,0,0,0.04);
+}
+
+/* 상단 띠 — 좌측 정렬, 항상 자리잡음 */
+.bc-bar {
+  display: flex;
+  align-items: center;
+  height: 42px;
+  padding: 0 12px;
+  gap: 4px;
+  font-size: calc(13px * var(--font-scale));
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.25s ease;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  white-space: nowrap;
+}
+.bc-bar::-webkit-scrollbar { display: none; }
+
+.doc-breadcrumb.is-open .bc-bar {
+  border-bottom-color: var(--border-light);
+}
+
+/* 단계 버튼: 차콜 통일, 볼드 없음, 위계 없음 */
 .bc-step {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  padding: 6px 8px;
+  padding: 5px 9px;
   background: transparent;
   border: 0;
-  border-radius: 5px;
-  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: calc(12.5px * var(--font-scale));
-  font-weight: 400;
-  color: var(--text-tertiary);
+  border-radius: 7px;
+  font-family: inherit;
+  font-size: calc(13px * var(--font-scale));
+  font-weight: 500;
+  color: var(--text-secondary);
   cursor: pointer;
   flex-shrink: 0;
-  transition: background 0.12s ease, color 0.12s ease;
+  transition: background 0.18s ease, color 0.18s ease;
   -webkit-tap-highlight-color: transparent;
-  line-height: 1;
+  line-height: 1.2;
+  white-space: nowrap;
 }
 .bc-step:active {
   background: var(--bg-secondary);
 }
-.bc-step.is-active {
-  color: var(--text-primary);
-  font-weight: 700;
-  background: var(--bg-secondary);
+
+/* leaf(현재 페이지)도 다른 step과 동일 톤 — 위계 없음 */
+.bc-step.is-leaf {
+  color: var(--text-secondary);
+  font-weight: 500;
 }
+
+/* 점등(클릭된 단계): 살색 */
+.bc-step.is-active {
+  background: var(--bg-accent-soft);
+  color: var(--accent);
+  font-weight: 600;
+}
+
 .bc-step .bc-icon {
   width: 13px;
   height: 13px;
   flex-shrink: 0;
-  opacity: 0.75;
+  color: var(--text-secondary);
+  transition: color 0.18s ease;
 }
 .bc-step.is-active .bc-icon {
-  opacity: 1;
+  color: var(--accent);
 }
+
 .bc-step .bc-label {
   font-family: inherit;
   white-space: nowrap;
 }
 
+/* 슬래시 구분자 */
 .bc-sep {
   display: inline-flex;
   align-items: center;
   padding: 0 2px;
-  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: calc(12.5px * var(--font-scale));
+  font-family: inherit;
+  font-size: calc(13px * var(--font-scale));
   color: var(--text-muted);
   font-weight: 400;
   user-select: none;
   flex-shrink: 0;
-  line-height: 1;
+  line-height: 1.2;
 }
 
-/* 드롭다운 (형제 항목 리스트) — 검색 자동완성 스타일 */
-.bc-dropdown {
-  position: fixed;
-  top: 98px; /* 60px header + 38px breadcrumb */
-  left: 50%;
-  transform: translateX(-50%);
-  width: calc(100% - 16px);
-  max-width: 464px;
+/* ==========================================================================
+   드롭다운 패널 — bar 아래로 펼쳐짐 (height 애니메이션)
+   ========================================================================== */
+.bc-panel {
+  overflow: hidden;
   background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  box-shadow: var(--shadow-lg);
-  z-index: 110;
-  max-height: min(420px, 60vh);
-  overflow-y: auto;
-  display: none;
-  /* 드롭다운은 브레드크럼 단계 위치를 기준으로 JS가 left/transform을 재계산 */
+  max-height: 0;
+  transition: max-height 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.bc-dropdown.is-open {
-  display: block;
+.doc-breadcrumb.is-open .bc-panel {
+  max-height: min(60vh, 420px);
+  overflow-y: auto;
 }
 
-.bc-dropdown-item {
+.bc-panel-item {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 11px 14px;
+  gap: 10px;
+  padding: 11px 16px;
   cursor: pointer;
-  font-size: calc(14.5px * var(--font-scale));
-  color: var(--text-primary);
+  font-size: calc(13.5px * var(--font-scale));
+  color: var(--text-secondary);
+  font-weight: 500;
   border-bottom: 1px solid var(--border-light);
-  transition: background 0.12s;
+  transition: background 0.15s ease;
   -webkit-tap-highlight-color: transparent;
 }
-.bc-dropdown-item:last-child {
+.bc-panel-item:last-child {
   border-bottom: none;
 }
-.bc-dropdown-item:active {
+.bc-panel-item:active {
   background: var(--bg-secondary);
 }
-.bc-dropdown-item .bc-dd-icon {
+
+.bc-panel-item .bc-pi-icon {
   width: 14px;
   height: 14px;
   flex-shrink: 0;
-  color: var(--text-tertiary);
+  color: var(--text-secondary);
 }
-.bc-dropdown-item .bc-dd-label {
+.bc-panel-item .bc-pi-label {
   flex: 1;
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.bc-dropdown-item .bc-dd-sub {
-  font-size: calc(12px * var(--font-scale));
+.bc-panel-item .bc-pi-sub {
+  font-size: calc(11.5px * var(--font-scale));
   color: var(--text-muted);
   flex-shrink: 0;
   margin-left: 6px;
+  font-weight: 500;
 }
 
-.bc-dropdown-empty {
+/* "현재" 줄: 살색 점등 (텍스트/아이콘 모두 accent) */
+.bc-panel-item.is-current {
+  background: var(--bg-accent-soft);
+}
+.bc-panel-item.is-current .bc-pi-label {
+  color: var(--accent);
+  font-weight: 600;
+}
+.bc-panel-item.is-current .bc-pi-icon {
+  color: var(--accent);
+}
+.bc-panel-item.is-current .bc-pi-sub {
+  color: var(--accent);
+  opacity: 0.75;
+}
+
+/* 형제 없을 때 메시지 */
+.bc-panel-empty {
   padding: 22px 18px;
   text-align: center;
-  font-size: calc(13.5px * var(--font-scale));
+  font-size: calc(13px * var(--font-scale));
   color: var(--text-tertiary);
   line-height: 1.5;
 }
-.bc-dropdown-empty strong {
+.bc-panel-empty strong {
   color: var(--text-secondary);
   font-weight: 600;
 }
-
-/* 브레드크럼이 보이는 동안 .app-container 상단 패딩을 추가 보정하지 않는다
-   (브레드크럼은 콘텐츠 위에 떠 있고, 첫 줄을 가려도 무방한 디자인 — 사용자가
-   스크롤한 상태에서만 등장하므로 페이지 최상단에서는 영향 없음). */
 
 </style>
 </head>
@@ -4624,8 +4678,10 @@ html[data-font-size="xxl"] .topics-hero-overlay {
     </div>
   </header>
 
-  <nav class="doc-breadcrumb" id="docBreadcrumb" aria-label="문서 경로" role="navigation"></nav>
-  <div class="bc-dropdown" id="bcDropdown" role="listbox" aria-label="형제 항목 목록"></div>
+  <nav class="doc-breadcrumb" id="docBreadcrumb" aria-label="문서 경로" role="navigation">
+    <div class="bc-bar" id="bcBar"></div>
+    <div class="bc-panel" id="bcPanel" role="listbox" aria-label="형제 항목 목록"></div>
+  </nav>
 
   <main class="page-content" id="pageContent">
   </main>
@@ -7954,16 +8010,19 @@ window.scrollToTop = function() {
 // 브레드크럼 (doc 페이지에서만; 스크롤 시 슬라이드 다운)
 // ============================================================================
 
-const BC_FOLDER_SVG = `<svg class="bc-icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M1.75 1A1.75 1.75 0 0 0 0 2.75v10.5C0 14.216.784 15 1.75 15h12.5A1.75 1.75 0 0 0 16 13.25v-8.5A1.75 1.75 0 0 0 14.25 3H7.5a.25.25 0 0 1-.2-.1l-.9-1.2C6.07 1.26 5.55 1 5 1H1.75Z"/></svg>`;
-const BC_FILE_SVG = `<svg class="bc-icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16h-9.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h9.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 9 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/></svg>`;
-const BC_DD_FOLDER_SVG = `<svg class="bc-dd-icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M1.75 1A1.75 1.75 0 0 0 0 2.75v10.5C0 14.216.784 15 1.75 15h12.5A1.75 1.75 0 0 0 16 13.25v-8.5A1.75 1.75 0 0 0 14.25 3H7.5a.25.25 0 0 1-.2-.1l-.9-1.2C6.07 1.26 5.55 1 5 1H1.75Z"/></svg>`;
-const BC_DD_FILE_SVG = `<svg class="bc-dd-icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16h-9.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h9.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 9 4.25V1.5Zm6.75.062V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/></svg>`;
+const BC_FOLDER_SVG = `<svg class="bc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"/></svg>`;
+const BC_FILE_SVG = `<svg class="bc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>`;
+const BC_DD_FOLDER_SVG = `<svg class="bc-pi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"/></svg>`;
+const BC_DD_FILE_SVG = `<svg class="bc-pi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>`;
 
 // 브레드크럼 현재 상태 (open된 단계 인덱스 / -1이면 닫힘)
 let __bcChain = []; // [{type:'category'|'doc', id, label}]
 let __bcOpenIdx = -1;
 let __bcScrollVisible = false;
-const BC_SHOW_THRESHOLD = 50; // px
+// 히스테리시스: 노출은 80px부터, 숨김은 30px 미만일 때만
+// (50px 단일 임계값이면 그 근처에서 진동하며 번쩍거림)
+const BC_SHOW_THRESHOLD = 80; // px — 이 이상이면 노출
+const BC_HIDE_THRESHOLD = 30; // px — 이 미만이면 숨김
 
 // 현재 doc에 대한 브레드크럼 체인 빌드
 //   체인: [최상위 카테고리, ..., leaf 카테고리, 문서]
@@ -8048,15 +8107,16 @@ function getBreadcrumbSiblings(stepIdx) {
 
 // 브레드크럼 렌더링 (state.currentDocId 기준)
 function renderBreadcrumb() {
-  const bar = document.getElementById('docBreadcrumb');
-  if (!bar) return;
+  const wrap = document.getElementById('docBreadcrumb');
+  const bar = document.getElementById('bcBar');
+  if (!wrap || !bar) return;
 
   closeBreadcrumbDropdown();
 
   if (state.currentPage !== 'doc' || !state.currentDocId) {
     __bcChain = [];
     bar.innerHTML = '';
-    bar.classList.remove('is-visible');
+    wrap.classList.remove('is-visible');
     __bcScrollVisible = false;
     return;
   }
@@ -8064,7 +8124,7 @@ function renderBreadcrumb() {
   __bcChain = buildBreadcrumbChain(state.currentDocId);
   if (__bcChain.length === 0) {
     bar.innerHTML = '';
-    bar.classList.remove('is-visible');
+    wrap.classList.remove('is-visible');
     __bcScrollVisible = false;
     return;
   }
@@ -8073,7 +8133,8 @@ function renderBreadcrumb() {
     const isLast = idx === __bcChain.length - 1;
     const icon = step.type === 'doc' ? BC_FILE_SVG : BC_FOLDER_SVG;
     const labelEsc = escapeBcText(step.label);
-    const stepBtn = `<button type="button" class="bc-step" data-bc-idx="${idx}" aria-haspopup="listbox" aria-expanded="false">${icon}<span class="bc-label">${labelEsc}</span></button>`;
+    const leafCls = isLast ? ' is-leaf' : '';
+    const stepBtn = `<button type="button" class="bc-step${leafCls}" data-bc-idx="${idx}" aria-haspopup="listbox" aria-expanded="false">${icon}<span class="bc-label">${labelEsc}</span></button>`;
     if (isLast) return stepBtn;
     return stepBtn + `<span class="bc-sep" aria-hidden="true">/</span>`;
   });
@@ -8107,7 +8168,13 @@ function applyBreadcrumbVisibility() {
     return;
   }
   const y = window.scrollY || window.pageYOffset || 0;
-  const shouldShow = y > BC_SHOW_THRESHOLD;
+  // 히스테리시스:
+  //   현재 숨김 → 80px을 넘어야 노출로 전환
+  //   현재 노출 → 30px 미만이어야 숨김으로 전환
+  //   30 ~ 80px 사이는 현재 상태 유지 (진동 방지)
+  let shouldShow = __bcScrollVisible;
+  if (!__bcScrollVisible && y > BC_SHOW_THRESHOLD) shouldShow = true;
+  else if (__bcScrollVisible && y < BC_HIDE_THRESHOLD) shouldShow = false;
   if (shouldShow !== __bcScrollVisible) {
     __bcScrollVisible = shouldShow;
     bar.classList.toggle('is-visible', shouldShow);
@@ -8124,16 +8191,17 @@ function toggleBreadcrumbDropdown(idx) {
 }
 
 function openBreadcrumbDropdown(idx) {
-  const bar = document.getElementById('docBreadcrumb');
-  const dd = document.getElementById('bcDropdown');
-  if (!bar || !dd) return;
+  const wrap = document.getElementById('docBreadcrumb');
+  const bar = document.getElementById('bcBar');
+  const panel = document.getElementById('bcPanel');
+  if (!wrap || !bar || !panel) return;
 
   const step = __bcChain[idx];
   if (!step) return;
 
   __bcOpenIdx = idx;
 
-  // 모든 step의 active 토글
+  // 모든 step의 active 토글 (클릭된 것만 살색 점등)
   bar.querySelectorAll('.bc-step').forEach(btn => {
     const i = parseInt(btn.dataset.bcIdx, 10);
     btn.classList.toggle('is-active', i === idx);
@@ -8148,20 +8216,29 @@ function openBreadcrumbDropdown(idx) {
     } catch (e) {}
   }
 
-  // 형제 목록
+  // 형제 목록 (본인 제외, getBreadcrumbSiblings는 본인 제외해서 반환)
   const siblings = getBreadcrumbSiblings(idx);
+
+  // 패널 내용 구성: 첫 줄에 "현재"(본인) + 그 아래 형제 목록
+  const selfIcon = step.type === 'doc' ? BC_DD_FILE_SVG : BC_DD_FOLDER_SVG;
+  const selfLabelEsc = escapeBcText(step.label);
+  const selfHtml = `<div class="bc-panel-item is-current" role="option" aria-selected="true">${selfIcon}<span class="bc-pi-label">${selfLabelEsc}</span><span class="bc-pi-sub">현재</span></div>`;
+
   if (siblings.length === 0) {
-    dd.innerHTML = `<div class="bc-dropdown-empty">아직 <strong>${escapeBcText(step.label)}</strong>만 있어요</div>`;
+    // 형제 없음: "현재" 줄만 보여주고 그 아래에 안내 메시지
+    panel.innerHTML = selfHtml +
+      `<div class="bc-panel-empty">아직 <strong>${selfLabelEsc}</strong>만 있어요</div>`;
   } else {
-    dd.innerHTML = siblings.map(s => {
+    const sibHtml = siblings.map(s => {
       const icon = s.type === 'doc' ? BC_DD_FILE_SVG : BC_DD_FOLDER_SVG;
       const sub = (s.type === 'doc' && s.subtitle)
-        ? `<span class="bc-dd-sub">${escapeBcText(s.subtitle)}</span>`
+        ? `<span class="bc-pi-sub">${escapeBcText(s.subtitle)}</span>`
         : '';
-      return `<div class="bc-dropdown-item" role="option" data-bc-target-type="${s.type}" data-bc-target-id="${escapeBcText(s.id)}" tabindex="0">${icon}<span class="bc-dd-label">${escapeBcText(s.label)}</span>${sub}</div>`;
+      return `<div class="bc-panel-item" role="option" data-bc-target-type="${s.type}" data-bc-target-id="${escapeBcText(s.id)}" tabindex="0">${icon}<span class="bc-pi-label">${escapeBcText(s.label)}</span>${sub}</div>`;
     }).join('');
+    panel.innerHTML = selfHtml + sibHtml;
 
-    dd.querySelectorAll('.bc-dropdown-item').forEach(item => {
+    panel.querySelectorAll('.bc-panel-item:not(.is-current)').forEach(item => {
       item.addEventListener('click', (e) => {
         e.stopPropagation();
         const type = item.dataset.bcTargetType;
@@ -8171,15 +8248,21 @@ function openBreadcrumbDropdown(idx) {
     });
   }
 
-  dd.classList.add('is-open');
+  wrap.classList.add('is-open');
 }
 
 function closeBreadcrumbDropdown() {
-  const bar = document.getElementById('docBreadcrumb');
-  const dd = document.getElementById('bcDropdown');
-  if (dd) {
-    dd.classList.remove('is-open');
-    dd.innerHTML = '';
+  const wrap = document.getElementById('docBreadcrumb');
+  const bar = document.getElementById('bcBar');
+  const panel = document.getElementById('bcPanel');
+  if (wrap) {
+    wrap.classList.remove('is-open');
+  }
+  if (panel) {
+    // max-height 트랜지션이 끝난 뒤 innerHTML을 비우는 게 자연스러우나,
+    // 화면 상에는 max-height: 0으로 이미 가려지므로 즉시 비워도 됨.
+    // (트랜지션 중 다시 열리는 케이스를 단순하게 처리하기 위해 즉시 비움)
+    panel.innerHTML = '';
   }
   if (bar) {
     bar.querySelectorAll('.bc-step').forEach(btn => {
@@ -8229,9 +8312,8 @@ function isCategoryDescendantOf(childId, ancestorId) {
 // 외부 클릭 / Esc로 드롭다운 닫기
 document.addEventListener('click', (e) => {
   if (__bcOpenIdx === -1) return;
-  const bar = document.getElementById('docBreadcrumb');
-  const dd = document.getElementById('bcDropdown');
-  if ((bar && bar.contains(e.target)) || (dd && dd.contains(e.target))) return;
+  const wrap = document.getElementById('docBreadcrumb');
+  if (wrap && wrap.contains(e.target)) return;
   closeBreadcrumbDropdown();
 }, true);
 
