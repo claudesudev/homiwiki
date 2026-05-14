@@ -1,5 +1,5 @@
 {
-  "title": "청라 거주(또는 거주했던) 유명인",
+  "title": "거주(또는 거주했던) 유명인",
   "subtitle": "Cheongna Notable Residents",
   "updated": "2026-05-08",
   "contributors": [
@@ -10,19 +10,9 @@
     }
   ],
   "categories": [
-    {
-      "text": "인천광역시",
-      "id": null
-    },
-    {
-      "text": "청라국제도시",
-      "id": null
-    },
-    {
-      "text": "유명인 목록",
-      "id": null
-    }
+    "청라"
   ],
+  "parent": null,
   "infobox": {
     "title": "청라 거주(또는 거주했던) 유명인",
     "subtitle": "Cheongna Notable Residents",
