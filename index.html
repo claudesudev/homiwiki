@@ -8557,6 +8557,8 @@ function formatContribDate(dateStr) {
 function renderDoc(docId, originalQuery = null) {
   const doc = DOCS[docId];
   if (!doc) {
+    state.currentPage = 'notfound';
+    state.currentDocId = null;
     renderNotFound(docId);
     return;
   }
@@ -8725,7 +8727,12 @@ function bindWikiLinks() {
           const isRedirected = normalizeSearch(originalText) !== normalizeSearch(DOCS[targetId].title);
           navigateTo('doc', targetId, isRedirected ? originalText : null);
         } else {
-          renderNotFound(originalText);
+          const partialMatches = searchAllMatches(originalText);
+          if (partialMatches.length > 0) {
+            enterSearchResults(originalText);
+          } else {
+            enterNotFound(originalText);
+          }
         }
       }, 180);
     });
