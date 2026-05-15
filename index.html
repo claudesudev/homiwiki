@@ -6898,14 +6898,26 @@ window.navigateFromTimeline = function(event, docId) {
     event.preventDefault();
   }
   const el = event && event.currentTarget ? event.currentTarget : null;
+  const go = () => {
+    if (DOCS[docId]) {
+      navigateTo('doc', docId);
+    } else {
+      const partialMatches = searchAllMatches(docId);
+      if (partialMatches.length > 0) {
+        enterSearchResults(docId);
+      } else {
+        enterNotFound(docId);
+      }
+    }
+  };
   if (el && el.classList && !el.classList.contains('is-clicking')) {
     el.classList.add('is-clicking');
     setTimeout(() => {
       el.classList.remove('is-clicking');
-      navigateTo('doc', docId);
+      go();
     }, 180);
   } else {
-    navigateTo('doc', docId);
+    go();
   }
 };
 
