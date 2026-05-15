@@ -8780,7 +8780,7 @@ function renderNotFound(query) {
   });
 }
 
-const PAGES_WITH_DOCK = ['doc', 'gallery'];
+const PAGES_WITH_DOCK = ['doc', 'gallery', 'notfound', 'search-results'];
 
 function updateFloatingDock() {
   const dock = document.getElementById('floatingDock');
@@ -8803,6 +8803,8 @@ function updateFloatingDock() {
     if (tocBtn && (!doc || effectiveTocCount <= 1)) {
       tocBtn.classList.add('disabled');
     }
+  } else if (state.currentPage === 'notfound' || state.currentPage === 'search-results') {
+    if (tocBtn) tocBtn.classList.add('disabled');
   }
 }
 
