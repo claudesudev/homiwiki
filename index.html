@@ -68,6 +68,7 @@
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.10);
   --code-bg: #f0ece6;
+  --focus-ring: #1a1a1a;
 }
 
 [data-theme="dark"] {
@@ -92,6 +93,7 @@
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
   --code-bg: #252525;
+  --focus-ring: #f5f5f3;
 }
 
 html[data-font-size="s"]   { --font-scale: 0.87; --root-font-scale: 0.87; }
@@ -117,6 +119,12 @@ html.theme-swap *::after {
   padding: 0;
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
+}
+
+:focus { outline: none; }
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
 }
 
 html {
@@ -230,10 +238,14 @@ body {
 .search-action-btn:active {
   background: rgba(0,0,0,0.06);
 }
+.search-action-btn:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 1px;
+}
 
 .search-clear-btn {
   position: absolute;
-  right: 70px;
+  right: 42px;
   top: 50%;
   transform: translateY(-50%);
   width: 22px;
@@ -314,9 +326,9 @@ body {
   height: 49px;
   border: 1px solid transparent;
   border-radius: 999px;
-  padding: 0 68px 0 64px;
-  background: #ffffff;
-  color: #1a1a1a;
+  padding: 0 70px 0 64px;
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
   font-size: calc(17px * var(--font-scale));
   font-family: inherit;
   transition: box-shadow 0.15s ease;
@@ -335,7 +347,7 @@ body {
 }
 
 .search-input::placeholder {
-  color: #9a9a9a;
+  color: var(--text-muted);
 }
 
 .search-suggestions {
@@ -343,10 +355,10 @@ body {
   top: 63px;
   left: 0;
   right: 0;
-  background: #ffffff;
-  border: 1px solid #e3e0da;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
   border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--shadow-md);
   overflow: hidden;
   max-height: min(500px, 70vh);
   overflow-y: auto;
@@ -368,24 +380,24 @@ body {
   cursor: pointer;
   font-size: calc(15.4px * var(--font-scale));
   font-weight: 400;
-  color: #3a3a3a;
+  color: var(--text-secondary);
   transition: background 0.15s;
 }
 
 .suggestion-item:active {
-  background: #f5f0e8;
+  background: var(--bg-secondary);
 }
 
 .suggestion-item .sug-icon {
   width: 14px;
   height: 14px;
   flex-shrink: 0;
-  color: #b8b3aa;
+  color: var(--text-muted);
 }
 
 .suggestion-item b {
   font-weight: 700;
-  color: #3a3a3a;
+  color: var(--text-primary);
 }
 
 .suggestion-item .ad-tag {
@@ -535,7 +547,7 @@ body {
   background: var(--bg-secondary);
 }
 .sr-page-btn:focus-visible {
-  box-shadow: inset 0 0 0 2px var(--accent);
+  box-shadow: inset 0 0 0 2px var(--focus-ring);
 }
 .sr-page-btn.is-active {
   background: var(--text-primary);
@@ -548,10 +560,10 @@ body {
   top: 63px;
   left: 0;
   right: 0;
-  background: #ffffff;
-  border: 1px solid #e3e0da;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
   border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.10);
+  box-shadow: var(--shadow-md);
   overflow: hidden;
   max-height: min(560px, 75vh);
   overflow-y: auto;
@@ -797,7 +809,7 @@ body {
 }
 
 .doc-action-btn:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
 }
 
@@ -1264,7 +1276,7 @@ code {
   opacity: 0.85;
 }
 .search-demo-stage:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--focus-ring);
   outline-offset: 4px;
   border-radius: 8px;
 }
@@ -2045,6 +2057,11 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
   font-size: calc(11px * var(--font-scale));
   transition: color 0.15s;
   padding: 6px 4px;
+  outline: none;
+  border-radius: 6px;
+}
+.toolbar-btn:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--focus-ring);
 }
 
 .toolbar-btn.active {
@@ -2244,7 +2261,7 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
 
 .follow-popup-clickable:focus-visible {
   background: var(--bg-tertiary);
-  box-shadow: inset 0 0 0 2px var(--accent);
+  box-shadow: inset 0 0 0 2px var(--focus-ring);
 }
 
 .redirect-notice {
@@ -2964,6 +2981,10 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
 .gallery-page-btn:active {
   background: var(--bg-secondary);
 }
+.gallery-page-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--focus-ring);
+}
 
 .gallery-page-btn.active {
   background: var(--accent);
@@ -3049,7 +3070,7 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
   color: #fff;
 }
 .gallery-filter-slot:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
 }
 
@@ -4800,6 +4821,11 @@ html[data-font-size="xxl"] .topics-hero-overlay {
 .bc-step:active {
   background: var(--bg-secondary);
 }
+.bc-step:focus-visible {
+  outline: none;
+  background: var(--link-flash-bg);
+  box-shadow: 0 0 0 2px var(--focus-ring);
+}
 
 .bc-step.is-leaf {
   color: var(--text-primary);
@@ -5025,9 +5051,6 @@ html[data-font-size="xxl"] .topics-hero-overlay {
       <div class="search-actions">
         <button type="button" class="search-action-btn" id="searchActionSearch" aria-label="검색" onclick="submitSearch()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-        </button>
-        <button type="button" class="search-action-btn" id="searchActionGo" aria-label="이동" onclick="submitSearch()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </button>
       </div>
       <div class="search-suggestions" id="searchSuggestions"></div>
@@ -5282,7 +5305,7 @@ function showBootMessage(html) {
 
 async function loadAllDocs() {
   showBootMessage(`
-    <div style="padding:60px 20px;text-align:center;color:var(--text-secondary,#888);font-size:14px;">
+    <div style="padding:60px 20px;text-align:center;color:var(--text-secondary);font-size:14px;">
       <div style="margin-bottom:14px;line-height:0;">
         <svg class="ho-icon ho-spin" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M12 2v4"/><path d="M12 18v4"/>
@@ -5303,14 +5326,14 @@ async function loadAllDocs() {
     let docIds;
     if (indexData.version === 2 && indexData.docs && !Array.isArray(indexData.docs)) {
       docIds = Object.keys(indexData.docs);
-      if (indexData.redirects && typeof REDIRECT_MAP !== 'undefined') {
+      if (indexData.redirects) {
         for (const [oldId, newId] of Object.entries(indexData.redirects)) {
           REDIRECT_MAP[oldId] = newId;
         }
       }
     } else if (indexData.version >= 3 && Array.isArray(indexData.docs)) {
       docIds = indexData.docs;
-      if (indexData.redirects && typeof REDIRECT_MAP !== 'undefined') {
+      if (indexData.redirects) {
         for (const [oldId, newId] of Object.entries(indexData.redirects)) {
           REDIRECT_MAP[oldId] = newId;
         }
@@ -5390,7 +5413,7 @@ async function loadAllDocs() {
 
 function showLoadErrorScreen() {
   showBootMessage(`
-    <div style="padding:60px 20px;max-width:480px;margin:0 auto;text-align:center;">
+    <div style="padding:60px 20px;max-width:480px;margin:0 auto;text-align:center;color:var(--text-primary);">
       <div style="margin-bottom:18px;line-height:0;">
         <svg class="ho-icon ho-elastic" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
@@ -5399,12 +5422,12 @@ function showLoadErrorScreen() {
           <line x1="15" y1="13" x2="9" y2="19"/>
         </svg>
       </div>
-      <h2 style="margin:0 0 12px;font-size:18px;">문서를 불러오지 못했어요</h2>
-      <p style="margin:0 0 50px;font-size:14px;color:var(--text-secondary,#888);line-height:1.6;">
+      <h2 style="margin:0 0 12px;font-size:18px;color:var(--text-primary);">문서를 불러오지 못했어요</h2>
+      <p style="margin:0 0 50px;font-size:14px;color:var(--text-secondary);line-height:1.6;">
         ${DOCS_LOAD_ERROR ? '오류: ' + DOCS_LOAD_ERROR : ''}<br>
         새로고침해 보시거나, 잠시 후 다시 들러주세요.
       </p>
-      <button onclick="location.reload()" style="padding:10px 20px;border:1px solid var(--border,#ddd);background:var(--surface,#fff);color:inherit;border-radius:6px;cursor:pointer;font-size:14px;">
+      <button onclick="location.reload()" style="padding:10px 20px;border:1px solid var(--border);background:var(--bg-tertiary);color:var(--text-primary);border-radius:6px;cursor:pointer;font-size:14px;font-family:inherit;">
         새로고침
       </button>
     </div>
@@ -5586,7 +5609,7 @@ function renderSuggestions(query) {
 
 window.selectSuggestion = function(docId) {
   searchInput.value = '';
-  if (typeof updateClearBtn === 'function') updateClearBtn();
+  updateClearBtn();
   searchSuggestions.classList.remove('active');
   hidePopular();
   const consumed = consumeSearchOverlayForNavigation();
@@ -5621,11 +5644,11 @@ function renderPopular() {
   if (list.length === 0) return;
   const header = `<div class="popular-header">${POPULAR_FLAME_SVG}<span class="popular-label">인기 검색어</span></div>`;
   const items = list.map(item => {
-    const rankCls = item.rank <= 3 ? `r${item.rank}` : 'rest';
+    const rankCls = item.rank <= 3 ? ` r${item.rank}` : '';
     const esc = String(item.name)
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-    return `<div class="popular-item" onclick="selectPopular(${item.rank - 1})"><span class="pop-rank ${rankCls}">${item.rank}</span><span class="pop-name">${esc}</span></div>`;
+    return `<div class="popular-item" onclick="selectPopular(${item.rank - 1})"><span class="pop-rank${rankCls}">${item.rank}</span><span class="pop-name">${esc}</span></div>`;
   }).join('');
   searchPopular.innerHTML = header + items;
 }
@@ -5637,7 +5660,7 @@ window.selectPopular = function(idx) {
   hidePopular();
   if (item.targetDocId && DOCS[item.targetDocId]) {
     searchInput.value = '';
-    if (typeof updateClearBtn === 'function') updateClearBtn();
+    updateClearBtn();
     const targetId = item.targetDocId;
     const consumed = consumeSearchOverlayForNavigation();
     const finalize = () => {
@@ -5653,7 +5676,7 @@ window.selectPopular = function(idx) {
     return;
   }
   searchInput.value = item.name;
-  if (typeof updateClearBtn === 'function') updateClearBtn();
+  updateClearBtn();
   submitSearch();
 };
 
@@ -5714,7 +5737,7 @@ let searchDebounceTimer = null;
 searchInput.addEventListener('input', (e) => {
   const val = e.target.value;
   updateClearBtn();
-  if (typeof triggerHomiKongOnce === 'function') triggerHomiKongOnce();
+  triggerHomiKongOnce();
   if (!val.trim()) {
     if (searchDebounceTimer) {
       clearTimeout(searchDebounceTimer);
@@ -5811,7 +5834,7 @@ window.submitSearch = function() {
 
   const finalize = () => {
     searchInput.value = '';
-    if (typeof updateClearBtn === 'function') updateClearBtn();
+    updateClearBtn();
     searchSuggestions.classList.remove('active');
     if (docId && DOCS[docId]) {
       navigateTo('doc', docId);
@@ -5864,7 +5887,7 @@ function enterNotFound(query) {
 
   renderNotFound(query);
 
-  if (typeof renderBreadcrumb === 'function') renderBreadcrumb();
+  renderBreadcrumb();
   updateFloatingDock();
 }
 
@@ -5899,7 +5922,7 @@ function enterSearchResults(query) {
 
   renderSearchResults(query);
 
-  if (typeof renderBreadcrumb === 'function') renderBreadcrumb();
+  renderBreadcrumb();
   updateFloatingDock();
 }
 
@@ -6008,15 +6031,15 @@ window.navigateTo = function(page, docId = null, originalQuery = null, opts = {}
     (page === state.currentPage) &&
     (page !== 'doc' || docId === state.currentDocId);
 
-  if (typeof searchInput !== 'undefined' && searchInput) {
+  if (searchInput) {
     if (searchInput.value) {
       searchInput.value = '';
-      if (typeof updateClearBtn === 'function') updateClearBtn();
+      updateClearBtn();
     }
-    if (typeof searchSuggestions !== 'undefined' && searchSuggestions) {
+    if (searchSuggestions) {
       searchSuggestions.classList.remove('active');
     }
-    if (typeof hidePopular === 'function') hidePopular();
+    hidePopular();
   }
 
   if (!opts.fromBack && !opts.fromTab && state.currentPage && !sameDest) {
@@ -6034,7 +6057,7 @@ window.navigateTo = function(page, docId = null, originalQuery = null, opts = {}
     state.galleryPage = 1;
     state.galleryFilter = 'all';
     state.expandedGalleryId = null;
-    if (typeof _galleryScrollBeforeExpand !== 'undefined') _galleryScrollBeforeExpand = null;
+    _galleryScrollBeforeExpand = null;
   }
   if (page === 'timeline') {
     timelineState.currentCategory = 'all';
@@ -6072,8 +6095,7 @@ window.navigateTo = function(page, docId = null, originalQuery = null, opts = {}
     case 'doc': renderDoc(docId, originalQuery); break;
   }
 
-  if (typeof renderBreadcrumb === 'function') renderBreadcrumb();
-
+  renderBreadcrumb();
   updateFloatingDock();
 };
 
@@ -6093,11 +6115,11 @@ window.addEventListener('popstate', (e) => {
   }
 
   if (target.page === '__searchOverlay') {
-    if (typeof searchSuggestions !== 'undefined' && searchSuggestions) {
+    if (searchSuggestions) {
       searchSuggestions.classList.remove('active');
     }
-    if (typeof hidePopular === 'function') hidePopular();
-    if (typeof searchInput !== 'undefined' && searchInput) {
+    hidePopular();
+    if (searchInput) {
       try { searchInput.blur(); } catch (_) {}
     }
     searchOverlayOpen = false;
@@ -6105,11 +6127,11 @@ window.addEventListener('popstate', (e) => {
   }
 
   if (searchOverlayOpen) {
-    if (typeof searchSuggestions !== 'undefined' && searchSuggestions) {
+    if (searchSuggestions) {
       searchSuggestions.classList.remove('active');
     }
-    if (typeof hidePopular === 'function') hidePopular();
-    if (typeof searchInput !== 'undefined' && searchInput) {
+    hidePopular();
+    if (searchInput) {
       try { searchInput.blur(); } catch (_) {}
     }
     searchOverlayOpen = false;
@@ -6123,7 +6145,7 @@ window.addEventListener('popstate', (e) => {
     document.querySelectorAll('.toolbar-btn').forEach(btn => btn.classList.remove('active'));
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     renderNotFound(target.query || '');
-    if (typeof renderBreadcrumb === 'function') renderBreadcrumb();
+    renderBreadcrumb();
     updateFloatingDock();
     return;
   }
@@ -6138,7 +6160,7 @@ window.addEventListener('popstate', (e) => {
     document.querySelectorAll('.toolbar-btn').forEach(btn => btn.classList.remove('active'));
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     renderSearchResults(target.query || '');
-    if (typeof renderBreadcrumb === 'function') renderBreadcrumb();
+    renderBreadcrumb();
     updateFloatingDock();
     return;
   }
@@ -6491,7 +6513,7 @@ async function runOneSearchDemo(scenario, myRunId, skipToResult) {
     resMeta.textContent  = '최근 수정: ' + (doc.updated || '―');
     resTags.innerHTML = (doc.categories || []).slice(0, 3).map(c => {
       const raw = (typeof c === 'string') ? c : (c && (c.text || c.id)) || '';
-      const label = (typeof CATEGORY_LABEL !== 'undefined' && CATEGORY_LABEL[raw]) || raw;
+      const label = (CATEGORY_LABEL[raw]) || raw;
       const tmp = document.createElement('div');
       tmp.innerHTML = label;
       return `<span class="search-demo-result-tag">${tmp.textContent}</span>`;
@@ -6563,7 +6585,7 @@ async function runOneSearchDemo(scenario, myRunId, skipToResult) {
   resMeta.textContent  = '최근 수정: ' + (doc.updated || '―');
   resTags.innerHTML = (doc.categories || []).slice(0, 3).map(c => {
     const raw = (typeof c === 'string') ? c : (c && (c.text || c.id)) || '';
-    const label = (typeof CATEGORY_LABEL !== 'undefined' && CATEGORY_LABEL[raw]) || raw;
+    const label = (CATEGORY_LABEL[raw]) || raw;
     const tmp = document.createElement('div');
     tmp.innerHTML = label;
     return `<span class="search-demo-result-tag">${tmp.textContent}</span>`;
@@ -6855,7 +6877,7 @@ function renderTimelineText(text) {
     let docRef = match[1].trim();
     const label = (match[2] || docRef).trim();
     const docId = docRef.split('#')[0];
-    const exists = (typeof DOCS !== 'undefined') && DOCS && DOCS[docId];
+    const exists = DOCS && DOCS[docId];
 
     if (exists) {
       result += `<span class="tl-wlink" onclick="navigateFromTimeline(event, '${escapeHtml(docId)}')">${escapeHtml(label)}</span>`;
@@ -8657,16 +8679,16 @@ function renderInfobox(info) {
         ${info.imageEmoji ? `<div class="infobox-image-emoji">${info.imageEmoji}</div>` : ''}
         ${info.imageText ? `<div class="infobox-image-text">${info.imageText}</div>` : ''}
       </div>`;
+  const rows = Array.isArray(info.rows) ? info.rows : [];
+  const tableBlock = rows.length > 0
+    ? `<table class="infobox-table"><tbody>${rows.map(([k, v]) => `<tr><th>${k}</th><td>${v}</td></tr>`).join('')}</tbody></table>`
+    : '';
   return `
     <div class="infobox">
       <div class="infobox-header">${info.title}</div>
       ${info.subtitle ? `<div class="infobox-subheader">${info.subtitle}</div>` : ''}
       ${imageBlock}
-      <table class="infobox-table">
-        <tbody>
-          ${info.rows.map(([k, v]) => `<tr><th>${k}</th><td>${v}</td></tr>`).join('')}
-        </tbody>
-      </table>
+      ${tableBlock}
     </div>
   `;
 }
@@ -8714,7 +8736,7 @@ function renderNotFound(query) {
   const content = document.getElementById('pageContent');
 
   let recommended = getSuggestions(query).slice(0, 5);
-  if (recommended.length < 5 && typeof TOPICS_LIST !== 'undefined' && Array.isArray(TOPICS_LIST)) {
+  if (recommended.length < 5 && Array.isArray(TOPICS_LIST)) {
     const seen = new Set(recommended);
     for (const t of TOPICS_LIST) {
       if (recommended.length >= 5) break;
@@ -9213,9 +9235,7 @@ function closeAllDockPopups() {
 
 window.goContribute = function() {
   closeAllDockPopups();
-  if (typeof openContribute === 'function') {
-    openContribute();
-  }
+  openContribute();
 };
 
 function renderTocPopup() {
@@ -9420,7 +9440,7 @@ async function bootstrapRoute() {
       state.searchResultsQuery = initial.query;
       state.searchResultsPage = 1;
       renderSearchResults(initial.query);
-      if (typeof renderBreadcrumb === 'function') renderBreadcrumb();
+      renderBreadcrumb();
       updateFloatingDock();
       return;
     }
@@ -9436,7 +9456,7 @@ async function bootstrapRoute() {
       state.currentPage = 'notfound';
       state.currentDocId = null;
       renderNotFound(initial.query);
-      if (typeof renderBreadcrumb === 'function') renderBreadcrumb();
+      renderBreadcrumb();
       updateFloatingDock();
       return;
     }
@@ -9455,7 +9475,7 @@ async function bootstrapRoute() {
     if (el) {
       const msg = (err && err.stack) ? err.stack : String(err);
       el.innerHTML = `
-        <div style="padding:40px 20px;max-width:640px;margin:0 auto;">
+        <div style="padding:40px 20px;max-width:640px;margin:0 auto;color:var(--text-primary);">
           <div style="text-align:center;margin-bottom:14px;line-height:0;">
             <svg class="ho-icon" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <circle class="ho-wifi-0" cx="12" cy="20" r="0.7" fill="currentColor" stroke="none"/>
@@ -9464,13 +9484,13 @@ async function bootstrapRoute() {
               <path class="ho-wifi-3" d="M1.42 9a16 16 0 0 1 21.16 0"/>
             </svg>
           </div>
-          <h2 style="margin:0 0 12px;font-size:18px;text-align:center;">사이트 부팅 중 오류가 발생했어요</h2>
-          <p style="margin:0 0 16px;font-size:13px;color:#888;text-align:center;line-height:1.6;">
+          <h2 style="margin:0 0 12px;font-size:18px;text-align:center;color:var(--text-primary);">사이트 부팅 중 오류가 발생했어요</h2>
+          <p style="margin:0 0 16px;font-size:13px;color:var(--text-tertiary);text-align:center;line-height:1.6;">
             아래 메시지를 운영자에게 전달해주시면 빠르게 고칠 수 있어요.
           </p>
-          <pre style="background:#f5f5f5;color:#c00;padding:12px;border-radius:6px;font-size:12px;line-height:1.5;white-space:pre-wrap;word-break:break-all;overflow:auto;max-height:300px;">${msg.replace(/[<>&]/g, c=>({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]))}</pre>
+          <pre style="background:var(--code-bg);color:var(--text-secondary);padding:12px;border-radius:6px;font-size:12px;line-height:1.5;white-space:pre-wrap;word-break:break-all;overflow:auto;max-height:300px;border:1px solid var(--border);">${msg.replace(/[<>&]/g, c=>({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]))}</pre>
           <div style="text-align:center;margin-top:50px;">
-            <button onclick="location.reload()" style="padding:10px 20px;border:1px solid #ddd;background:#fff;border-radius:6px;cursor:pointer;font-size:14px;">새로고침</button>
+            <button onclick="location.reload()" style="padding:10px 20px;border:1px solid var(--border);background:var(--bg-tertiary);color:var(--text-primary);border-radius:6px;cursor:pointer;font-size:14px;font-family:inherit;">새로고침</button>
           </div>
         </div>
       `;
