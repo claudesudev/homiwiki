@@ -943,8 +943,8 @@ body {
 }
 
 .infobox-header {
-  background: var(--accent);
-  color: #fff;
+  background: #f0b8a3;
+  color: #4a2818;
   padding: 14px;
   text-align: center;
   font-size: calc(17px * var(--font-scale));
@@ -952,6 +952,11 @@ body {
   letter-spacing: 0;
   overflow-wrap: anywhere;
   word-break: break-word;
+}
+
+[data-theme="dark"] .infobox-header {
+  background: #dc9580;
+  color: #3a1f12;
 }
 
 .infobox-subheader {
@@ -4768,6 +4773,10 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   z-index: 1;
 }
 
+[data-theme="dark"] .doc-breadcrumb::before {
+  background: #6e8aa3;
+}
+
 .doc-breadcrumb.is-visible {
   opacity: 1;
   pointer-events: auto;
@@ -4858,6 +4867,22 @@ html[data-font-size="xxl"] .topics-hero-overlay {
 .bc-step.is-active .bc-icon,
 .bc-step.is-clicking .bc-icon {
   color: var(--link);
+}
+
+[data-theme="dark"] .bc-step:focus-visible {
+  background: #2d3e54;
+}
+
+[data-theme="dark"] .bc-step.is-active,
+[data-theme="dark"] .bc-step.is-clicking {
+  background: #2d3e54;
+  color: #a3bcd4;
+  box-shadow: 0 0 0 2px #2d3e54;
+  text-decoration-color: #a3bcd4;
+}
+[data-theme="dark"] .bc-step.is-active .bc-icon,
+[data-theme="dark"] .bc-step.is-clicking .bc-icon {
+  color: #a3bcd4;
 }
 
 .bc-step .bc-label {
