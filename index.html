@@ -61,6 +61,8 @@
   --accent-text: #ffffff;
   --link: #2b6cb0;
   --link-flash-bg: #d6e6f5;
+  --search-highlight-bg: #ffe066;
+  --search-input-bg: #ffffff;
   --select-blue: #7dd3fc;
   --border: #e3e0da;
   --border-light: #ebe8e2;
@@ -86,6 +88,8 @@
   --accent-text: #1a1a1a;
   --link: #7ab0e0;
   --link-flash-bg: #2a4a6b;
+  --search-highlight-bg: #5a4a18;
+  --search-input-bg: #3a3530;
   --select-blue: #0ea5e9;
   --border: #3a3a3a;
   --border-light: #303030;
@@ -327,7 +331,7 @@ body {
   border: 1px solid transparent;
   border-radius: 999px;
   padding: 0 70px 0 64px;
-  background: var(--bg-tertiary);
+  background: var(--search-input-bg);
   color: var(--text-primary);
   font-size: calc(17px * var(--font-scale));
   font-family: inherit;
@@ -355,7 +359,7 @@ body {
   top: 63px;
   left: 0;
   right: 0;
-  background: var(--bg-tertiary);
+  background: var(--search-input-bg);
   border: 1px solid var(--border);
   border-radius: 12px;
   box-shadow: var(--shadow-md);
@@ -516,9 +520,7 @@ body {
 .sr-item b {
   color: inherit;
   font-weight: 500;
-  background-color: var(--link-flash-bg);
-  border-radius: 2px;
-  padding: 0 1px;
+  background-image: linear-gradient(to top, var(--search-highlight-bg) 50%, transparent 50%);
 }
 .sr-pagination {
   display: flex;
