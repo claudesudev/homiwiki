@@ -8851,7 +8851,26 @@ function renderNotFound(query) {
   });
 }
 
-const PAGES_WITH_DOCK = ['doc', 'gallery', 'notfound', 'search-results'];
+const PAGES_WITH_DOCK = ['doc', 'gallery', 'notfound', 'search-results', 'home', 'topics', 'timeline', 'contribute'];
+
+// Slot 1 (top button) SVG + action mapping per page.
+// Pages NOT listed here keep the default TOC button behavior (doc, gallery, search-results).
+const DOCK_SLOT1_SVG_TOC = `<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5.5" cy="6" r="2.7"/><circle cx="5.5" cy="12" r="2.7"/><circle cx="5.5" cy="18" r="2.7"/><rect x="11" y="4.1" width="10" height="3.8" rx="1.9"/><rect x="11" y="10.1" width="10" height="3.8" rx="1.9"/><rect x="11" y="16.1" width="10" height="3.8" rx="1.9"/></svg>`;
+const DOCK_SLOT1_SVG_FLAME = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>`;
+const DOCK_SLOT1_SVG_ARROW_UP = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>`;
+const DOCK_SLOT1_SVG_HOME = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9.5"/></svg>`;
+
+const DOCK_SLOT1_BY_PAGE = {
+  home:       { svg: DOCK_SLOT1_SVG_FLAME,    label: '인기 차트',     onclick: "navigateTo('topics', null, null, {fromTab:true})" },
+  topics:     { svg: DOCK_SLOT1_SVG_ARROW_UP, label: '맨 위로',       onclick: "scrollToTopSmooth()" },
+  timeline:   { svg: DOCK_SLOT1_SVG_ARROW_UP, label: '맨 위로',       onclick: "scrollToTopSmooth()" },
+  contribute: { svg: DOCK_SLOT1_SVG_HOME,     label: '홈으로',        onclick: "navigateTo('home', null, null, {fromTab:true})" },
+  notfound:   { svg: DOCK_SLOT1_SVG_HOME,     label: '홈으로',        onclick: "navigateTo('home', null, null, {fromTab:true})" }
+};
+
+window.scrollToTopSmooth = function() {
+  window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+};
 
 function updateFloatingDock() {
   const dock = document.getElementById('floatingDock');
@@ -8865,6 +8884,21 @@ function updateFloatingDock() {
 
   if (tocBtn) tocBtn.classList.remove('disabled');
 
+  // Slot 1 override for non-default pages
+  const slot1 = DOCK_SLOT1_BY_PAGE[state.currentPage];
+  if (tocBtn) {
+    if (slot1) {
+      tocBtn.innerHTML = slot1.svg;
+      tocBtn.setAttribute('aria-label', slot1.label);
+      tocBtn.setAttribute('onclick', slot1.onclick);
+    } else {
+      // Default: restore TOC button (covers doc, gallery, search-results)
+      tocBtn.innerHTML = DOCK_SLOT1_SVG_TOC;
+      tocBtn.setAttribute('aria-label', '목차');
+      tocBtn.setAttribute('onclick', "toggleDockPopup('toc')");
+    }
+  }
+
   if (state.currentPage === 'doc') {
     const doc = DOCS[state.currentDocId];
 
@@ -8875,7 +8909,7 @@ function updateFloatingDock() {
       tocBtn.classList.add('disabled');
     }
   } else if (state.currentPage === 'notfound') {
-    if (tocBtn) tocBtn.classList.add('disabled');
+    // notfound now uses 'home' action in slot1 — keep enabled
   }
 }
 
