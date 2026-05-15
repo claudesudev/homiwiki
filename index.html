@@ -502,8 +502,11 @@ body {
   box-shadow: 0 0 0 2px var(--link-flash-bg);
 }
 .sr-item b {
-  color: var(--text-primary);
-  font-weight: 700;
+  color: inherit;
+  font-weight: 500;
+  background-color: var(--link-flash-bg);
+  border-radius: 2px;
+  padding: 0 1px;
 }
 .sr-pagination {
   display: flex;
@@ -8803,7 +8806,7 @@ function updateFloatingDock() {
     if (tocBtn && (!doc || effectiveTocCount <= 1)) {
       tocBtn.classList.add('disabled');
     }
-  } else if (state.currentPage === 'notfound' || state.currentPage === 'search-results') {
+  } else if (state.currentPage === 'notfound') {
     if (tocBtn) tocBtn.classList.add('disabled');
   }
 }
@@ -9252,6 +9255,39 @@ function renderTocPopup() {
     return;
   }
 
+  if (state.currentPage === 'search-results') {
+    popup.classList.remove('empty-state');
+
+    const total = searchAllMatches(state.searchResultsQuery || '').length;
+    const totalPages = Math.max(1, Math.ceil(total / SEARCH_RESULTS_PAGE_SIZE));
+
+    if (totalPages <= 1) {
+      popup.classList.add('empty-state');
+      container.innerHTML = `
+        <div class="toc-empty-notice">페이지 1개</div>
+        <div class="toc-empty-notice-sub">아직 한 페이지로 충분해요</div>
+      `;
+      return;
+    }
+
+    let html = '';
+    for (let p = 1; p <= totalPages; p++) {
+      const isActive = (p === state.searchResultsPage);
+      html += `
+        <div class="toc-l1${isActive ? ' is-active' : ''}">
+          <a onclick="tocJumpSearchResultsPage(${p})">${p}페이지</a>
+        </div>
+      `;
+    }
+    container.innerHTML = html;
+
+    requestAnimationFrame(() => {
+      const active = container.querySelector('.toc-l1.is-active');
+      if (active) active.scrollIntoView({ block: 'center', behavior: 'instant' });
+    });
+    return;
+  }
+
   if (state.currentPage !== 'doc') {
     popup.classList.add('empty-state');
     const targetId = EDITOR_CONFIG.fallbackFollowTarget;
@@ -9306,6 +9342,11 @@ function renderTocPopup() {
 
 window.tocJumpGalleryPage = function(page) {
   goGalleryPage(page);
+  closeAllDockPopups();
+};
+
+window.tocJumpSearchResultsPage = function(page) {
+  goSearchResultsPage(page);
   closeAllDockPopups();
 };
 
