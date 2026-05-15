@@ -22,6 +22,7 @@
   document.documentElement.setAttribute('data-theme', theme);
   document.documentElement.setAttribute('data-font-size', fontSize);
 })();
+
 </script>
 <style>
 /* ==============================================================================
@@ -51,7 +52,6 @@
   --bg-tertiary: #ffffff;
   --bg-elevated: #ffffff;
   --bg-accent-soft: #f0ebe4;
-  --bg-accent-arrive: #e8dfd2;
   --text-primary: #1a1a1a;
   --text-secondary: #3a3a3a;
   --text-tertiary: #6b6b6b;
@@ -76,7 +76,6 @@
   --bg-tertiary: #2a2a2a;
   --bg-elevated: #323232;
   --bg-accent-soft: #2d2825;
-  --bg-accent-arrive: #3a3128;
   --text-primary: #f5f5f3;
   --text-secondary: #d4d4d2;
   --text-tertiary: #a3a3a1;
@@ -186,7 +185,6 @@ body {
   align-items: center;
 }
 
-/* 검색창 안 호미 아이콘 — 좌측에 절대 위치, 검색창 높이에 닿을락 말락하게 크게 */
 .search-homi {
   position: absolute;
   left: 10px;
@@ -202,7 +200,6 @@ body {
 }
 .search-homi:active { opacity: 0.7; }
 
-/* 우측 액션 영역 (돋보기, 화살표) */
 .search-actions {
   position: absolute;
   right: 8px;
@@ -234,13 +231,9 @@ body {
   background: rgba(0,0,0,0.06);
 }
 
-/* ==========================================================================
-   X(clear) 버튼 — 입력값 있을 때만 표시 (iOS 표준 스타일)
-   회색 알약 안에 흰 X. 텍스트 끝과 search-actions 사이에 위치.
-   ========================================================================== */
 .search-clear-btn {
   position: absolute;
-  right: 70px; /* search-actions 영역(2개 버튼 28px*2 + gap 2px + right padding 8px = 약 66~70px) 앞 */
+  right: 70px;
   top: 50%;
   transform: translateY(-50%);
   width: 22px;
@@ -269,12 +262,6 @@ body {
   display: flex;
 }
 
-/* ==========================================================================
-   호미 콩콩 파편 — 검색창 좌측 끝(호미 머리가 닿는 지점)에서 방사형으로 튐
-   - 컨테이너: 좌측 끝 + 검색창 바닥 위치, 전체 +50도 회전 (호미 회전과 정렬)
-   - 발동: searchInput focus 시 .kong 클래스가 호미에 토글되며 파편 동기화
-   - 1회 콩콩 = 2번 찍힘 (총 1.2s)
-   ========================================================================== */
 .search-homi-particles {
   position: absolute;
   left: 11px;
@@ -295,10 +282,10 @@ body {
   background: var(--accent);
   opacity: 0;
   pointer-events: none;
-  /* 변수: --tx, --ty(px 단위 숫자), --rot(deg) */
+
   transform: translate(0, 0) rotate(var(--rot)) scale(0.4);
 }
-/* 발동: .burst 클래스 토글로 파편 튀김. JS에서 콩 타이밍에 맞춰 추가/제거. */
+
 .search-homi-particles.burst .hp-line {
   animation: hp-burst 0.35s ease-out 1;
 }
@@ -308,20 +295,6 @@ body {
   100% { opacity: 0; transform: translate(calc(var(--tx) * 1.5px), calc(var(--ty) * 1.5px)) rotate(var(--rot)) scale(0.6); }
 }
 
-/* 호미 콩콩 모션 — focus 시 .kong 클래스로 발동 (총 1.2초, 2회 찍기) */
-.search-homi.kong {
-  animation: homi-kong-twice 1.2s ease-in-out 1;
-}
-@keyframes homi-kong-twice {
-  0%   { transform: translateY(calc(-50% + 1px)) rotate(0deg); }
-  20%  { transform: translateY(calc(-50% + 1px)) rotate(-45deg); }
-  40%  { transform: translateY(calc(-50% + 1px)) rotate(0deg); }
-  60%  { transform: translateY(calc(-50% + 1px)) rotate(-45deg); }
-  80%  { transform: translateY(calc(-50% + 1px)) rotate(0deg); }
-  100% { transform: translateY(calc(-50% + 1px)) rotate(0deg); }
-}
-
-/* 호미 1회 콩 — input 이벤트마다 발동 (타이핑 박자에 맞춰 콩콩콩) */
 .search-homi.kong-once {
   animation: homi-kong-once 0.42s ease-in-out 1;
 }
@@ -332,7 +305,6 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .search-homi.kong,
   .search-homi.kong-once { animation: none; }
   .search-homi-particles.burst .hp-line { animation: none; }
 }
@@ -342,7 +314,7 @@ body {
   height: 49px;
   border: 1px solid transparent;
   border-radius: 999px;
-  padding: 0 68px 0 64px; /* 좌: 호미 44px + 간격, 우: 액션 버튼 2개 + 간격 */
+  padding: 0 68px 0 64px;
   background: #ffffff;
   color: #1a1a1a;
   font-size: calc(17px * var(--font-scale));
@@ -352,7 +324,7 @@ body {
   -webkit-appearance: none;
           appearance: none;
 }
-/* type="search"의 브라우저 기본 clear 버튼 숨김 (자체 UI 사용) */
+
 .search-input::-webkit-search-decoration,
 .search-input::-webkit-search-cancel-button,
 .search-input::-webkit-search-results-button,
@@ -404,7 +376,6 @@ body {
   background: #f5f0e8;
 }
 
-/* 자동완성 항목 좌측 돋보기 아이콘 — 작고 흐린 회색 */
 .suggestion-item .sug-icon {
   width: 14px;
   height: 14px;
@@ -412,7 +383,6 @@ body {
   color: #b8b3aa;
 }
 
-/* 검색어와 매칭되는 부분 볼드 처리 */
 .suggestion-item b {
   font-weight: 700;
   color: #3a3a3a;
@@ -431,15 +401,133 @@ body {
   vertical-align: middle;
 }
 
-/* ==========================================================================
-   인기 검색어 패널
-   --------------------------------------------------------------------------
-   검색창 focus + 빈 입력값일 때 노출.
-   - .search-popular: 자동완성과 동일한 위치/크기 (search-suggestions 위치 공유)
-   - 헤더: 불꽃 아이콘(애니메이션) + "인기 검색어" 라벨
-   - 항목: 순위 + 검색어, 톱3는 살색 강조, 4-10은 회색
-   - 정렬: 헤더 텍스트 / 항목 텍스트 모두 placeholder와 같은 라인(64px)에서 시작
-   ========================================================================== */
+.suggestion-more-notice {
+  padding: 10px 22px 12px 35px;
+  font-size: calc(12.5px * var(--font-scale));
+  color: var(--text-tertiary);
+  border-top: 1px solid var(--border-light);
+  margin-top: 4px;
+  line-height: 1.5;
+  word-break: keep-all;
+}
+
+.search-results {
+  padding: 0;
+}
+.search-results .sr-head {
+  margin-bottom: 16px;
+}
+.search-results .sr-query {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: calc(22px * var(--font-scale));
+  font-weight: 500;
+  color: var(--text-primary);
+  margin: 0;
+  word-break: break-all;
+}
+.search-results .sr-bullet {
+  color: var(--accent);
+  font-size: calc(12px * var(--font-scale));
+  flex-shrink: 0;
+}
+.search-results .sr-count {
+  font-size: calc(13px * var(--font-scale));
+  color: var(--text-tertiary);
+  margin: 4px 0 0 14px;
+}
+.search-results .sr-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 16px 0;
+}
+.search-results .sr-section-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+  font-size: calc(14px * var(--font-scale));
+  font-weight: 500;
+  color: var(--text-primary);
+}
+.search-results .sr-section-title svg {
+  width: 16px;
+  height: 16px;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.search-results .sr-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.sr-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 4px;
+  color: var(--link);
+  font-size: calc(14.5px * var(--font-scale));
+  cursor: pointer;
+  border-radius: 4px;
+  outline: none;
+  transition: background 0.15s;
+}
+.sr-item:active {
+  background: var(--bg-secondary);
+}
+.sr-item:focus-visible {
+  background: var(--bg-secondary);
+  box-shadow: inset 0 0 0 2px var(--accent);
+}
+.sr-item .sr-item-chev {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+.sr-item .sr-item-title {
+  color: var(--link);
+}
+.sr-item .sr-item-title b {
+  color: var(--text-primary);
+  font-weight: 700;
+}
+.sr-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+.sr-page-btn {
+  min-width: 36px;
+  height: 32px;
+  padding: 0 12px;
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  border-radius: 6px;
+  font-size: calc(14px * var(--font-scale));
+  font-family: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  transition: background 0.15s;
+}
+.sr-page-btn:active {
+  background: var(--bg-secondary);
+}
+.sr-page-btn:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--accent);
+}
+.sr-page-btn.is-active {
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  font-weight: 500;
+}
+
 .search-popular {
   position: absolute;
   top: 63px;
@@ -464,7 +552,7 @@ body {
   display: flex;
   align-items: center;
   gap: 9px;
-  padding: 0 22px 15px 33px; /* 정렬: 33 + 22(불꽃) + 9(gap) = 64px = placeholder 시작점 */
+  padding: 0 22px 15px 33px;
 }
 .popular-header .popular-icon {
   width: 22px;
@@ -485,7 +573,7 @@ body {
   display: flex;
   align-items: center;
   gap: 15px;
-  padding: 9px 22px 9px 29px; /* 정렬: 29 + 20(rank) + 15(gap) = 64px */
+  padding: 9px 22px 9px 29px;
   font-size: calc(15.4px * var(--font-scale));
   color: var(--text-primary);
   cursor: pointer;
@@ -636,7 +724,6 @@ body {
   gap: 8px;
 }
 
-/* 문서 하단 광고 슬롯 (placeholder) */
 .doc-ad-slot {
   margin-top: 12px;
   margin-bottom: 16px;
@@ -1167,10 +1254,6 @@ code {
   border-radius: 8px;
 }
 
-.search-demo-stage::before {
-  content: none;
-}
-
 .search-demo-headline {
   position: absolute;
   top: 16px;
@@ -1480,10 +1563,8 @@ code {
   stroke-width: 2;
 }
 .home-curation-card.tone-1 .home-curation-icon { background: #fbeae3; color: #c75a3c; }
-.home-curation-card.tone-2 .home-curation-icon { background: #efeae0; color: #8a7a5e; }
 .home-curation-card.tone-3 .home-curation-icon { background: #fbeae3; color: #c75a3c; }
 [data-theme="dark"] .home-curation-card.tone-1 .home-curation-icon { background: #3a2920; color: #e8a590; }
-[data-theme="dark"] .home-curation-card.tone-2 .home-curation-icon { background: #2e2a23; color: #c2b294; }
 [data-theme="dark"] .home-curation-card.tone-3 .home-curation-icon { background: #3a2920; color: #e8a590; }
 
 .home-curation-body {
@@ -1542,10 +1623,6 @@ code {
 }
 .home-topics-hero:active,
 .home-topics-hero.is-clicking {
-  animation: heroArriveBump 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-}
-[data-theme="dark"] .home-topics-hero:active,
-[data-theme="dark"] .home-topics-hero.is-clicking {
   animation: heroArriveBump 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 @keyframes heroArriveBump {
@@ -1922,43 +1999,6 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
   line-height: 1.4;
 }
 
-.list-item {
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 12px 14px;
-  margin-bottom: 8px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.list-item-content {
-  flex: 1;
-  min-width: 0;
-}
-
-.list-item-title {
-  font-weight: 600;
-  font-size: calc(14px * var(--font-scale));
-  color: var(--text-primary);
-  margin-bottom: 2px;
-}
-
-.list-item-desc {
-  font-size: calc(12px * var(--font-scale));
-  color: var(--text-tertiary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.list-item-arrow {
-  color: var(--text-muted);
-  flex-shrink: 0;
-}
-
 .bottom-toolbar {
   position: fixed;
   bottom: 0;
@@ -2051,32 +2091,15 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
   color: var(--accent);
 }
 
-.dock-btn.cta {
-  background: var(--accent);
-  color: var(--accent-text);
-}
-
 .dock-btn:disabled,
 .dock-btn.disabled {
   opacity: 0.3;
   pointer-events: none;
 }
 
-.dock-btn.inactive {
-  opacity: 0.4;
-  color: var(--text-muted);
-}
-
-/* 다크모드 토글 버튼: 현재 테마 상태를 보여줌
-   - 라이트 모드 → 해 (지금 낮이다)
-   - 다크 모드   → 달 (지금 밤이다)
-   탭하면 반대 테마로 전환됨. (iOS/macOS, Twitter, GitHub 등이 따르는 관례) */
 .dock-theme-icon { display: none; }
 [data-theme="light"] .dock-theme-icon-light { display: block; }
 [data-theme="dark"]  .dock-theme-icon-dark  { display: block; }
-/* 기본값(data-theme 미설정시)은 라이트로 간주 */
-:root:not([data-theme]) .dock-theme-icon-light,
-[data-theme=""] .dock-theme-icon-light { display: block; }
 
 .dock-popup {
   position: fixed;
@@ -2107,8 +2130,7 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
   display: block;
 }
 
-.dock-popup.toc-popup,
-.dock-popup.follow-popup {
+.dock-popup.toc-popup {
   width: 220px;
   padding: 10px 6px 10px 0;
 }
@@ -2157,9 +2179,6 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
   height: 14px;
   background: var(--accent);
   border-radius: 2px;
-}
-
-.dock-popup.toc-popup.empty-state {
 }
 
 .toc-empty-notice {
@@ -2211,53 +2230,6 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
 .follow-popup-clickable:focus-visible {
   background: var(--bg-tertiary);
   box-shadow: inset 0 0 0 2px var(--accent);
-}
-
-.follow-popup-notice {
-  padding: 4px 14px;
-  font-size: calc(13px * var(--font-scale));
-  color: var(--text-tertiary);
-  line-height: 1.5;
-  word-break: keep-all;
-}
-
-.follow-popup-divider {
-  height: 1px;
-  background: var(--border);
-  margin: 6px 14px 8px 14px;
-  opacity: 0.6;
-}
-
-.follow-popup-link {
-  padding: 4px 14px;
-  font-size: calc(14px * var(--font-scale));
-  line-height: 1.6;
-}
-
-.follow-popup-link a {
-  color: var(--text-secondary);
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  border-radius: 4px;
-}
-
-.follow-popup-sub {
-  padding: 2px 14px 2px 14px;
-  font-size: calc(12px * var(--font-scale));
-  color: var(--text-tertiary);
-  opacity: 0.7;
-  line-height: 1.5;
-  word-break: keep-all;
-}
-
-.follow-popup-empty {
-  padding: 4px 14px;
-  font-size: calc(13px * var(--font-scale));
-  color: var(--text-tertiary);
-  line-height: 1.5;
 }
 
 .redirect-notice {
@@ -2817,7 +2789,6 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
   line-height: 1.6;
 }
 
-/* === 갤러리: 스마트폰 갤러리식 2열 그리드 === */
 .gallery-feed {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -2873,7 +2844,6 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
   user-select: auto;
 }
 
-/* 상세뷰: 좌하단 다운로드 알약 */
 .gallery-download-btn {
   position: absolute;
   bottom: 10px;
@@ -2905,7 +2875,6 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
   flex-shrink: 0;
 }
 
-/* 그리드 썸네일 아래 1줄 프롬프트 미리보기 */
 .gallery-card-thumb-prompt {
   display: -webkit-box;
   -webkit-line-clamp: 1;
@@ -3020,7 +2989,6 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
   letter-spacing: -0.01em;
 }
 
-/* === 갤러리 카테고리 필터 토글 (전체/2D/실사) === */
 .gallery-filter-toggle {
   position: relative;
   display: flex;
@@ -3286,19 +3254,6 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   background: var(--bg-accent-soft);
 }
 
-.topics-row::before {
-  content: '';
-  position: absolute;
-  left: -8px;
-  top: 6px;
-  bottom: 6px;
-  width: 4px;
-  background: var(--accent);
-  border-radius: 2px;
-  opacity: 0;
-  pointer-events: none;
-}
-
 @keyframes topics-arrive-row {
   0%   { background: rgba(0, 0, 0, 0.055); }
   41%  { background: rgba(0, 0, 0, 0.055); }
@@ -3316,9 +3271,6 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   0%   { background: rgba(255, 255, 255, 0.09); }
   41%  { background: rgba(255, 255, 255, 0.09); }
   100% { background: transparent; }
-}
-[data-theme="dark"] .topics-hero.topics-just-arrived {
-  animation: topics-arrive-hero 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
 .topics-row.topics-just-arrived {
@@ -3357,24 +3309,6 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   line-height: 1.3;
   letter-spacing: 0;
 }
-.topics-row-name-inner {
-  display: inline;
-  border-radius: 3px;
-  transition: color 0.15s, background-color 0.15s, box-shadow 0.15s;
-}
-.topics-row-name-inner.is-clicking {
-  background-color: transparent;
-  box-shadow: none;
-}
-.topics-hero-title-inner {
-  display: inline;
-  border-radius: 3px;
-  transition: color 0.15s, background-color 0.15s, box-shadow 0.15s;
-}
-.topics-hero-title-inner.is-clicking {
-  background-color: transparent;
-  box-shadow: none;
-}
 .topics-row.is-clicking {
   background: rgba(0, 0, 0, 0.025);
 }
@@ -3382,9 +3316,6 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   background: rgba(255, 255, 255, 0.04);
 }
 .topics-hero.is-clicking {
-  animation: heroArriveBump 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-}
-[data-theme="dark"] .topics-hero.is-clicking {
   animation: heroArriveBump 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 .topics-row-blurb {
@@ -4592,18 +4523,12 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   gap: 8px;
 }
 
-/* ==========================================================================
-   문서 못 찾음 (Not Found) — 네이버 스타일 차용 V2
-   검색어를 큰 글씨로 강조 + 도움말 + 추천 문서 무조건 노출
-   ========================================================================== */
 .not-found {
   text-align: left;
   padding: 24px 20px 40px 40px;
   position: relative;
 }
 
-/* 검색어 큰 글씨 — 따옴표 대신 점(·) prefix로 hints 리스트와 같은 시각 언어
-   (점은 본문 텍스트 왼쪽 바깥에 배치). */
 .nf-query {
   display: block;
   position: relative;
@@ -4622,7 +4547,6 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   font-weight: 700;
 }
 
-/* 부제 */
 .nf-subhead {
   font-size: calc(14px * var(--font-scale));
   color: var(--text-secondary);
@@ -4630,8 +4554,6 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   line-height: 1.5;
 }
 
-/* 도움말 리스트 — 점 prefix는 본문 텍스트 왼쪽 바깥(음수 위치)으로 빼서
-   본문 텍스트 시작점을 컨테이너 패딩 라인에 정렬. */
 .nf-hints {
   list-style: none;
   padding: 0;
@@ -4653,13 +4575,11 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   font-weight: 700;
 }
 
-/* 구분선 — 컨테이너 좌측 패딩(40px)/우측 패딩(20px)을 가로질러 전체 폭 */
 .nf-divider {
   border-top: 1px solid var(--border-light);
   margin: 0 -20px 18px -40px;
 }
 
-/* 추천 섹션 헤더 — 전구 아이콘은 본문 텍스트 왼쪽 바깥에 배치 */
 .nf-rec-head {
   position: relative;
   font-size: calc(14px * var(--font-scale));
@@ -4677,8 +4597,6 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   flex-shrink: 0;
 }
 
-/* 추천 문서 리스트 — 박스 없이 위키 링크처럼 평평하게.
-   좌측 chevron(>) prefix가 본문 텍스트 왼쪽 바깥에. 클릭 시 위키 링크 효과. */
 .nf-rec-list {
   display: flex;
   flex-direction: column;
@@ -4708,7 +4626,7 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='9 18 15 12 9 6'/></svg>") no-repeat center / contain;
           mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='9 18 15 12 9 6'/></svg>") no-repeat center / contain;
 }
-/* 위키 링크 클릭 효과 — .wiki-link.is-clicking과 동일 */
+
 .nf-rec-item.is-clicking,
 .nf-rec-item:active {
   background-color: var(--link-flash-bg);
@@ -4747,7 +4665,6 @@ html[data-font-size="xxl"] .topics-hero-overlay {
 .gallery-card:not(.is-expanded):nth-child(7n+6) .gallery-card-image { background: linear-gradient(135deg, #b08968, #7a5a3f); }
 .gallery-card:not(.is-expanded):nth-child(7n+7) .gallery-card-image { background: linear-gradient(135deg, #555555, #2a2a2a); }
 
-/* === 문서 본문 사진 (figure) === */
 .doc-figure {
   margin: 20px 0;
   text-align: center;
@@ -4769,7 +4686,6 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   padding: 0 8px;
 }
 
-/* === 본문 작은 안내문 (footnote) === */
 .section .footnote {
   margin-top: 8px;
   font-size: 12px;
@@ -4781,21 +4697,6 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   .doc-figure figcaption { font-size: 12px; }
 }
 
-/* ==========================================================================
-   브레드크럼 (스크롤 시 등장) — M2 카드 컨테이너, 차콜 통일 + 살색 점등
-   --------------------------------------------------------------------------
-   구조:
-     .doc-breadcrumb (wrapper, fixed) — 노출/숨김 + 모양 변화
-       └ .bc-bar (상단 띠, 좌측 정렬, 항상 자리잡음)
-       └ .bc-panel (드롭다운 영역, is-open일 때만 펼침)
-   톤:
-     모든 step과 드롭다운 항목은 차콜 흑회색으로 위계 없이 통일.
-     살색(accent) 점등은 두 곳에만: bar의 클릭된 step + 드롭다운의 "현재" 줄.
-   노출 전환 (F2):
-     opacity만 0.35s ease-out으로 페이드.
-     위치는 고정 (translateX(-50%) 가운데 정렬만 유지) — 이동 없음으로 끝점 추적
-     문제 제거, 가장 부드러운 페이드 느낌.
-   ========================================================================== */
 .doc-breadcrumb {
   position: fixed;
   top: 68px;
@@ -4816,10 +4717,6 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   will-change: opacity;
 }
 
-/* 좌측 액센트 바 — 폴더위치바임을 즉시 식별시키는 시그니처 디테일
-   위키 링크의 플래시 배경(#d6e6f5)을 그대로 차용해 "이 컴포넌트는 링크 메타포로
-   움직인다"는 시각 단서를 한 단계 끌어올림. bar 영역(높이 42px)에만 한정 —
-   is-open으로 드롭다운이 펼쳐져도 바는 상단 띠에만 머무름. */
 .doc-breadcrumb::before {
   content: '';
   position: absolute;
@@ -4843,9 +4740,6 @@ html[data-font-size="xxl"] .topics-hero-overlay {
               0 2px 6px rgba(0,0,0,0.04);
 }
 
-/* 상단 띠 — 좌측 정렬, 항상 자리잡음
-   좌측 패딩(18px)은 ::before 액센트 바(left:6px + width:6px = 12px 끝)와
-   첫 step 사이에 6px 호흡을 확보. */
 .bc-bar {
   display: flex;
   align-items: center;
@@ -4867,7 +4761,6 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   border-bottom-color: var(--border-light);
 }
 
-/* 단계 버튼: 부모 step은 차콜, 현재(leaf)는 검정 볼드, 클릭 점등은 위키 링크 효과 */
 .bc-step {
   display: inline-flex;
   align-items: center;
@@ -4893,16 +4786,11 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   background: var(--bg-secondary);
 }
 
-/* leaf(현재 페이지): 검정 + 평범한 두께 — 색만 진해서 위계 표시.
-   클릭 시 점등은 일반 step과 동일하게 동작 (형제 문서 보기 위해 펼치는 것이
-   주 용도이므로 시각 피드백 필요). */
 .bc-step.is-leaf {
   color: var(--text-primary);
   font-weight: 500;
 }
 
-/* 점등(클릭된 단계 또는 명시적 is-clicking): 위키 링크 클릭 효과 그대로
-   — 옅은 하늘 배경 + 같은 색 2px 외곽 글로우 + 링크색 밑줄. */
 .bc-step.is-active,
 .bc-step.is-clicking {
   background: var(--link-flash-bg);
@@ -4934,7 +4822,6 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   white-space: nowrap;
 }
 
-/* 슬래시 구분자 */
 .bc-sep {
   display: inline-flex;
   align-items: center;
@@ -4948,9 +4835,6 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   line-height: 1.2;
 }
 
-/* ==========================================================================
-   드롭다운 패널 — bar 아래로 펼쳐짐 (height 애니메이션)
-   ========================================================================== */
 .bc-panel {
   overflow: hidden;
   background: var(--bg-elevated);
@@ -4980,7 +4864,7 @@ html[data-font-size="xxl"] .topics-hero-overlay {
 .bc-panel-item:last-child {
   border-bottom: none;
 }
-/* 클릭 점등 — 위키 링크의 active 효과 그대로 (배경 + 글로우 + 밑줄) */
+
 .bc-panel-item:not(.is-current):active,
 .bc-panel-item.is-clicking:not(.is-current) {
   background: var(--link-flash-bg);
@@ -5015,7 +4899,6 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   font-weight: 500;
 }
 
-/* "현재" 줄: 검정 + 평범한 두께 — 색만 진해서 위계 표시. 클릭 불가. */
 .bc-panel-item.is-current {
   background: transparent;
   cursor: default;
@@ -5032,7 +4915,6 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   font-weight: 500;
 }
 
-/* 형제 없을 때 메시지 */
 .bc-panel-empty {
   padding: 14px 16px 16px 27px;
   text-align: left;
@@ -5045,15 +4927,6 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   font-weight: 600;
 }
 
-/* ==========================================================================
-   빈 상태 / 안내 화면 라인아트 아이콘
-   --------------------------------------------------------------------------
-   이전엔 이모지(⏳ 😅 🖼️ 🔍 💡 ⚠️)를 썼지만, 라인아트 SVG로 통일.
-   - .ho-spin    : 회전 (로딩)
-   - .ho-elastic : 큰 첫 튕김 + 작은 잔여 튕김 2회 (에러/빈 상태/검색실패)
-   - .ho-wifi-*  : Wi-Fi 호 순차 깜빡 (부팅 실패)
-   모두 prefers-reduced-motion 대응.
-   ========================================================================== */
 @keyframes ho-spin {
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
@@ -5104,7 +4977,7 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   <header class="top-header">
     <div class="search-container">
       <svg class="search-homi" viewBox="0 0 206 204" fill="currentColor" aria-hidden="true" onclick="navigateTo('home', null, null, {fromTab:true})" role="link" aria-label="홈으로"><g transform="translate(-5.032588,198.772005) scale(0.100000,-0.100000)"><path d="M455 1976 c-65 -16 -127 -49 -160 -83 -61 -65 -210 -441 -234 -594 -12 -69 -14 -260 -5 -296 4 -13 10 -23 14 -23 4 0 27 26 52 57 102 129 292 300 456 409 109 73 350 190 421 205 108 22 291 -9 371 -63 75 -51 75 -51 76 -326 2 -265 10 -334 49 -420 31 -68 31 -76 0 -90 -14 -7 -28 -19 -31 -27 -4 -8 17 -75 45 -148 28 -72 80 -213 117 -312 36 -99 71 -186 77 -194 24 -29 55 -31 139 -6 154 46 168 53 168 86 0 17 -16 65 -36 107 -20 42 -53 118 -74 167 -149 355 -155 365 -211 365 -35 0 -49 20 -86 121 -27 73 -27 77 -28 334 -1 169 -5 269 -12 286 -31 72 -120 134 -258 179 -22 7 -80 32 -130 56 -89 42 -209 96 -355 159 -139 60 -260 77 -365 51z"/></g></svg>
-      <!-- 호미 콩콩 파편 컨테이너 — 호미 머리(좌측 끝)가 닿는 지점에 위치, 컨테이너 전체 +50도 회전 -->
+
       <div class="search-homi-particles" id="searchHomiParticles" aria-hidden="true">
         <span class="hp-line" style="--tx:0; --ty:-12; --rot:0deg;"></span>
         <span class="hp-line" style="--tx:-10; --ty:-7; --rot:-50deg;"></span>
@@ -5127,14 +5000,14 @@ html[data-font-size="xxl"] .topics-hero-overlay {
         data-form-type="other"
         data-lpignore="true"
         data-1p-ignore="true">
-      <!-- 입력값 있을 때만 표시되는 X(clear) 버튼 -->
+
       <button type="button" class="search-clear-btn" id="searchClearBtn" aria-label="검색어 지우기" onclick="clearSearchInput()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <line x1="18" y1="6" x2="6" y2="18"/>
           <line x1="6" y1="6" x2="18" y2="18"/>
         </svg>
       </button>
-      <div class="search-actions" aria-hidden="false">
+      <div class="search-actions">
         <button type="button" class="search-action-btn" id="searchActionSearch" aria-label="검색" onclick="submitSearch()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
         </button>
@@ -5191,10 +5064,6 @@ html[data-font-size="xxl"] .topics-hero-overlay {
 
   <div class="dock-popup toc-popup" id="tocPopup">
     <div class="toc-popup-list" id="tocPopupList"></div>
-  </div>
-
-  <div class="dock-popup follow-popup" id="followPopup">
-    <div id="followPopupContent"></div>
   </div>
 
   <div class="contrib-done-modal" id="contribDoneModal" role="dialog" aria-modal="true" aria-labelledby="contribDoneTitle" aria-hidden="true">
@@ -5352,22 +5221,9 @@ const REDIRECT_MAP = {
   'cheongna celebrities': '청라-유명인'
 };
 
-// ─────────────────────────────────────────────────────────────
-// DOCS 동적 로딩 (분리된 docs/*.json 파일들에서 불러옴)
-// ─────────────────────────────────────────────────────────────
 let DOCS = {};
-let DOCS_LOADED = false;
 let DOCS_LOAD_ERROR = null;
 
-// ─────────────────────────────────────────────────────────────
-// 카테고리 트리 (브레드크럼용)
-//   CATEGORIES_TREE      : _categories.json의 tree 그대로
-//   CATEGORY_LABEL[id]   : 카테고리 ID → 표시 라벨
-//   CATEGORY_PARENT[id]  : 자식 ID → 부모 ID  (최상위는 null)
-//   CATEGORY_CHILDREN[id]: 부모 ID → 자식 ID 배열 (가나다순)
-//   CATEGORY_HIDDEN      : breadcrumb에서 숨길 카테고리 ID 집합
-//   CATEGORY_ROOTS       : 최상위 카테고리 ID 배열 (가나다순, hidden 포함)
-// ─────────────────────────────────────────────────────────────
 let CATEGORIES_TREE = null;
 const CATEGORY_LABEL = {};
 const CATEGORY_PARENT = {};
@@ -5376,7 +5232,6 @@ const CATEGORY_HIDDEN = new Set();
 let CATEGORY_ROOTS = [];
 
 function buildCategoryIndex() {
-  // 트리 순회: 각 노드의 라벨, 부모, 자식, hidden 여부 기록
   const walk = (node, id, parentId) => {
     CATEGORY_LABEL[id] = (node && node.label) || id;
     CATEGORY_PARENT[id] = parentId;
@@ -5396,7 +5251,6 @@ function buildCategoryIndex() {
   }
 }
 
-// 어떤 doc.categories 항목이 string이 아닌 옛 {text,id} 객체일 때를 위한 정규화
 function normalizeDocCategoryIds(doc) {
   if (!doc || !Array.isArray(doc.categories)) return [];
   return doc.categories.map(c => {
@@ -5431,14 +5285,9 @@ async function loadAllDocs() {
     if (!indexRes.ok) throw new Error('docs/_index.json 로드 실패 (HTTP ' + indexRes.status + ')');
     const indexData = await indexRes.json();
 
-    // _index.json 스키마 호환:
-    //   v1: { docs: ["id1", "id2", ...] }
-    //   v2: { version: 2, docs: { id1: {meta}, id2: {meta} }, redirects: {...} }
-    //   v3: { version: 3, docs: ["id1", "id2", ...], redirects: {...} }  ← 슬림
     let docIds;
     if (indexData.version === 2 && indexData.docs && !Array.isArray(indexData.docs)) {
       docIds = Object.keys(indexData.docs);
-      // redirect 맵을 REDIRECT_MAP에 머지 (옛 ID → 새 ID 자동 리다이렉트)
       if (indexData.redirects && typeof REDIRECT_MAP !== 'undefined') {
         for (const [oldId, newId] of Object.entries(indexData.redirects)) {
           REDIRECT_MAP[oldId] = newId;
@@ -5455,25 +5304,21 @@ async function loadAllDocs() {
       docIds = indexData.docs || [];
     }
 
-    // 본문 안 상대경로 이미지를 docs/{id}/ 절대경로로 자동 보정하는 헬퍼
     function rewriteAssetPaths(doc, docId) {
       if (!doc) return doc;
       const baseDir = `docs/${encodeURIComponent(docId)}/`;
       if (doc.infobox && typeof doc.infobox === 'object' && doc.infobox.image) {
         const img = doc.infobox.image;
-        // 이미 http(s)://, /, docs/로 시작하면 그대로
         if (!/^(https?:|\/|docs\/)/.test(img)) {
           doc.infobox.image = baseDir + img;
         }
       }
-      // content 안 <img src="...">, <a href="...">
       if (typeof doc.content === 'string') {
         doc.content = doc.content.replace(
           /(<(?:img|a)\b[^>]*\b(?:src|href))="(?!https?:|\/|docs\/|#|mailto:|javascript:)([^"]+)"/g,
           (m, prefix, path) => `${prefix}="${baseDir}${path}"`
         );
       } else if (Array.isArray(doc.content)) {
-        // content가 배열인 옛 포맷도 처리
         doc.content = doc.content.map(s => typeof s === 'string'
           ? s.replace(
               /(<(?:img|a)\b[^>]*\b(?:src|href))="(?!https?:|\/|docs\/|#|mailto:|javascript:)([^"]+)"/g,
@@ -5506,7 +5351,6 @@ async function loadAllDocs() {
       if (doc) DOCS[id] = doc;
     }
 
-    // _categories.json 로드 (실패해도 본문 표시는 가능; 브레드크럼만 비활성화됨)
     try {
       const catRes = await fetch('docs/_categories.json', { cache: 'no-cache' });
       if (catRes.ok) {
@@ -5520,15 +5364,12 @@ async function loadAllDocs() {
       console.warn('[homiwiki] _categories.json 로드 실패:', e);
     }
 
-    DOCS_LOADED = true;
-
     if (Object.keys(DOCS).length === 0) {
       DOCS_LOAD_ERROR = '문서가 하나도 로드되지 않았어요.';
     }
   } catch (err) {
     console.error('[homiwiki] 문서 로드 실패:', err);
     DOCS_LOAD_ERROR = err.message || String(err);
-    DOCS_LOADED = true;
   }
 }
 
@@ -5555,7 +5396,6 @@ function showLoadErrorScreen() {
   `);
 }
 
-
 const EDITOR_CONFIG = {
   fallbackFollowTarget: '클로드'
 };
@@ -5568,7 +5408,9 @@ let state = {
   fontSize: 'm',
   galleryPage: 1,
   galleryFilter: 'all',
-  expandedGalleryId: null
+  expandedGalleryId: null,
+  searchResultsQuery: '',
+  searchResultsPage: 1
 };
 
 function applyTheme(theme) {
@@ -5655,10 +5497,11 @@ function resolveDocId(query) {
   return null;
 }
 
-function getSuggestions(query) {
+function searchAllMatches(query) {
   if (!query.trim()) return [];
   const normalized = normalizeSearch(query);
   if (normalized.length < 2) return [];
+
   const results = new Set();
 
   for (const key in REDIRECT_MAP) {
@@ -5669,18 +5512,27 @@ function getSuggestions(query) {
   for (const docId in DOCS) {
     const doc = DOCS[docId];
     if (docId.toLowerCase().includes(normalized) ||
-        doc.title.toLowerCase().includes(normalized) ||
-        (doc.subtitle && doc.subtitle.toLowerCase().includes(normalized))) {
+        doc.title.toLowerCase().includes(normalized)) {
       results.add(docId);
     }
   }
-  return Array.from(results).slice(0, 30);
+
+  return Array.from(results).sort((a, b) => {
+    const ta = (DOCS[a].title || '').toLowerCase();
+    const tb = (DOCS[b].title || '').toLowerCase();
+    const aStarts = ta.startsWith(normalized) ? 0 : 1;
+    const bStarts = tb.startsWith(normalized) ? 0 : 1;
+    if (aStarts !== bStarts) return aStarts - bStarts;
+    return DOCS[a].title.localeCompare(DOCS[b].title, 'ko');
+  });
 }
 
-// 검색 매칭되는 부분을 볼드(<b>)로 감싸기 — XSS 방지를 위해 escape 후 처리
+function getSuggestions(query) {
+  return searchAllMatches(query).slice(0, 10);
+}
+
 function highlightMatch(text, query) {
   if (!text) return '';
-  // 1) HTML 이스케이프
   const esc = (s) => String(s)
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
@@ -5691,7 +5543,6 @@ function highlightMatch(text, query) {
   if (!query) return safeText;
   const safeQuery = esc(query.trim());
   if (!safeQuery) return safeText;
-  // 정규식 특수문자 이스케이프
   const reSafe = safeQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   return safeText.replace(new RegExp(reSafe, 'gi'), (m) => `<b>${m}</b>`);
 }
@@ -5702,17 +5553,19 @@ function renderSuggestions(query) {
     searchSuggestions.classList.remove('active');
     return;
   }
+  const totalMatches = searchAllMatches(query).length;
   const searchIcon = `<svg class="sug-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>`;
-  searchSuggestions.innerHTML = suggestions.map(docId => {
+  const itemsHtml = suggestions.map(docId => {
     const doc = DOCS[docId];
-    // 영문 subtitle은 표시하지 않음 (네이버 스타일 UX)
     const titleHtml = highlightMatch(doc.title, query);
     const adTag = doc.type === 'sponsored' ? `<span class="ad-tag" aria-label="광고 문서">AD</span>` : '';
-    return `<div class="suggestion-item" onclick="selectSuggestion('${docId}')">${searchIcon}<span class="sug-text">${titleHtml}${adTag}</span></div>`;
+    return `<div class="suggestion-item" onclick="selectSuggestion('${docId}')">${searchIcon}<span>${titleHtml}${adTag}</span></div>`;
   }).join('');
+  const moreNotice = totalMatches > suggestions.length
+    ? `<div class="suggestion-more-notice">전체 검색결과 보기 : 엔터를 누르세요</div>`
+    : '';
+  searchSuggestions.innerHTML = itemsHtml + moreNotice;
   searchSuggestions.classList.add('active');
-  // 연관검색어가 인기검색어 없이 바로 나오는 케이스 (예: focus 시 값이 이미 있을 때)
-  // 이미 오버레이 켜져있으면 pushSearchOverlayState 내부에서 막힘
   pushSearchOverlayState();
 }
 
@@ -5734,9 +5587,6 @@ window.selectSuggestion = function(docId) {
   }
 };
 
-// 인기 검색어 — 더미 데이터로 TOPICS_LIST 상위 10개 사용
-// 운영자가 TOPICS_LIST 순서를 바꾸면 자동으로 반영됨
-// 향후 별도 popularSearches.json으로 분리 가능
 function getPopularList() {
   if (typeof TOPICS_LIST === 'undefined' || !Array.isArray(TOPICS_LIST)) return [];
   return TOPICS_LIST.slice(0, 10).map((t, idx) => ({
@@ -5746,7 +5596,6 @@ function getPopularList() {
   }));
 }
 
-// 불꽃 SVG (헤더 아이콘)
 const POPULAR_FLAME_SVG = `<svg class="popular-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>`;
 
 const searchPopular = document.getElementById('searchPopular');
@@ -5758,7 +5607,6 @@ function renderPopular() {
   const header = `<div class="popular-header">${POPULAR_FLAME_SVG}<span class="popular-label">인기 검색어</span></div>`;
   const items = list.map(item => {
     const rankCls = item.rank <= 3 ? `r${item.rank}` : 'rest';
-    // 이름 escape (XSS 방지)
     const esc = String(item.name)
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
@@ -5767,13 +5615,11 @@ function renderPopular() {
   searchPopular.innerHTML = header + items;
 }
 
-// 인기 항목 클릭 — 검색창에 텍스트 채우고 submit (검색 흐름 그대로 탐)
 window.selectPopular = function(idx) {
   const list = getPopularList();
   const item = list[idx];
   if (!item) return;
   hidePopular();
-  // 매칭되는 실제 문서가 있으면 바로 이동
   if (item.targetDocId && DOCS[item.targetDocId]) {
     searchInput.value = '';
     if (typeof updateClearBtn === 'function') updateClearBtn();
@@ -5791,25 +5637,17 @@ window.selectPopular = function(idx) {
     }
     return;
   }
-  // 매칭 문서 없으면 검색창에 채우고 submit
   searchInput.value = item.name;
   if (typeof updateClearBtn === 'function') updateClearBtn();
   submitSearch();
 };
 
-// ==========================================================================
-// 검색 오버레이 (인기검색어 + 연관검색어) history 관리
-// 패널이 열리면 history에 가상 카드 한 장 push → 뒤로가기로 패널만 닫힘
-// 인기 ↔ 연관 자동 전환은 같은 가상 카드 안에서 콘텐츠만 바뀜 (한 칸으로 묶음)
-// 패널 안에서 navigateTo/submitSearch 호출 시 오버레이 카드를 갈음 (replaceState)
-// ==========================================================================
 let searchOverlayOpen = false;
 
 function pushSearchOverlayState() {
-  if (searchOverlayOpen) return; // 이미 열려있으면 안 쌓음
+  if (searchOverlayOpen) return;
   searchOverlayOpen = true;
   try {
-    // 현재 페이지 hash 그대로 두되 state만 오버레이로 표시
     history.pushState(
       {
         page: '__searchOverlay',
@@ -5822,14 +5660,9 @@ function pushSearchOverlayState() {
   } catch (_) {}
 }
 
-// 사용자가 패널에서 어떤 페이지로 이동할 때 (검색 결과 클릭 / 검색 실행)
-// 호출하면 오버레이 카드가 다음 navigateTo의 pushState에 의해 자연스럽게 갈음됨.
-// 단, 오버레이가 열려있으면 먼저 history.back() 후 처리해야 카드가 쌓이지 않음.
-// 그래서 여기선 플래그만 내림 → 호출자가 직접 history 정리.
 function consumeSearchOverlayForNavigation() {
   if (!searchOverlayOpen) return false;
   searchOverlayOpen = false;
-  // 오버레이 카드를 갈아치우기 위해 replaceState 사용 신호 (호출자가 사용)
   return true;
 }
 
@@ -5845,7 +5678,6 @@ function hidePopular() {
   if (searchPopular) searchPopular.classList.remove('active');
 }
 
-// X(clear) 버튼 표시/숨김 토글 — input 핸들러보다 먼저 정의 (호이스팅 안전)
 const searchClearBtn = document.getElementById('searchClearBtn');
 function updateClearBtn() {
   if (!searchClearBtn) return;
@@ -5859,19 +5691,14 @@ window.clearSearchInput = function() {
   searchInput.value = '';
   updateClearBtn();
   searchSuggestions.classList.remove('active');
-  // 입력값 비었으니 인기 검색어 노출
   showPopular();
-  // 포커스 유지 (사용자가 바로 새 검색어 입력 가능하게)
   try { searchInput.focus(); } catch (e) {}
 };
 
 let searchDebounceTimer = null;
 searchInput.addEventListener('input', (e) => {
   const val = e.target.value;
-  // clear 버튼 표시/숨김 갱신
   updateClearBtn();
-  // 호미 1회 콩 발동 — 타이핑할 때마다 콩콩콩 (사용자 박자와 동기화)
-  // 빈값/추가 입력/백스페이스 모두 input 이벤트 발생하므로 다 발동됨
   if (typeof triggerHomiKongOnce === 'function') triggerHomiKongOnce();
   if (!val.trim()) {
     if (searchDebounceTimer) {
@@ -5879,11 +5706,9 @@ searchInput.addEventListener('input', (e) => {
       searchDebounceTimer = null;
     }
     searchSuggestions.classList.remove('active');
-    // 빈 입력 = 인기 검색어 노출
     showPopular();
     return;
   }
-  // 입력 시작 = 인기 검색어 숨김
   hidePopular();
   if (searchDebounceTimer) clearTimeout(searchDebounceTimer);
   searchDebounceTimer = setTimeout(() => {
@@ -5892,58 +5717,12 @@ searchInput.addEventListener('input', (e) => {
   }, 150);
 });
 
-// 호미 콩콩 발동 — focus 시 호미가 두 번 콩 찍히고 파편이 두 번 튐
-// 호미 keyframe: 20%=1차콩(-45도), 60%=2차콩(-45도) — 총 1.2초
-// 파편 발동 타이밍: 호미보다 0.2초 먼저 (체감상 동기화)
-const HOMI_KONG_DURATION = 1200;
-const HOMI_KONG_HITS = [40, 520]; // 호미보다 200ms 앞당겨 발동 (체감 동기화)
-let homiKongTimeoutIds = [];
-
-function triggerHomiKong() {
-  const homiEl = document.querySelector('.search-homi');
-  const particlesEl = document.getElementById('searchHomiParticles');
-  if (!homiEl) return;
-
-  // 진행 중인 콩콩 취소
-  homiKongTimeoutIds.forEach(id => clearTimeout(id));
-  homiKongTimeoutIds = [];
-  homiEl.classList.remove('kong');
-  if (particlesEl) particlesEl.classList.remove('burst');
-
-  // 다음 프레임에 클래스 추가 (리플로우 트리거)
-  requestAnimationFrame(() => {
-    homiEl.classList.add('kong');
-    // 콩 찍히는 순간마다 파편 burst
-    HOMI_KONG_HITS.forEach(hitTime => {
-      const id1 = setTimeout(() => {
-        if (!particlesEl) return;
-        particlesEl.classList.remove('burst');
-        // reflow → 다시 추가하면 애니메이션 재시작
-        void particlesEl.offsetWidth;
-        particlesEl.classList.add('burst');
-        const id2 = setTimeout(() => {
-          particlesEl.classList.remove('burst');
-        }, 250);
-        homiKongTimeoutIds.push(id2);
-      }, hitTime);
-      homiKongTimeoutIds.push(id1);
-    });
-    // 호미 콩콩 끝나면 .kong 제거
-    const idEnd = setTimeout(() => homiEl.classList.remove('kong'), HOMI_KONG_DURATION + 20);
-    homiKongTimeoutIds.push(idEnd);
-  });
-}
-
-// 호미 1회 콩 (짧은 단발) — input 이벤트마다 발동
-// 타이핑 박자에 맞춰 콩콩콩... 키 멈추면 자연 종료
-// 스로틀: 호미가 한 사이클 끝나기 전엔 새 input 무시 (사이클을 항상 완주)
-const HOMI_KONG_ONCE_DURATION = 420; // CSS keyframe과 동일
+const HOMI_KONG_ONCE_DURATION = 420;
 const HOMI_PARTICLE_BURST_DURATION = 350;
 let homiKongOnceTimeoutIds = [];
-let homiKongInProgress = false; // 스로틀 락
+let homiKongInProgress = false;
 
 function triggerHomiKongOnce() {
-  // 스로틀: 이전 콩이 아직 진행 중이면 새 콩 발동 안 함
   if (homiKongInProgress) return;
 
   const homiEl = document.querySelector('.search-homi');
@@ -5952,17 +5731,14 @@ function triggerHomiKongOnce() {
 
   homiKongInProgress = true;
 
-  // 이전 타임아웃 정리 (안전)
   homiKongOnceTimeoutIds.forEach(id => clearTimeout(id));
   homiKongOnceTimeoutIds = [];
   homiEl.classList.remove('kong-once');
   if (particlesEl) particlesEl.classList.remove('burst');
 
-  // 리플로우 → 클래스 다시 추가 (애니메이션 재시작)
   void homiEl.offsetWidth;
   homiEl.classList.add('kong-once');
 
-  // 파편 동기화 — 호미 콩 피크(45%, ~190ms)에 맞춰 파편 발사
   if (particlesEl) {
     const idDelay = setTimeout(() => {
       if (!particlesEl) return;
@@ -5977,7 +5753,6 @@ function triggerHomiKongOnce() {
     homiKongOnceTimeoutIds.push(idDelay);
   }
 
-  // 단발 콩 종료 + 락 해제
   const idEnd = setTimeout(() => {
     homiEl.classList.remove('kong-once');
     homiKongInProgress = false;
@@ -5985,11 +5760,7 @@ function triggerHomiKongOnce() {
   homiKongOnceTimeoutIds.push(idEnd);
 }
 
-// X(clear) 버튼 — 함수 정의는 input 핸들러 위에 있음
-
 searchInput.addEventListener('focus', (e) => {
-  // focus 시에는 호미 모션 발동 안 함 (모바일 키보드 펼침에 가려짐)
-  // 대신 input 이벤트마다 호미가 콩 찍힘 (사용자 타이핑 박자와 동기화)
   if (e.target.value) {
     renderSuggestions(e.target.value);
   } else {
@@ -6001,9 +5772,6 @@ searchInput.addEventListener('blur', () => {
   setTimeout(() => {
     searchSuggestions.classList.remove('active');
     hidePopular();
-    // 오버레이가 history에 쌓여있으면 history.back으로 정리
-    // (사용자가 input 바깥을 탭해서 자연 닫힌 경우에도 history 카드 정리)
-    // 단, 이미 navigation 중이면 이중 처리 안 되도록 플래그 확인
     if (searchOverlayOpen) {
       searchOverlayOpen = false;
       try { history.back(); } catch (_) {}
@@ -6011,7 +5779,6 @@ searchInput.addEventListener('blur', () => {
   }, 200);
 });
 
-// 검색 실행 — Enter 키와 우측 액션 버튼(돋보기/화살표)이 공통으로 호출
 window.submitSearch = function() {
   if (searchDebounceTimer) {
     clearTimeout(searchDebounceTimer);
@@ -6019,33 +5786,29 @@ window.submitSearch = function() {
   }
   const query = (searchInput.value || '').trim();
   if (!query) {
-    // 입력값 없으면 검색창에 focus만 줌 (안드/iOS에서 키보드 호출)
     try { searchInput.focus(); } catch (e) {}
     return;
   }
   const docId = resolveDocId(query);
+  const partialMatches = docId ? [] : searchAllMatches(query);
 
-  // 오버레이가 열려있으면 갈음. navigate 직전에 history.back()으로
-  // 오버레이 카드를 제거하고 그 자리에 새 카드를 푸시.
   const consumed = consumeSearchOverlayForNavigation();
 
-  // 다음 동작 함수: 결과 페이지로 이동하면서 input clear + blur (자연 blur)
   const finalize = () => {
     searchInput.value = '';
     if (typeof updateClearBtn === 'function') updateClearBtn();
     searchSuggestions.classList.remove('active');
     if (docId && DOCS[docId]) {
       navigateTo('doc', docId);
+    } else if (partialMatches.length > 0) {
+      enterSearchResults(query);
     } else {
       enterNotFound(query);
     }
-    // 모바일 키보드가 페이지 전환 후 자연스럽게 사라지도록 blur
     try { searchInput.blur(); } catch (_) {}
   };
 
   if (consumed) {
-    // popstate가 비동기로 발생. popstate 핸들러에서 __searchOverlay 케이스를 처리한 뒤
-    // 다음 tick에 navigate. 그래야 popstate 처리 중 navigateTo가 끼어들지 않음.
     history.back();
     setTimeout(finalize, 50);
   } else {
@@ -6059,9 +5822,7 @@ searchInput.addEventListener('keydown', (e) => {
   }
 });
 
-// not-found 진입 — 정식 라우트는 아니지만 history/state를 정합하게 유지
 function enterNotFound(query) {
-  // 이전 페이지를 navStack에 쌓는다 (뒤로가기로 직전 페이지 복귀 가능)
   if (state.currentPage) {
     state.navStack.push({
       page: state.currentPage,
@@ -6071,9 +5832,7 @@ function enterNotFound(query) {
   }
   state.currentPage = 'notfound';
   state.currentDocId = null;
-  document.documentElement.setAttribute('data-page', 'notfound');
 
-  // history에 not-found 상태 한 칸 쌓기 (해시는 검색 쿼리 인코딩)
   try {
     history.pushState(
       { page: 'notfound', query },
@@ -6092,6 +5851,109 @@ function enterNotFound(query) {
 
   if (typeof renderBreadcrumb === 'function') renderBreadcrumb();
   updateFloatingDock();
+}
+
+const SEARCH_RESULTS_PAGE_SIZE = 10;
+
+function enterSearchResults(query) {
+  if (state.currentPage) {
+    state.navStack.push({
+      page: state.currentPage,
+      docId: state.currentDocId || null
+    });
+    if (state.navStack.length > 50) state.navStack.shift();
+  }
+  state.currentPage = 'search-results';
+  state.currentDocId = null;
+  state.searchResultsQuery = query;
+  state.searchResultsPage = 1;
+
+  try {
+    history.pushState(
+      { page: 'search-results', query },
+      '',
+      '#/search/' + encodeURIComponent(query)
+    );
+  } catch (e) {
+    try { location.hash = '#/search/' + encodeURIComponent(query); } catch(_) {}
+  }
+
+  closeAllDockPopups();
+  document.querySelectorAll('.toolbar-btn').forEach(btn => btn.classList.remove('active'));
+  window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+
+  renderSearchResults(query);
+
+  if (typeof renderBreadcrumb === 'function') renderBreadcrumb();
+  updateFloatingDock();
+}
+
+window.goSearchResultsPage = function(page) {
+  const total = searchAllMatches(state.searchResultsQuery || '').length;
+  const totalPages = Math.max(1, Math.ceil(total / SEARCH_RESULTS_PAGE_SIZE));
+  if (page < 1 || page > totalPages || page === state.searchResultsPage) return;
+  state.searchResultsPage = page;
+  renderSearchResults(state.searchResultsQuery || '');
+  window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+};
+
+function renderSearchResults(query) {
+  const content = document.getElementById('pageContent');
+  const matches = searchAllMatches(query);
+  const total = matches.length;
+  const pageSize = SEARCH_RESULTS_PAGE_SIZE;
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
+  let currentPage = state.searchResultsPage || 1;
+  if (currentPage > totalPages) currentPage = totalPages;
+  if (currentPage < 1) currentPage = 1;
+  state.searchResultsPage = currentPage;
+  const startIdx = (currentPage - 1) * pageSize;
+  const pageItems = matches.slice(startIdx, startIdx + pageSize);
+
+  const escQuery = String(query)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+
+  const itemsHtml = pageItems.map(id => {
+    const doc = DOCS[id];
+    const titleHtml = highlightMatch(doc.title, query);
+    return `<div class="sr-item" role="link" tabindex="0" onclick="navigateTo('doc','${id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();navigateTo('doc','${id}')}">
+      <svg class="sr-item-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+      <span class="sr-item-title">${titleHtml}</span>
+    </div>`;
+  }).join('');
+
+  let paginationHtml = '';
+  if (totalPages > 1) {
+    const pages = [];
+    for (let p = 1; p <= totalPages; p++) pages.push(p);
+    paginationHtml = `<div class="sr-pagination" role="navigation" aria-label="검색 결과 페이지">${
+      pages.map(p => {
+        const active = p === currentPage ? ' is-active' : '';
+        return `<button class="sr-page-btn${active}" onclick="goSearchResultsPage(${p})" aria-label="${p}페이지로 이동"${p === currentPage ? ' aria-current="page"' : ''}>${p}</button>`;
+      }).join('')
+    }</div>`;
+  }
+
+  content.innerHTML = `
+    <div class="search-results">
+      <div class="sr-head">
+        <h1 class="sr-query"><span class="sr-bullet">●</span>${escQuery}</h1>
+        <div class="sr-count">검색 결과 ${total}개</div>
+      </div>
+
+      <div class="sr-divider"></div>
+
+      <div class="sr-section-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+        <span>이런 문서는 어때요?</span>
+      </div>
+
+      <div class="sr-list">${itemsHtml}</div>
+
+      ${paginationHtml}
+    </div>
+  `;
 }
 
 function stateToHash(page, docId) {
@@ -6122,6 +5984,8 @@ function hashToState(hash) {
   if (page === 'search') {
     const query = parts[1] ? decodeURIComponent(parts[1]) : '';
     if (!query) return { page: 'home', docId: null };
+    const matches = searchAllMatches(query);
+    if (matches.length > 0) return { page: 'search-results', docId: null, query };
     return { page: 'notfound', docId: null, query };
   }
   return { page, docId: null };
@@ -6132,14 +5996,11 @@ window.navigateTo = function(page, docId = null, originalQuery = null, opts = {}
     (page === state.currentPage) &&
     (page !== 'doc' || docId === state.currentDocId);
 
-  // navigateTo 호출 = 페이지 이동 의도가 있다는 것. 검색창 무조건 리셋.
-  // (마지막 검색어가 남아있으면 사용자가 매번 수기로 지워야 함)
   if (typeof searchInput !== 'undefined' && searchInput) {
     if (searchInput.value) {
       searchInput.value = '';
       if (typeof updateClearBtn === 'function') updateClearBtn();
     }
-    // 자동완성/인기검색어 패널도 닫음
     if (typeof searchSuggestions !== 'undefined' && searchSuggestions) {
       searchSuggestions.classList.remove('active');
     }
@@ -6166,8 +6027,6 @@ window.navigateTo = function(page, docId = null, originalQuery = null, opts = {}
   if (page === 'timeline') {
     timelineState.currentCategory = 'all';
   }
-
-  document.documentElement.setAttribute('data-page', page);
 
   if (!opts.fromBack && !sameDest) {
     const newHash = stateToHash(page, docId);
@@ -6201,7 +6060,6 @@ window.navigateTo = function(page, docId = null, originalQuery = null, opts = {}
     case 'doc': renderDoc(docId, originalQuery); break;
   }
 
-  // 브레드크럼 갱신 (doc 페이지가 아니면 자동으로 숨김)
   if (typeof renderBreadcrumb === 'function') renderBreadcrumb();
 
   updateFloatingDock();
@@ -6222,13 +6080,7 @@ window.addEventListener('popstate', (e) => {
     target = hashToState(location.hash);
   }
 
-  // ───────────────────────────────────────────────────────────────
-  // CASE 0: 검색 오버레이로 돌아온 경우
-  // 사용자가 패널에서 뒤로가기를 눌렀거나, navigation 처리 중 history.back()이 호출된 경우
-  // 둘 다 패널만 닫고 underlying 페이지는 그대로 유지
-  // ───────────────────────────────────────────────────────────────
   if (target.page === '__searchOverlay') {
-    // 패널 닫기 + input blur
     if (typeof searchSuggestions !== 'undefined' && searchSuggestions) {
       searchSuggestions.classList.remove('active');
     }
@@ -6237,13 +6089,9 @@ window.addEventListener('popstate', (e) => {
       try { searchInput.blur(); } catch (_) {}
     }
     searchOverlayOpen = false;
-    // 페이지 자체는 그대로 두기 — currentPage/Doc도 유지
     return;
   }
 
-  // 만약 오버레이 상태에서 뒤로가기가 호출되어 다른 상태로 갔다면
-  // (예: 사용자가 패널 열린 채로 뒤로 두 번 빠르게 눌러서 underlying 페이지의 이전 카드로 감)
-  // 오버레이 플래그를 끄고 패널을 닫음
   if (searchOverlayOpen) {
     if (typeof searchSuggestions !== 'undefined' && searchSuggestions) {
       searchSuggestions.classList.remove('active');
@@ -6255,16 +6103,29 @@ window.addEventListener('popstate', (e) => {
     searchOverlayOpen = false;
   }
 
-  // not-found 상태로 복귀
   if (target.page === 'notfound') {
     if (state.navStack.length > 0) state.navStack.pop();
     state.currentPage = 'notfound';
     state.currentDocId = null;
-    document.documentElement.setAttribute('data-page', 'notfound');
     closeAllDockPopups();
     document.querySelectorAll('.toolbar-btn').forEach(btn => btn.classList.remove('active'));
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     renderNotFound(target.query || '');
+    if (typeof renderBreadcrumb === 'function') renderBreadcrumb();
+    updateFloatingDock();
+    return;
+  }
+
+  if (target.page === 'search-results') {
+    if (state.navStack.length > 0) state.navStack.pop();
+    state.currentPage = 'search-results';
+    state.currentDocId = null;
+    state.searchResultsQuery = target.query || '';
+    state.searchResultsPage = 1;
+    closeAllDockPopups();
+    document.querySelectorAll('.toolbar-btn').forEach(btn => btn.classList.remove('active'));
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    renderSearchResults(target.query || '');
     if (typeof renderBreadcrumb === 'function') renderBreadcrumb();
     updateFloatingDock();
     return;
@@ -6343,7 +6204,6 @@ function renderHome() {
 
   const CURATION_ICONS = {
     cube: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"></polygon><polyline points="2 8.5 12 15 22 8.5"></polyline><line x1="12" y1="22" x2="12" y2="15"></line></svg>',
-    person: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>',
     bolt: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>'
   };
   const HOME_CURATIONS = [
@@ -6618,7 +6478,6 @@ async function runOneSearchDemo(scenario, myRunId, skipToResult) {
     resSub.textContent   = doc.subtitle || '';
     resMeta.textContent  = '최근 수정: ' + (doc.updated || '―');
     resTags.innerHTML = (doc.categories || []).slice(0, 3).map(c => {
-      // v3: 카테고리 항목은 leaf 카테고리 ID 문자열. v2 호환: {text, id} 객체.
       const raw = (typeof c === 'string') ? c : (c && (c.text || c.id)) || '';
       const label = (typeof CATEGORY_LABEL !== 'undefined' && CATEGORY_LABEL[raw]) || raw;
       const tmp = document.createElement('div');
@@ -6826,7 +6685,7 @@ function renderTopics(opts) {
       <div class="topics-hero-overlay" aria-hidden="true"></div>
       <div class="topics-hero-content">
         <span class="topics-hero-badge">이번 주 1위</span>
-        <div class="topics-hero-title"><span class="topics-hero-title-inner">${escapeHtml(top.name)}</span></div>
+        <div class="topics-hero-title">${escapeHtml(top.name)}</div>
         <div class="topics-hero-meta">${escapeHtml(heroBlurbShort)}</div>
       </div>
       <svg class="topics-hero-spark" aria-hidden="true" viewBox="0 0 70 28" xmlns="http://www.w3.org/2000/svg" fill="none">
@@ -6840,7 +6699,7 @@ function renderTopics(opts) {
     <li class="topics-row" data-rank="${idx + 1}" onclick="topicsTargetClick('${t.target || ''}', this)">
       <span class="topics-rank">${idx + 1}위</span>
       <div class="topics-row-body">
-        <div class="topics-row-name"><span class="topics-row-name-inner">${escapeHtml(t.name)}</span></div>
+        <div class="topics-row-name">${escapeHtml(t.name)}</div>
         <div class="topics-row-blurb">${escapeHtml(t.blurb)}</div>
       </div>
     </li>
@@ -6987,7 +6846,7 @@ function renderTimelineText(text) {
     const exists = (typeof DOCS !== 'undefined') && DOCS && DOCS[docId];
 
     if (exists) {
-      result += `<span class="tl-wlink" data-doc-id="${escapeHtml(docId)}" onclick="navigateFromTimeline(event, '${escapeHtml(docId)}')">${escapeHtml(label)}</span>`;
+      result += `<span class="tl-wlink" onclick="navigateFromTimeline(event, '${escapeHtml(docId)}')">${escapeHtml(label)}</span>`;
     } else {
       result += `<span class="tl-wlink-dead" title="문서 없음">${escapeHtml(label)}</span>`;
     }
@@ -7033,9 +6892,7 @@ function escapeHtml(str) {
     .replace(/'/g, '&#39;');
 }
 
-// GALLERY는 gallery/index.json에서 동적으로 로드됨 (loadGallery 참조)
 let GALLERY = [];
-let GALLERY_LOADED = false;
 
 async function loadGallery() {
   try {
@@ -7043,11 +6900,9 @@ async function loadGallery() {
     if (!res.ok) throw new Error('gallery/index.json 로드 실패 (HTTP ' + res.status + ')');
     const data = await res.json();
     GALLERY = Array.isArray(data.items) ? data.items : [];
-    GALLERY_LOADED = true;
   } catch (err) {
     console.warn('[homiwiki] 갤러리 로드 실패:', err);
     GALLERY = [];
-    GALLERY_LOADED = true;
   }
 }
 
@@ -7225,7 +7080,7 @@ function renderGalleryCard(item) {
 
   if (!isExpanded) {
     return `
-      <div class="gallery-card" data-id="${escapeHtml(item.id)}" data-author="${escapeHtml(item.user)}" data-uploaded-at="${escapeHtml(item.uploadedAt || '')}">
+      <div class="gallery-card" data-id="${escapeHtml(item.id)}">
         <div class="gallery-card-image" onclick="toggleGalleryDetail('${item.id}')">
           ${imgInner}
         </div>
@@ -7235,7 +7090,7 @@ function renderGalleryCard(item) {
   }
 
   return `
-    <div class="gallery-card is-expanded" data-id="${escapeHtml(item.id)}" data-author="${escapeHtml(item.user)}" data-uploaded-at="${escapeHtml(item.uploadedAt || '')}">
+    <div class="gallery-card is-expanded" data-id="${escapeHtml(item.id)}">
       <div class="gallery-card-image" onclick="toggleGalleryDetail('${item.id}')">
         ${imgInner}
         <button class="gallery-download-btn"
@@ -7263,7 +7118,6 @@ window.toggleGalleryDetail = function(id) {
   const wasExpanded = state.expandedGalleryId === id;
 
   if (!wasExpanded) {
-    // 펼치기 직전: 현재 스크롤 위치 저장
     _galleryScrollBeforeExpand = window.scrollY;
     state.expandedGalleryId = id;
     renderGalleryContent();
@@ -7272,7 +7126,6 @@ window.toggleGalleryDetail = function(id) {
       if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
   } else {
-    // 닫기: 펼치기 전 스크롤 위치로 복원
     state.expandedGalleryId = null;
     renderGalleryContent();
     if (_galleryScrollBeforeExpand !== null) {
@@ -7332,7 +7185,6 @@ window.downloadGalleryImage = function(id) {
     showToast('이미지가 아직 준비 중이에요');
     return;
   }
-  // 확장자 결정: imageUrl이면 경로에서 추출, imageData(data URI)면 mime에서 추출
   let ext = 'png';
   if (src.startsWith('data:')) {
     if (src.startsWith('data:image/jpeg')) ext = 'jpg';
@@ -8807,13 +8659,13 @@ function renderInfobox(info) {
   `;
 }
 
-window.navigateWithFeedback = function(el, page, docId, delayMs, originalText) {
+window.navigateWithFeedback = function(el, page, docId, delayMs) {
   if (!el || el.classList.contains('is-clicking')) return;
   if (typeof delayMs !== 'number') delayMs = 150;
   el.classList.add('is-clicking');
   setTimeout(() => {
     el.classList.remove('is-clicking');
-    navigateTo(page, docId || null, originalText || null);
+    navigateTo(page, docId || null, null);
   }, delayMs);
 };
 
@@ -8849,10 +8701,6 @@ function bindWikiLinks() {
 function renderNotFound(query) {
   const content = document.getElementById('pageContent');
 
-  // 추천 문서를 무조건 노출 (동네 위키 특성상 큰 카테고리 안에서 항상 보여줄 게 있음)
-  // 1) 검색어 연관 문서가 있으면 우선 사용
-  // 2) 부족하면 TOPICS_LIST(인기/주요 문서)에서 채움
-  // 3) 중복 제거하고 최대 5개
   let recommended = getSuggestions(query).slice(0, 5);
   if (recommended.length < 5 && typeof TOPICS_LIST !== 'undefined' && Array.isArray(TOPICS_LIST)) {
     const seen = new Set(recommended);
@@ -8865,15 +8713,6 @@ function renderNotFound(query) {
       }
     }
   }
-
-  // 카드용 아이콘 (랜덤 대신 인덱스별 회전 — 매번 같은 카드엔 같은 아이콘)
-  const CARD_ICONS = [
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>',
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>',
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>',
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>'
-  ];
 
   const escQuery = String(query)
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -8917,7 +8756,6 @@ function renderNotFound(query) {
     </div>
   `;
 
-  // 추천 항목 클릭 → 위키 링크와 동일한 점등 + 이동 패턴
   content.querySelectorAll('.nf-rec-item').forEach(item => {
     const docId = item.dataset.docId;
     if (!docId) return;
@@ -8938,8 +8776,6 @@ const PAGES_WITH_DOCK = ['doc', 'gallery'];
 function updateFloatingDock() {
   const dock = document.getElementById('floatingDock');
   const tocBtn = document.getElementById('dockTocBtn');
-  // 검색/테마 버튼은 항상 활성 — 페이지 콘텐츠와 무관하게 일관 동작
-  // (예전에 있던 dockTopBtn, dockFollowBtn은 dock 재구성으로 제거됨)
 
   if (!PAGES_WITH_DOCK.includes(state.currentPage)) {
     dock.style.display = 'none';
@@ -8947,7 +8783,7 @@ function updateFloatingDock() {
   }
   dock.style.display = 'flex';
 
-  if (tocBtn) tocBtn.classList.remove('disabled', 'inactive');
+  if (tocBtn) tocBtn.classList.remove('disabled');
 
   if (state.currentPage === 'doc') {
     const doc = DOCS[state.currentDocId];
@@ -8959,34 +8795,19 @@ function updateFloatingDock() {
       tocBtn.classList.add('disabled');
     }
   }
-  // gallery 페이지에서는 목차 외 별도 비활성 조건 없음
 }
 
-window.scrollToTop = function() {
-  if (state.openPanel) closeAllDockPopups();
-  window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-};
-
-// dock 검색 버튼: 맨 위로 스크롤 + 검색창 focus + 키보드 자동 열기.
-// 모바일에서 input.focus()를 직접 호출하면 키보드가 떠야 정상.
-// 단, iOS Safari는 "사용자 제스처 컨텍스트"에서만 키보드를 띄우므로
-// 이 함수는 반드시 onclick 등 직접 액션 안에서 호출되어야 한다.
 window.focusSearch = function() {
   if (state.openPanel) closeAllDockPopups();
   const input = document.getElementById('searchInput');
   if (!input) return;
-  // 1) 스크롤은 즉시 시작 (smooth)
   window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-  // 2) focus도 즉시 — 사용자 제스처 컨텍스트를 잃지 않기 위함.
-  //    스크롤이 끝난 뒤 focus하면 iOS에서 키보드가 안 열림.
   try { input.focus({ preventScroll: true }); } catch (e) { input.focus(); }
-  // 3) 빈 검색창에 자연스럽게 들어가도록 select 호출 (값 있으면 전체 선택)
   if (input.value) {
     try { input.select(); } catch (e) {}
   }
 };
 
-// 다크모드 토글: setTheme이 이미 localStorage 저장도 처리해줌
 window.toggleTheme = function() {
   const cur = document.documentElement.getAttribute('data-theme') || 'light';
   const next = cur === 'dark' ? 'light' : 'dark';
@@ -8998,41 +8819,28 @@ window.toggleTheme = function() {
   }
 };
 
-// ============================================================================
-// 브레드크럼 (doc 페이지에서만; 스크롤 시 슬라이드 다운)
-// ============================================================================
-
 const BC_FOLDER_SVG = `<svg class="bc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"/></svg>`;
 const BC_FILE_SVG = `<svg class="bc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>`;
 const BC_DD_FOLDER_SVG = `<svg class="bc-pi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"/></svg>`;
 const BC_DD_FILE_SVG = `<svg class="bc-pi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>`;
 
-// 브레드크럼 현재 상태 (open된 단계 인덱스 / -1이면 닫힘)
-let __bcChain = []; // [{type:'category'|'doc', id, label}]
+let __bcChain = [];
 let __bcOpenIdx = -1;
 let __bcScrollVisible = false;
-// 히스테리시스: 노출은 80px부터, 숨김은 30px 미만일 때만
-// (50px 단일 임계값이면 그 근처에서 진동하며 번쩍거림)
-const BC_SHOW_THRESHOLD = 80; // px — 이 이상이면 노출
-const BC_HIDE_THRESHOLD = 30; // px — 이 미만이면 숨김
+const BC_SHOW_THRESHOLD = 80;
+const BC_HIDE_THRESHOLD = 30;
 
-// 현재 doc에 대한 브레드크럼 체인 빌드
-//   체인: [최상위 카테고리, ..., leaf 카테고리, 문서]
-//   hidden_in_breadcrumb 카테고리는 제외
 function buildBreadcrumbChain(docId) {
   const doc = DOCS[docId];
   if (!doc) return [];
   const leafIds = normalizeDocCategoryIds(doc);
   if (leafIds.length === 0) return [];
 
-  // 첫 번째 leaf만 사용 (현재 데이터 모델: 보통 하나)
   const leafId = leafIds[0];
   if (!(leafId in CATEGORY_LABEL)) {
-    // 알 수 없는 카테고리: 문서만 보여줌
     return [{ type: 'doc', id: docId, label: doc.title }];
   }
 
-  // leaf → root까지 부모 체인 수집
   const ancestors = [];
   let cur = leafId;
   let safety = 16;
@@ -9041,7 +8849,6 @@ function buildBreadcrumbChain(docId) {
     cur = CATEGORY_PARENT[cur];
   }
 
-  // hidden 제거
   const visible = ancestors.filter(id => !CATEGORY_HIDDEN.has(id));
 
   const chain = visible.map(id => ({
@@ -9053,22 +8860,18 @@ function buildBreadcrumbChain(docId) {
   return chain;
 }
 
-// 한 단계의 형제 항목 목록 (본인 제외, 가나다순)
 function getBreadcrumbSiblings(stepIdx) {
   const step = __bcChain[stepIdx];
   if (!step) return [];
 
   if (step.type === 'category') {
-    // 형제: 같은 부모의 다른 자식 카테고리들
     const parentId = CATEGORY_PARENT[step.id];
     let siblingIds;
     if (parentId == null) {
-      // 최상위
       siblingIds = CATEGORY_ROOTS.slice();
     } else {
       siblingIds = (CATEGORY_CHILDREN[parentId] || []).slice();
     }
-    // hidden 제외 + 본인 제외
     siblingIds = siblingIds.filter(id => id !== step.id && !CATEGORY_HIDDEN.has(id));
     return siblingIds.map(id => ({
       type: 'category',
@@ -9077,7 +8880,6 @@ function getBreadcrumbSiblings(stepIdx) {
     }));
   }
 
-  // type === 'doc': 형제 = 같은 leaf 카테고리에 속한 다른 문서들
   const currentDoc = DOCS[step.id];
   if (!currentDoc) return [];
   const myLeafIds = normalizeDocCategoryIds(currentDoc);
@@ -9087,7 +8889,7 @@ function getBreadcrumbSiblings(stepIdx) {
   const siblings = [];
   for (const [id, doc] of Object.entries(DOCS)) {
     if (id === step.id) continue;
-    if (!doc || doc.type === 'sponsored') continue; // 광고문서는 형제 목록에서 제외
+    if (!doc || doc.type === 'sponsored') continue;
     const cats = normalizeDocCategoryIds(doc);
     if (cats.includes(myLeaf)) {
       siblings.push({ type: 'doc', id, label: doc.title, subtitle: doc.subtitle || '' });
@@ -9097,7 +8899,6 @@ function getBreadcrumbSiblings(stepIdx) {
   return siblings;
 }
 
-// 브레드크럼 렌더링 (state.currentDocId 기준)
 function renderBreadcrumb() {
   const wrap = document.getElementById('docBreadcrumb');
   const bar = document.getElementById('bcBar');
@@ -9132,7 +8933,6 @@ function renderBreadcrumb() {
   });
   bar.innerHTML = parts.join('');
 
-  // 단계 클릭 핸들러
   bar.querySelectorAll('.bc-step').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -9141,7 +8941,6 @@ function renderBreadcrumb() {
     });
   });
 
-  // 스크롤 상태 동기화
   applyBreadcrumbVisibility();
 }
 
@@ -9160,10 +8959,6 @@ function applyBreadcrumbVisibility() {
     return;
   }
   const y = window.scrollY || window.pageYOffset || 0;
-  // 히스테리시스:
-  //   현재 숨김 → 80px을 넘어야 노출로 전환
-  //   현재 노출 → 30px 미만이어야 숨김으로 전환
-  //   30 ~ 80px 사이는 현재 상태 유지 (진동 방지)
   let shouldShow = __bcScrollVisible;
   if (!__bcScrollVisible && y > BC_SHOW_THRESHOLD) shouldShow = true;
   else if (__bcScrollVisible && y < BC_HIDE_THRESHOLD) shouldShow = false;
@@ -9193,14 +8988,12 @@ function openBreadcrumbDropdown(idx) {
 
   __bcOpenIdx = idx;
 
-  // 모든 step의 active 토글 (클릭된 것만 살색 점등)
   bar.querySelectorAll('.bc-step').forEach(btn => {
     const i = parseInt(btn.dataset.bcIdx, 10);
     btn.classList.toggle('is-active', i === idx);
     btn.setAttribute('aria-expanded', i === idx ? 'true' : 'false');
   });
 
-  // 누른 step이 가로 스크롤 밖에 있으면 보이게 끌어옴
   const activeBtn = bar.querySelector(`.bc-step[data-bc-idx="${idx}"]`);
   if (activeBtn) {
     try {
@@ -9208,16 +9001,13 @@ function openBreadcrumbDropdown(idx) {
     } catch (e) {}
   }
 
-  // 형제 목록 (본인 제외, getBreadcrumbSiblings는 본인 제외해서 반환)
   const siblings = getBreadcrumbSiblings(idx);
 
-  // 패널 내용 구성: 첫 줄에 "현재"(본인) + 그 아래 형제 목록
   const selfIcon = step.type === 'doc' ? BC_DD_FILE_SVG : BC_DD_FOLDER_SVG;
   const selfLabelEsc = escapeBcText(step.label);
   const selfHtml = `<div class="bc-panel-item is-current" role="option" aria-selected="true">${selfIcon}<span class="bc-pi-label">${selfLabelEsc}</span><span class="bc-pi-sub">현재</span></div>`;
 
   if (siblings.length === 0) {
-    // 형제 없음: "현재" 줄만 보여주고 그 아래에 안내 메시지
     panel.innerHTML = selfHtml +
       `<div class="bc-panel-empty">아직 <strong>${selfLabelEsc}</strong>만 있어요</div>`;
   } else {
@@ -9251,9 +9041,6 @@ function closeBreadcrumbDropdown() {
     wrap.classList.remove('is-open');
   }
   if (panel) {
-    // max-height 트랜지션이 끝난 뒤 innerHTML을 비우는 게 자연스러우나,
-    // 화면 상에는 max-height: 0으로 이미 가려지므로 즉시 비워도 됨.
-    // (트랜지션 중 다시 열리는 케이스를 단순하게 처리하기 위해 즉시 비움)
     panel.innerHTML = '';
   }
   if (bar) {
@@ -9266,8 +9053,6 @@ function closeBreadcrumbDropdown() {
 }
 
 function handleBreadcrumbSiblingClick(type, id) {
-  // 1) 클릭한 항목에 위키 링크 클릭 효과(is-clicking) 잠깐 부여 — 한 프레임
-  //    페인트한 뒤 이동. 다른 위키 링크(.wiki-link, .tl-wlink)와 동일한 인터랙션.
   const panel = document.getElementById('bcPanel');
   if (panel) {
     const target = panel.querySelector(
@@ -9278,14 +9063,11 @@ function handleBreadcrumbSiblingClick(type, id) {
     }
   }
 
-  // 2) 다음 프레임에 페이지 이동 — navigateTo 내부에서 renderBreadcrumb가 다시 호출되며
-  //    드롭다운 자체가 정리됨. rAF 두 번 대기로 점등 페인트 1 프레임을 확보.
   const doNavigate = () => {
     if (type === 'doc') {
       navigateTo('doc', id);
       return;
     }
-    // type === 'category': 그 카테고리의 첫 문서로 이동
     const candidates = [];
     for (const [docId, doc] of Object.entries(DOCS)) {
       if (!doc || doc.type === 'sponsored') continue;
@@ -9295,7 +9077,6 @@ function handleBreadcrumbSiblingClick(type, id) {
       }
     }
     if (candidates.length === 0) {
-      // 갈 곳이 없으면 그냥 드롭다운 닫고 끝
       closeBreadcrumbDropdown();
       return;
     }
@@ -9305,7 +9086,6 @@ function handleBreadcrumbSiblingClick(type, id) {
   requestAnimationFrame(() => requestAnimationFrame(doNavigate));
 }
 
-// CSS 선택자 안전을 위해 id 이스케이프
 function cssEscapeId(s) {
   if (window.CSS && CSS.escape) return CSS.escape(s);
   return String(s).replace(/(["\\\]])/g, '\\$1');
@@ -9321,7 +9101,6 @@ function isCategoryDescendantOf(childId, ancestorId) {
   return false;
 }
 
-// 외부 클릭 / Esc로 드롭다운 닫기
 document.addEventListener('click', (e) => {
   if (__bcOpenIdx === -1) return;
   const wrap = document.getElementById('docBreadcrumb');
@@ -9335,10 +9114,6 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// 스크롤 핸들러 (rAF throttle)
-// - applyBreadcrumbVisibility: 노출/숨김 히스테리시스
-// - 드롭다운이 열려있는 동안 사용자가 위/아래로 의미있는 스크롤을 하면 자동 닫힘
-//   (잡음/관성 reflow 무시를 위해 마지막 스크롤 위치와 5px 이상 차이날 때만)
 let __bcScrollTicking = false;
 let __bcLastScrollY = window.scrollY || 0;
 window.addEventListener('scroll', () => {
@@ -9355,13 +9130,6 @@ window.addEventListener('scroll', () => {
   });
 }, { passive: true });
 
-function getFirstValidRelated(doc) {
-  if (!doc || !doc.related || doc.related.length === 0) return null;
-  const related = doc.related.filter(r => DOCS[r.id]);
-  if (related.length === 0) return null;
-  return related[0];
-}
-
 window.toggleDockPopup = function(type) {
   if (state.openPanel === type) {
     closeAllDockPopups();
@@ -9375,14 +9143,6 @@ window.toggleDockPopup = function(type) {
     const btn = document.getElementById('dockTocBtn');
     if (pop) pop.classList.add('open');
     if (btn) btn.classList.add('active');
-  } else if (type === 'follow') {
-    // 'follow' 패널은 dock 재구성으로 더 이상 활성 트리거가 없음.
-    // 외부에서 호출될 경우를 대비해 안전 가드만 유지.
-    if (typeof renderFollowPopup === 'function') renderFollowPopup();
-    const pop = document.getElementById('followPopup');
-    const btn = document.getElementById('dockFollowBtn');
-    if (pop) pop.classList.add('open');
-    if (btn) btn.classList.add('active');
   }
   state.openPanel = type;
 
@@ -9394,15 +9154,9 @@ function positionDockPopup() {
   const dock = document.getElementById('floatingDock');
   if (!dock) return;
 
-  const popupId = state.openPanel === 'toc' ? 'tocPopup'
-                : state.openPanel === 'follow' ? 'followPopup'
-                : null;
-  const triggerBtnId = state.openPanel === 'toc' ? 'dockTocBtn'
-                     : state.openPanel === 'follow' ? 'dockFollowBtn'
-                     : null;
-  if (!popupId || !triggerBtnId) return;
-  const popup = document.getElementById(popupId);
-  const btn = document.getElementById(triggerBtnId);
+  if (state.openPanel !== 'toc') return;
+  const popup = document.getElementById('tocPopup');
+  const btn = document.getElementById('dockTocBtn');
   if (!popup || !btn) return;
 
   const dockRect = dock.getBoundingClientRect();
@@ -9414,8 +9168,7 @@ function positionDockPopup() {
   const spaceAbove = btnRect.bottom - safety;
   const spaceBelow = window.innerHeight - btnRect.top - safety;
 
-  const isToc = (state.openPanel === 'toc');
-  const cap = isToc ? 280 : Infinity;
+  const cap = 280;
 
   if (spaceBelow >= spaceAbove) {
     popup.style.top = btnRect.top + 'px';
@@ -9438,13 +9191,9 @@ if (window.visualViewport) {
 
 function closeAllDockPopups() {
   const tocPop = document.getElementById('tocPopup');
-  const followPop = document.getElementById('followPopup');
   if (tocPop) tocPop.classList.remove('open');
-  if (followPop) followPop.classList.remove('open');
   const tocBtn = document.getElementById('dockTocBtn');
-  const followBtn = document.getElementById('dockFollowBtn');
   if (tocBtn) tocBtn.classList.remove('active');
-  if (followBtn) followBtn.classList.remove('active');
   state.openPanel = null;
 }
 
@@ -9555,43 +9304,6 @@ window.tocJump = function(sectionId) {
   closeAllDockPopups();
 };
 
-function renderFollowPopup() {
-  const container = document.getElementById('followPopupContent');
-
-  const renderList = (targetId, targetTitle, subText) => `
-    <div class="follow-popup-clickable" onclick="followGo('${targetId}')" role="link" tabindex="0"
-         aria-label="${targetTitle} 문서로 이동"
-         onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();followGo('${targetId}')}">
-      <div class="follow-popup-notice">다른 사용자들이 이 다음에 본 문서</div>
-      <div class="follow-popup-divider"></div>
-      <div class="follow-popup-link">
-        <a><span>${targetTitle}</span></a>
-      </div>
-      ${subText ? `<div class="follow-popup-sub">${subText}</div>` : ''}
-    </div>
-  `;
-
-  if (state.currentPage !== 'doc') {
-    const targetId = EDITOR_CONFIG.fallbackFollowTarget;
-    const targetDoc = DOCS[targetId];
-    if (!targetDoc) {
-      container.innerHTML = '<div class="follow-popup-empty">추천 문서를 불러올 수 없습니다.</div>';
-      return;
-    }
-    container.innerHTML = renderList(targetId, targetDoc.title, targetDoc.subtitle || '');
-    return;
-  }
-
-  const doc = DOCS[state.currentDocId];
-  const next = getFirstValidRelated(doc);
-  if (!next) {
-    container.innerHTML = '<div class="follow-popup-empty">연관 문서가 없습니다.</div>';
-    return;
-  }
-  const nextDoc = DOCS[next.id];
-  container.innerHTML = renderList(next.id, nextDoc.title, next.desc || '');
-}
-
 window.followGo = function(docId) {
   closeAllDockPopups();
   navigateTo('doc', docId);
@@ -9620,6 +9332,10 @@ async function bootstrapRoute() {
       contribState.prevStep = 0;
       contribState.category = null;
       contribState.content = '';
+      contribState.email = '';
+      contribState.emailError = false;
+      contribState.consentChecked = false;
+      contribState.consentExpanded = false;
       contribState.displayMode = 'nick';
       contribState.nickname = '';
       contribState.rewardStyle = null;
@@ -9627,6 +9343,7 @@ async function bootstrapRoute() {
       contribState.captchaSet = generateCaptcha();
       contribState.captchaInput = '';
       contribState.submitted = false;
+      contribState.originDocId = null;
       try {
         history.replaceState(
           { page: 'contribute', docId: null, contribStep: 1 },
@@ -9635,6 +9352,40 @@ async function bootstrapRoute() {
         );
       } catch(_) {}
       navigateTo('contribute', null, null, { fromBack: true });
+      return;
+    }
+
+    if (initial.page === 'search-results' && initial.query) {
+      try {
+        history.replaceState(
+          { page: 'search-results', query: initial.query },
+          '',
+          '#/search/' + encodeURIComponent(initial.query)
+        );
+      } catch(_) {}
+      state.currentPage = 'search-results';
+      state.currentDocId = null;
+      state.searchResultsQuery = initial.query;
+      state.searchResultsPage = 1;
+      renderSearchResults(initial.query);
+      if (typeof renderBreadcrumb === 'function') renderBreadcrumb();
+      updateFloatingDock();
+      return;
+    }
+
+    if (initial.page === 'notfound' && initial.query) {
+      try {
+        history.replaceState(
+          { page: 'notfound', query: initial.query },
+          '',
+          '#/search/' + encodeURIComponent(initial.query)
+        );
+      } catch(_) {}
+      state.currentPage = 'notfound';
+      state.currentDocId = null;
+      renderNotFound(initial.query);
+      if (typeof renderBreadcrumb === 'function') renderBreadcrumb();
+      updateFloatingDock();
       return;
     }
 
@@ -9647,7 +9398,6 @@ async function bootstrapRoute() {
     } catch(_) {}
     navigateTo(initial.page, initial.docId, null, { fromBack: true });
   } catch (err) {
-    // 부팅 도중 어디서든 에러 발생 시 화면에 원인 표시 (디버그용 안전망)
     console.error('[homiwiki] 부팅 실패:', err);
     const el = document.getElementById('pageContent');
     if (el) {
@@ -9683,6 +9433,7 @@ document.addEventListener('click', (e) => {
     searchSuggestions.classList.remove('active');
   }
 });
+
 </script>
 
 </body>
