@@ -4962,6 +4962,65 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   color: var(--text-tertiary, #999);
   line-height: 1.5;
 }
+
+/* ===== 주석(각주) 팝업 - 나무위키식 ===== */
+.fn-ref {
+  cursor: pointer;
+  font-weight: 600;
+}
+.fn-ref a {
+  color: var(--accent, #3b6ea5);
+  text-decoration: none;
+}
+.fn-ref:hover a { text-decoration: underline; }
+
+.fn-popup {
+  position: absolute;
+  z-index: 9999;
+  max-width: 360px;
+  background: var(--bg-elev, #fff);
+  color: var(--text-primary, #222);
+  border: 1px solid var(--border, rgba(0,0,0,0.15));
+  border-radius: 8px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.18);
+  padding: 12px 14px;
+  font-size: 13px;
+  line-height: 1.65;
+  display: none;
+}
+.fn-popup.is-show { display: block; }
+.fn-popup a {
+  color: var(--accent, #3b6ea5);
+  word-break: break-all;
+}
+.fn-popup .fn-popup-num {
+  display: inline-block;
+  font-weight: 700;
+  margin-right: 6px;
+  color: var(--text-secondary, #666);
+}
+.fn-popup .fn-back { display: none; }
+[data-theme="dark"] .fn-popup {
+  background: var(--bg-elev, #2a2a2a);
+  border-color: rgba(255,255,255,0.18);
+}
+.section .footnote-list,
+ul:has(> li[id^="ref-"]) {
+  font-size: 12.5px;
+  color: var(--text-secondary, #666);
+  line-height: 1.7;
+}
+ul > li[id^="ref-"],
+ul > li[id^="fn"] {
+  scroll-margin-top: 90px;
+}
+li.fn-flash {
+  animation: fnFlash 1.4s ease-out;
+}
+@keyframes fnFlash {
+  0%   { background: rgba(255, 213, 79, 0.45); }
+  100% { background: transparent; }
+}
 @media (max-width: 720px) {
   .doc-figure { margin: 16px -4px; }
   .doc-figure figcaption { font-size: 12px; }
@@ -8944,6 +9003,128 @@ function renderDoc(docId, originalQuery = null) {
   `;
 
   bindWikiLinks();
+  bindFootnotes();
+}
+
+/* ===== 주석(각주) 팝업 - 나무위키식 ===== */
+let _fnPopupEl = null;
+let _fnHideTimer = null;
+
+function _getFnPopup() {
+  if (_fnPopupEl && document.body.contains(_fnPopupEl)) return _fnPopupEl;
+  _fnPopupEl = document.createElement('div');
+  _fnPopupEl.className = 'fn-popup';
+  _fnPopupEl.setAttribute('role', 'tooltip');
+  document.body.appendChild(_fnPopupEl);
+  _fnPopupEl.addEventListener('mouseenter', () => clearTimeout(_fnHideTimer));
+  _fnPopupEl.addEventListener('mouseleave', _hideFnPopup);
+  return _fnPopupEl;
+}
+
+function _hideFnPopup() {
+  if (_fnPopupEl) _fnPopupEl.classList.remove('is-show');
+}
+
+function _showFnPopup(refEl) {
+  // 마커 <sup id="fnref-3"> -> 대상 각주 항목 <li id="ref-3">
+  const inner = refEl.querySelector('a[href^="#"]');
+  if (!inner) return;
+  const targetId = inner.getAttribute('href').slice(1); // "ref-3"
+  const targetLi = document.getElementById(targetId);
+  if (!targetLi) return;
+
+  const popup = _getFnPopup();
+
+  // 각주 항목 HTML을 복제해서 팝업에 (되돌아가기 ↩ 화살표는 CSS로 숨김)
+  const num = (targetLi.textContent.match(/^\s*\[([^\]]+)\]/) || [, ''])[1];
+  popup.innerHTML =
+    (num ? '<span class="fn-popup-num">[' + num + ']</span>' : '') +
+    targetLi.innerHTML.replace(/^\s*\[[^\]]+\]\s*/, '');
+
+  // 팝업 안의 외부 링크는 새 탭으로 안전하게
+  popup.querySelectorAll('a').forEach(a => {
+    const href = a.getAttribute('href') || '';
+    if (/^https?:/i.test(href)) {
+      a.setAttribute('target', '_blank');
+      a.setAttribute('rel', 'noopener noreferrer');
+    }
+  });
+
+  popup.classList.add('is-show');
+
+  // 위치 계산: 마커 바로 아래, 화면 밖으로 안 나가게
+  const r = refEl.getBoundingClientRect();
+  const pw = popup.offsetWidth;
+  const ph = popup.offsetHeight;
+  let left = window.scrollX + r.left;
+  let top = window.scrollY + r.bottom + 6;
+
+  const maxLeft = window.scrollX + document.documentElement.clientWidth - pw - 10;
+  if (left > maxLeft) left = maxLeft;
+  if (left < window.scrollX + 8) left = window.scrollX + 8;
+
+  // 아래 공간이 부족하면 마커 위쪽에 표시
+  if (r.bottom + ph + 12 > window.innerHeight) {
+    top = window.scrollY + r.top - ph - 6;
+  }
+
+  popup.style.left = left + 'px';
+  popup.style.top = top + 'px';
+}
+
+function bindFootnotes() {
+  const root = document.getElementById('pageContent');
+  if (!root) return;
+
+  // 1) 본문 주석 마커: 호버 + 클릭 -> 팝업
+  root.querySelectorAll('sup.fn-ref').forEach(ref => {
+    ref.setAttribute('tabindex', '0');
+    ref.setAttribute('role', 'button');
+
+    ref.addEventListener('mouseenter', () => {
+      clearTimeout(_fnHideTimer);
+      _showFnPopup(ref);
+    });
+    ref.addEventListener('mouseleave', () => {
+      _fnHideTimer = setTimeout(_hideFnPopup, 250);
+    });
+
+    const innerLink = ref.querySelector('a[href^="#"]');
+    if (innerLink) {
+      innerLink.addEventListener('click', (e) => {
+        // 기본 해시 점프 막고 (SPA라 깨짐) 직접 스크롤 + 팝업
+        e.preventDefault();
+        const targetId = innerLink.getAttribute('href').slice(1);
+        const targetLi = document.getElementById(targetId);
+        if (targetLi) {
+          targetLi.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          targetLi.classList.remove('fn-flash');
+          void targetLi.offsetWidth; // 리플로우 강제 -> 애니메이션 재생
+          targetLi.classList.add('fn-flash');
+        }
+        _showFnPopup(ref);
+      });
+    }
+  });
+
+  // 2) 각주 목록의 "되돌아가기 ↩" 도 SPA에서 동작하게
+  root.querySelectorAll('a.fn-back[href^="#"]').forEach(back => {
+    back.addEventListener('click', (e) => {
+      e.preventDefault();
+      const id = back.getAttribute('href').slice(1); // "fnref-3"
+      const marker = document.getElementById(id);
+      if (marker) {
+        marker.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    });
+  });
+
+  // 3) 바깥 클릭/스크롤 시 팝업 닫기
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('sup.fn-ref') && !e.target.closest('.fn-popup')) {
+      _hideFnPopup();
+    }
+  });
 }
 
 function renderInfobox(info) {
