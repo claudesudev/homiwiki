@@ -36,8 +36,8 @@
   "infobox": {
     "title": "클로드",
     "subtitle": "Claude",
-    "imageText": "Claude",
-    "imageEmoji": "✦",
+    "image": "index.webp",
+    "imageAlt": "Anthropic의 AI 어시스턴트 클로드(Claude) 로고",
     "rows": [
       [
         "개발사",
