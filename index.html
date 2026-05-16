@@ -137,7 +137,7 @@ html {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Malgun Gothic", "맑은 고딕", "Apple SD Gothic Neo", "Noto Sans KR", "Helvetica Neue", Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Arial, "Malgun Gothic", "맑은 고딕", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
   background: var(--bg-secondary);
   color: var(--text-primary);
   line-height: 1.5;
@@ -666,7 +666,7 @@ body {
 
 .doc-title {
   font-size: calc(31px * var(--font-scale));
-  font-weight: 800;
+  font-weight: 700;
   color: var(--text-primary);
   margin-bottom: 6px;
   letter-spacing: -0.025em;
@@ -1091,7 +1091,7 @@ body {
 }
 
 .section-title {
-  font-weight: 800;
+  font-weight: 700;
   color: var(--text-primary);
   padding-bottom: 0;
   margin-bottom: 12px;
@@ -1115,13 +1115,13 @@ body {
 .section-title.h3 {
   border-bottom: none;
   font-size: calc(17px * var(--font-scale));
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .section-title .num {
   color: var(--accent);
   font-family: 'JetBrains Mono', ui-monospace, monospace;
-  font-weight: 700;
+  font-weight: 600;
   font-size: calc(13px * var(--font-scale));
   letter-spacing: 0.02em;
   align-self: center;
@@ -1140,6 +1140,12 @@ body {
   line-height: 1.72;
   overflow-wrap: anywhere;
   word-break: break-word;
+}
+
+.section strong,
+.section b {
+  font-weight: 600;
+  color: var(--text-primary);
 }
 
 .wiki-link {
@@ -1202,7 +1208,7 @@ body {
 }
 
 .info-callout-title {
-  font-weight: 700;
+  font-weight: 600;
   color: #a07458;
   margin-bottom: 6px;
   font-size: calc(11px * var(--font-scale));
@@ -1296,7 +1302,7 @@ body {
   align-items: center;
   justify-content: center;
   font-size: calc(11px * var(--font-scale));
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.04em;
   flex-shrink: 0;
 }
@@ -1309,7 +1315,7 @@ body {
 .hw-tier-body { flex: 1; min-width: 0; }
 .hw-tier-name {
   font-size: calc(15px * var(--font-scale));
-  font-weight: 700;
+  font-weight: 600;
   color: var(--text-primary);
 }
 .hw-tier-desc {
@@ -1343,7 +1349,7 @@ body {
 }
 .hw-metric-value {
   font-size: calc(26px * var(--font-scale));
-  font-weight: 800;
+  font-weight: 700;
   color: var(--text-primary);
   letter-spacing: -0.02em;
   line-height: 1;
@@ -1351,7 +1357,7 @@ body {
 .hw-metric-unit {
   font-size: calc(14px * var(--font-scale));
   color: var(--text-tertiary);
-  font-weight: 600;
+  font-weight: 500;
 }
 .hw-metric-note {
   margin-top: 4px;
@@ -1360,7 +1366,7 @@ body {
 }
 .hw-metric-lead {
   color: #6f9168;
-  font-weight: 600;
+  font-weight: 500;
 }
 [data-theme="dark"] .hw-metric-lead { color: #8fb886; }
 
@@ -1391,7 +1397,7 @@ body {
 .hw-row-main { flex: 1; min-width: 0; }
 .hw-row-name {
   font-size: calc(14.5px * var(--font-scale));
-  font-weight: 700;
+  font-weight: 600;
   color: var(--text-primary);
 }
 .hw-row-sub {
@@ -1401,7 +1407,7 @@ body {
 }
 .hw-row-val {
   font-size: calc(14px * var(--font-scale));
-  font-weight: 700;
+  font-weight: 600;
   color: var(--text-primary);
   flex-shrink: 0;
 }
@@ -1417,7 +1423,7 @@ body {
   background: var(--bg-accent-soft);
   color: #7a4838;
   font-size: calc(10px * var(--font-scale));
-  font-weight: 700;
+  font-weight: 600;
   border-radius: 4px;
   letter-spacing: 0.04em;
   vertical-align: middle;
