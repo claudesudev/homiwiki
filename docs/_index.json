@@ -1,8 +1,9 @@
 {
   "version": 3,
-  "updated": "2026-05-14",
+  "updated": "2026-05-16",
   "docs": [
     "클로드",
+    "클로드로-글쓰는법",
     "청라-커낼웨이",
     "청라-유명인",
     "온라인-환불"
@@ -11,6 +12,7 @@
     "claude": "클로드",
     "cheongnacanalway": "청라-커낼웨이",
     "cheongna_celebrities": "청라-유명인",
-    "online-refund": "온라인-환불"
+    "online-refund": "온라인-환불",
+    "writing-with-claude": "클로드로-글쓰는법"
   }
 }
