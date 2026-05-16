@@ -2367,6 +2367,17 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
 [data-theme="light"] .dock-theme-icon-light { display: block; }
 [data-theme="dark"]  .dock-theme-icon-dark  { display: block; }
 
+.dock-divider {
+  display: block;
+  width: 20px;
+  height: 1px;
+  background: var(--border, rgba(0,0,0,0.12));
+  margin: 4px auto;
+}
+#dockScrollIcon {
+  transition: transform 0.2s ease;
+}
+
 .dock-popup {
   position: fixed;
   background: var(--bg-tertiary);
@@ -5304,6 +5315,18 @@ ul > li[id^="ref-"] {
   margin-left: 6px;
   font-weight: 500;
 }
+@media (max-width: 720px) {
+  .bc-panel-item .bc-pi-sub {
+    display: none;
+  }
+  .bc-panel-item .bc-pi-label {
+    flex: 1 1 auto;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
 
 .bc-panel-item.is-current {
   background: transparent;
@@ -5432,6 +5455,11 @@ ul > li[id^="ref-"] {
   </main>
 
   <div class="floating-dock" id="floatingDock">
+    <button class="dock-btn" id="dockSearchBtn" onclick="focusSearch()" aria-label="검색">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M10.5 2a8.5 8.5 0 0 1 6.7 13.7l4.5 4.5a1 1 0 0 1-1.4 1.4l-4.5-4.5A8.5 8.5 0 1 1 10.5 2zm0 3a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11z"/>
+      </svg>
+    </button>
     <button class="dock-btn" id="dockTocBtn" onclick="toggleDockPopup('toc')" aria-label="목차">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <circle cx="5.5" cy="6" r="2.7"/>
@@ -5440,11 +5468,6 @@ ul > li[id^="ref-"] {
         <rect x="11" y="4.1" width="10" height="3.8" rx="1.9"/>
         <rect x="11" y="10.1" width="10" height="3.8" rx="1.9"/>
         <rect x="11" y="16.1" width="10" height="3.8" rx="1.9"/>
-      </svg>
-    </button>
-    <button class="dock-btn" id="dockSearchBtn" onclick="focusSearch()" aria-label="검색">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-        <path d="M10.5 2a8.5 8.5 0 0 1 6.7 13.7l4.5 4.5a1 1 0 0 1-1.4 1.4l-4.5-4.5A8.5 8.5 0 1 1 10.5 2zm0 3a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11z"/>
       </svg>
     </button>
     <button class="dock-btn" id="dockThemeBtn" onclick="toggleTheme()" aria-label="라이트/다크 모드 전환">
@@ -5461,6 +5484,12 @@ ul > li[id^="ref-"] {
       </svg>
       <svg class="dock-theme-icon dock-theme-icon-dark" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+      </svg>
+    </button>
+    <span class="dock-divider" aria-hidden="true"></span>
+    <button class="dock-btn" id="dockScrollBtn" onclick="dockSmartScroll()" aria-label="맨 위 또는 맨 아래로 이동">
+      <svg id="dockScrollIcon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"/>
       </svg>
     </button>
   </div>
@@ -9155,6 +9184,44 @@ function _showFnPopup(refEl) {
   popup.style.left = left + 'px';
   popup.style.top = top + 'px';
 }
+
+/* ===== 도크: 맨 위 / 맨 아래 스마트 토글 ===== */
+function _dockNearTop() {
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  return window.scrollY < max * 0.5;
+}
+window.dockSmartScroll = function() {
+  if (_dockNearTop()) {
+    window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
+  } else {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+};
+(function initDockScrollIcon() {
+  const UP = '<polyline points="18 15 12 9 6 15"/>';
+  const DOWN = '<polyline points="6 9 12 15 18 9"/>';
+  let raf = null;
+  function refresh() {
+    raf = null;
+    const ic = document.getElementById('dockScrollIcon');
+    if (!ic) return;
+    const want = _dockNearTop() ? DOWN : UP;
+    if (ic.innerHTML.trim() !== want) {
+      ic.style.transform = 'scale(0.55)';
+      setTimeout(() => {
+        ic.innerHTML = want;
+        ic.style.transform = 'scale(1)';
+      }, 110);
+    }
+  }
+  window.addEventListener('scroll', () => {
+    if (raf) return;
+    raf = requestAnimationFrame(refresh);
+  }, { passive: true });
+  window.addEventListener('resize', refresh, { passive: true });
+  document.addEventListener('DOMContentLoaded', refresh);
+  setTimeout(refresh, 300);
+})();
 
 function bindFootnotes() {
   const root = document.getElementById('pageContent');
