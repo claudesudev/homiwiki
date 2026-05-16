@@ -2316,10 +2316,10 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
   right: max(6px, calc(50% - 240px + 10px));
   bottom: 90px;
   width: 47px;
-  padding: 7px 4px;
-  background: rgba(255, 255, 255, 0.32);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  padding: 10px 4px 7px;
+  background: rgba(255, 255, 255, 0.42);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--border);
   border-radius: 12px;
   box-shadow: var(--shadow-md);
@@ -2335,7 +2335,16 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
 }
 
 [data-theme="dark"] .floating-dock {
-  background: rgba(50, 50, 50, 0.32);
+  background: rgba(20, 18, 22, 0.62);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+[data-theme="dark"] .floating-dock .dock-btn {
+  color: #f0c4b0;
+}
+[data-theme="dark"] .floating-dock .dock-divider {
+  background: rgba(255, 255, 255, 0.22);
 }
 
 .dock-btn {
@@ -2372,7 +2381,10 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
   width: 20px;
   height: 1px;
   background: var(--border, rgba(0,0,0,0.12));
-  margin: 4px auto;
+  margin: 6px auto 0;
+}
+#dockScrollBtn {
+  margin-top: -5px;
 }
 #dockScrollIcon {
   transition: transform 0.2s ease;
@@ -3313,6 +3325,9 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
 }
 .gallery-filter-slot.is-on {
   color: #fff;
+}
+[data-theme="dark"] .gallery-filter-slot.is-on {
+  color: #1a1a1a;
 }
 .gallery-filter-slot:focus-visible {
   outline: 2px solid var(--focus-ring);
