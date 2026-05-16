@@ -5014,12 +5014,60 @@ ul > li[id^="ref-"],
 ul > li[id^="fn"] {
   scroll-margin-top: 90px;
 }
+sup.fn-ref[id^="fnref-"] {
+  scroll-margin-top: 100px;
+}
 li.fn-flash {
   animation: fnFlash 1.4s ease-out;
 }
 @keyframes fnFlash {
   0%   { background: rgba(255, 213, 79, 0.45); }
   100% { background: transparent; }
+}
+
+/* 출처 목록의 [1][2] 번호 -> 크고 파란 클릭 가능 버튼 (역추적) */
+.fn-num-back {
+  display: inline-block;
+  min-width: 30px;
+  text-align: center;
+  margin-right: 6px;
+  padding: 2px 7px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent, #3b6ea5);
+  background: rgba(59, 110, 165, 0.10);
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  line-height: 1.5;
+  -webkit-tap-highlight-color: transparent;
+}
+.fn-num-back:hover {
+  background: rgba(59, 110, 165, 0.20);
+  text-decoration: none;
+}
+.fn-num-back:active {
+  transform: scale(0.94);
+}
+[data-theme="dark"] .fn-num-back {
+  color: #7fb0e0;
+  background: rgba(127, 176, 224, 0.16);
+}
+[data-theme="dark"] .fn-num-back:hover {
+  background: rgba(127, 176, 224, 0.28);
+}
+ul > li[id^="ref-"] {
+  padding: 5px 0;
+}
+@media (max-width: 720px) {
+  .fn-num-back {
+    min-width: 38px;
+    font-size: 15px;
+    padding: 4px 9px;
+  }
+  ul > li[id^="ref-"] {
+    padding: 8px 0;
+  }
 }
 @media (max-width: 720px) {
   .doc-figure { margin: 16px -4px; }
@@ -9153,6 +9201,46 @@ function bindFootnotes() {
         marker.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     });
+  });
+
+  // 2-b) 출처 목록의 맨 앞 [숫자] -> 크고 파란 클릭 버튼 (본문으로 역추적)
+  root.querySelectorAll('li[id^="ref-"]').forEach(li => {
+    if (li.querySelector('.fn-num-back')) return; // 이미 처리됨
+
+    const refId = li.id;                 // "ref-4"
+    const key = refId.replace(/^ref-/, ''); // "4"
+    const markerId = 'fnref-' + key;     // "fnref-4"
+
+    // 첫 텍스트 노드에서 "[4]" 패턴을 찾아 버튼으로 치환
+    const walker = document.createTreeWalker(li, NodeFilter.SHOW_TEXT, null);
+    let node;
+    while ((node = walker.nextNode())) {
+      const m = node.nodeValue.match(/^(\s*)\[([^\]]+)\]\s?/);
+      if (m) {
+        const after = node.nodeValue.slice(m[0].length);
+        const btn = document.createElement('a');
+        btn.className = 'fn-num-back';
+        btn.href = '#' + markerId;
+        btn.textContent = '[' + m[2] + ']';
+        btn.setAttribute('role', 'button');
+        btn.setAttribute('aria-label', '본문에서 각주 ' + m[2] + ' 위치로 이동');
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const marker = document.getElementById(markerId);
+          if (marker) {
+            marker.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            const host = marker.closest('li, p, td, h1, h2, h3') || marker;
+            host.classList.remove('fn-flash');
+            void host.offsetWidth;
+            host.classList.add('fn-flash');
+          }
+        });
+        const parent = node.parentNode;
+        parent.insertBefore(btn, node);
+        node.nodeValue = after;
+        break;
+      }
+    }
   });
 
   // 3) 바깥 클릭/스크롤 시 팝업 닫기
