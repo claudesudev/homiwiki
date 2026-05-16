@@ -4967,12 +4967,18 @@ html[data-font-size="xxl"] .topics-hero-overlay {
 .fn-ref {
   cursor: pointer;
   font-weight: 600;
+  font-size: 0.92em;
+  vertical-align: super;
+  line-height: 0;
 }
 .fn-ref a {
-  color: var(--accent, #3b6ea5);
+  color: var(--link, #2b6cb0);
   text-decoration: none;
 }
 .fn-ref:hover a { text-decoration: underline; }
+[data-theme="dark"] .fn-ref a {
+  color: var(--link, #6ab0e8);
+}
 
 .fn-popup {
   position: absolute;
@@ -5030,9 +5036,9 @@ li.fn-flash {
   display: inline-block;
   margin-right: 5px;
   padding: 3px 2px;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--accent, #3b6ea5);
+  font-size: calc(16px * var(--font-scale, 1));
+  font-weight: 700;
+  color: var(--link, #2b6cb0);
   background: transparent;
   border-radius: 0;
   cursor: pointer;
@@ -5048,7 +5054,7 @@ li.fn-flash {
   opacity: 0.6;
 }
 [data-theme="dark"] .fn-num-back {
-  color: #7fb0e0;
+  color: var(--link, #6ab0e8);
   background: transparent;
 }
 [data-theme="dark"] .fn-num-back:hover {
@@ -5059,7 +5065,7 @@ ul > li[id^="ref-"] {
 }
 @media (max-width: 720px) {
   .fn-num-back {
-    font-size: 15px;
+    font-size: calc(17px * var(--font-scale, 1));
     padding: 6px 4px;
     margin-right: 6px;
   }
