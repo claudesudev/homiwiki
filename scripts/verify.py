@@ -10,6 +10,7 @@ homiwiki 무결성 검증 스크립트
 4. 고아 이미지 (사용 안 되는 파일) 검출
 5. 깨진 위키링크 (data-link) 검출
 6. NFD 인코딩 파일/폴더 검출 (Mac/Windows 호환성)
+7. 줄표(em-dash, U+2014) 금지 규약 위반 검출 [에러]
 """
 
 import json
@@ -126,6 +127,37 @@ def main():
                 all_wikilinks[doc_id].append(m.group(1))
         
         all_referenced_images[doc_id] = list(referenced)
+
+        # 4-2b. 줄표(em-dash, U+2014) 금지 규약 검사 [에러]
+        #   웹에 노출되는 모든 텍스트 필드에서 U+2014 검출 시 에러.
+        #   가운뎃점(·), 콜론(:), 쉼표, 괄호로 대체할 것. (README / index.html 규약 참조)
+        EM_DASH = '\u2014'
+        dash_fields = []
+        if isinstance(content, str) and EM_DASH in content:
+            dash_fields.append(f"content({content.count(EM_DASH)}개)")
+        for _k in ('title', 'subtitle'):
+            _v = doc.get(_k)
+            if isinstance(_v, str) and EM_DASH in _v:
+                dash_fields.append(_k)
+        _ib = doc.get('infobox')
+        if isinstance(_ib, dict):
+            _ibs = json.dumps(_ib, ensure_ascii=False)
+            if EM_DASH in _ibs:
+                dash_fields.append(f"infobox({_ibs.count(EM_DASH)}개)")
+        for _rel in (doc.get('related') or []):
+            _rs = json.dumps(_rel, ensure_ascii=False)
+            if EM_DASH in _rs:
+                dash_fields.append('related')
+                break
+        for _t in (doc.get('toc') or []):
+            if isinstance(_t, dict) and EM_DASH in str(_t.get('text', '')):
+                dash_fields.append('toc')
+                break
+        if dash_fields:
+            errors.append(
+                f"[{doc_id}] 줄표(em-dash, U+2014) 금지 규약 위반: "
+                f"{', '.join(dash_fields)} / 가운뎃점(·)·콜론(:)·쉼표·괄호로 교체할 것")
+
         
         # 4-3. 참조한 이미지가 실제 존재하는지
         for ref_img in referenced:
