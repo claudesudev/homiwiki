@@ -9050,7 +9050,16 @@ function _showFnPopup(refEl) {
     }
   });
 
+  popup._fnOwner = refEl;
   popup.classList.add('is-show');
+
+  // 모바일: 팝업이 화면 폭을 넘지 않도록 제한
+  const vw = document.documentElement.clientWidth;
+  if (vw < 560) {
+    popup.style.maxWidth = (vw - 24) + 'px';
+  } else {
+    popup.style.maxWidth = '';
+  }
 
   // 위치 계산: 마커 바로 아래, 화면 밖으로 안 나가게
   const r = refEl.getBoundingClientRect();
@@ -9076,33 +9085,60 @@ function bindFootnotes() {
   const root = document.getElementById('pageContent');
   if (!root) return;
 
-  // 1) 본문 주석 마커: 호버 + 클릭 -> 팝업
+  // 터치 기기 판별 (모바일/태블릿)
+  const isTouch = (typeof window.matchMedia === 'function' &&
+                   window.matchMedia('(hover: none), (pointer: coarse)').matches) ||
+                  ('ontouchstart' in window);
+
+  function _scrollToFootnote(innerLink) {
+    const targetId = innerLink.getAttribute('href').slice(1);
+    const targetLi = document.getElementById(targetId);
+    if (targetLi) {
+      targetLi.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      targetLi.classList.remove('fn-flash');
+      void targetLi.offsetWidth; // 리플로우 강제 -> 애니메이션 재생
+      targetLi.classList.add('fn-flash');
+    }
+  }
+
+  // 1) 본문 주석 마커
   root.querySelectorAll('sup.fn-ref').forEach(ref => {
     ref.setAttribute('tabindex', '0');
     ref.setAttribute('role', 'button');
 
+    // 데스크탑: 마우스 올리면 팝업
     ref.addEventListener('mouseenter', () => {
+      if (isTouch) return;
       clearTimeout(_fnHideTimer);
       _showFnPopup(ref);
     });
     ref.addEventListener('mouseleave', () => {
+      if (isTouch) return;
       _fnHideTimer = setTimeout(_hideFnPopup, 250);
     });
 
     const innerLink = ref.querySelector('a[href^="#"]');
     if (innerLink) {
       innerLink.addEventListener('click', (e) => {
-        // 기본 해시 점프 막고 (SPA라 깨짐) 직접 스크롤 + 팝업
+        // 기본 해시 점프 막기 (SPA라 깨짐 + 홈으로 튕김 방지)
         e.preventDefault();
-        const targetId = innerLink.getAttribute('href').slice(1);
-        const targetLi = document.getElementById(targetId);
-        if (targetLi) {
-          targetLi.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          targetLi.classList.remove('fn-flash');
-          void targetLi.offsetWidth; // 리플로우 강제 -> 애니메이션 재생
-          targetLi.classList.add('fn-flash');
+
+        if (isTouch) {
+          // 모바일: 첫 탭 -> 팝업만. 이미 이 각주 팝업이 떠 있으면 -> 스크롤.
+          const popup = _getFnPopup();
+          const alreadyShownForThis =
+            popup.classList.contains('is-show') && popup._fnOwner === ref;
+          if (alreadyShownForThis) {
+            _hideFnPopup();
+            _scrollToFootnote(innerLink);
+          } else {
+            _showFnPopup(ref);
+          }
+        } else {
+          // 데스크탑: 클릭하면 스크롤 + 팝업
+          _scrollToFootnote(innerLink);
+          _showFnPopup(ref);
         }
-        _showFnPopup(ref);
       });
     }
   });
