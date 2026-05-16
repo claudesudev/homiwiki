@@ -5025,45 +5025,43 @@ li.fn-flash {
   100% { background: transparent; }
 }
 
-/* 출처 목록의 [1][2] 번호 -> 크고 파란 클릭 가능 버튼 (역추적) */
+/* 출처 목록의 [1][2] 번호 -> 나무위키식 파란 글씨 (역추적) */
 .fn-num-back {
   display: inline-block;
-  min-width: 30px;
-  text-align: center;
-  margin-right: 6px;
-  padding: 2px 7px;
+  margin-right: 5px;
+  padding: 3px 2px;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--accent, #3b6ea5);
-  background: rgba(59, 110, 165, 0.10);
-  border-radius: 6px;
+  background: transparent;
+  border-radius: 0;
   cursor: pointer;
   text-decoration: none;
   line-height: 1.5;
   -webkit-tap-highlight-color: transparent;
 }
 .fn-num-back:hover {
-  background: rgba(59, 110, 165, 0.20);
-  text-decoration: none;
+  background: transparent;
+  text-decoration: underline;
 }
 .fn-num-back:active {
-  transform: scale(0.94);
+  opacity: 0.6;
 }
 [data-theme="dark"] .fn-num-back {
   color: #7fb0e0;
-  background: rgba(127, 176, 224, 0.16);
+  background: transparent;
 }
 [data-theme="dark"] .fn-num-back:hover {
-  background: rgba(127, 176, 224, 0.28);
+  background: transparent;
 }
 ul > li[id^="ref-"] {
   padding: 5px 0;
 }
 @media (max-width: 720px) {
   .fn-num-back {
-    min-width: 38px;
     font-size: 15px;
-    padding: 4px 9px;
+    padding: 6px 4px;
+    margin-right: 6px;
   }
   ul > li[id^="ref-"] {
     padding: 8px 0;
@@ -9083,11 +9081,30 @@ function _showFnPopup(refEl) {
 
   const popup = _getFnPopup();
 
-  // 각주 항목 HTML을 복제해서 팝업에 (되돌아가기 ↩ 화살표는 CSS로 숨김)
-  const num = (targetLi.textContent.match(/^\s*\[([^\]]+)\]/) || [, ''])[1];
+  // 각주 항목을 복제한 뒤, 네비게이션 요소(번호 버튼·↩)는 제거하고 내용만 표시
+  const clone = targetLi.cloneNode(true);
+  clone.querySelectorAll('.fn-num-back, .fn-back').forEach(el => el.remove());
+
+  // 맨 앞에 남아있을 수 있는 "[3]" 텍스트도 정리
+  let numLabel = '';
+  const firstText = (() => {
+    const w = document.createTreeWalker(clone, NodeFilter.SHOW_TEXT, null);
+    return w.nextNode();
+  })();
+  if (firstText) {
+    const m = firstText.nodeValue.match(/^\s*\[([^\]]+)\]\s?/);
+    if (m) {
+      numLabel = m[1];
+      firstText.nodeValue = firstText.nodeValue.slice(m[0].length);
+    }
+  }
+  if (!numLabel) {
+    numLabel = (targetId.replace(/^ref-/, '') || '');
+  }
+
   popup.innerHTML =
-    (num ? '<span class="fn-popup-num">[' + num + ']</span>' : '') +
-    targetLi.innerHTML.replace(/^\s*\[[^\]]+\]\s*/, '');
+    (numLabel ? '<span class="fn-popup-num">[' + numLabel + ']</span>' : '') +
+    clone.innerHTML;
 
   // 팝업 안의 외부 링크는 새 탭으로 안전하게
   popup.querySelectorAll('a').forEach(a => {
@@ -9095,6 +9112,10 @@ function _showFnPopup(refEl) {
     if (/^https?:/i.test(href)) {
       a.setAttribute('target', '_blank');
       a.setAttribute('rel', 'noopener noreferrer');
+    } else if (href.startsWith('#')) {
+      // 팝업 안에 남은 내부 해시 링크는 홈 튕김 방지 위해 무력화
+      a.removeAttribute('href');
+      a.style.cursor = 'default';
     }
   });
 
