@@ -73,6 +73,23 @@
   --focus-ring: #1a1a1a;
 }
 
+::selection {
+  background: #E7B9A9;
+  color: #1a1a1a;
+}
+::-moz-selection {
+  background: #E7B9A9;
+  color: #1a1a1a;
+}
+[data-theme="dark"] ::selection {
+  background: #5E3A2E;
+  color: #f0c9b8;
+}
+[data-theme="dark"] ::-moz-selection {
+  background: #5E3A2E;
+  color: #f0c9b8;
+}
+
 [data-theme="dark"] {
   --bg-primary: #1a1a1a;
   --bg-secondary: #232323;
