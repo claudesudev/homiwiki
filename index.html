@@ -2518,6 +2518,93 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
   border-radius: 4px;
 }
 
+/* ===== Inline collapsible TOC (in-body) ===== */
+.doc-toc {
+  margin: 22px 0 28px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-accent-soft);
+  overflow: hidden;
+}
+.doc-toc-head {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 12px 16px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: var(--text-secondary);
+  font: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+.doc-toc-head:hover { background: rgba(0,0,0,0.025); }
+[data-theme="dark"] .doc-toc-head:hover { background: rgba(255,255,255,0.03); }
+.doc-toc-head .toc-ico {
+  width: 16px; height: 16px;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.doc-toc-head .toc-label {
+  font-size: calc(14px * var(--font-scale));
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+.doc-toc-head .toc-count {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: calc(12px * var(--font-scale));
+  color: var(--text-tertiary);
+}
+.doc-toc-head .toc-caret {
+  margin-left: auto;
+  width: 16px; height: 16px;
+  color: var(--text-tertiary);
+  transition: transform 0.22s ease;
+}
+.doc-toc.is-open .doc-toc-head .toc-caret { transform: rotate(180deg); }
+.doc-toc-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.26s ease;
+}
+.doc-toc.is-open .doc-toc-body { grid-template-rows: 1fr; }
+.doc-toc-body-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+.doc-toc-list {
+  padding: 4px 8px 12px;
+  border-top: 1px solid var(--border-light);
+  margin-top: 0;
+}
+.doc-toc.is-open .doc-toc-list { margin-top: 2px; }
+.doc-toc-list a {
+  display: block;
+  padding: 7px 10px;
+  border-radius: 5px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  cursor: pointer;
+  font-size: calc(14px * var(--font-scale));
+  line-height: 1.5;
+  transition: background 0.12s, color 0.12s;
+}
+.doc-toc-list a:hover {
+  background: var(--bg-tertiary);
+  color: var(--accent);
+}
+.doc-toc-list .toc-row-l2 { padding-left: 26px; }
+.doc-toc-list .toc-row-l3 { padding-left: 42px; font-size: calc(13px * var(--font-scale)); }
+.doc-toc-list .toc-n {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: calc(12.5px * var(--font-scale));
+  color: var(--text-tertiary);
+  margin-right: 8px;
+}
+.doc-toc-list a:hover .toc-n { color: var(--accent); }
+
 .follow-popup-clickable {
   cursor: pointer;
   border-radius: 6px;
@@ -9011,6 +9098,68 @@ function formatDocUpdated(raw) {
   return s;
 }
 
+function renderInlineToc(doc) {
+  if (!doc || !doc.toc || !doc.toc.length) return '';
+  const items = doc.toc.slice();
+  const l1 = items.filter(it => it.level === 1);
+
+  // Append a synthetic "관련 문서" entry mirroring the popup/section logic
+  if (doc.related && doc.related.length > 0) {
+    const maxNum = l1.length
+      ? Math.max(...l1.map(it => parseInt(it.num, 10)).filter(n => !isNaN(n)))
+      : 0;
+    items.push({
+      num: maxNum > 0 ? String(maxNum + 1) : '',
+      text: '관련 문서',
+      id: 's-related',
+      level: 1
+    });
+  }
+  if (!items.length) return '';
+
+  const l1Count = items.filter(it => it.level === 1).length;
+  const rows = items.map(it => {
+    const lvl = it.level || 1;
+    const cls = lvl === 1 ? 'toc-row-l1' : (lvl === 2 ? 'toc-row-l2' : 'toc-row-l3');
+    const numHtml = it.num ? `<span class="toc-n">${it.num}</span>` : '';
+    return `<a class="${cls}" onclick="tocJump('${it.id}')">${numHtml}${it.text}</a>`;
+  }).join('');
+
+  return `
+    <div class="doc-toc" id="docToc">
+      <button class="doc-toc-head" type="button"
+              aria-expanded="false" aria-controls="docTocBody"
+              onclick="toggleInlineToc(this)">
+        <svg class="toc-ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <circle cx="5.5" cy="6" r="2.4"/><circle cx="5.5" cy="12" r="2.4"/><circle cx="5.5" cy="18" r="2.4"/>
+          <rect x="10.5" y="4.3" width="10" height="3.4" rx="1.7"/>
+          <rect x="10.5" y="10.3" width="10" height="3.4" rx="1.7"/>
+          <rect x="10.5" y="16.3" width="10" height="3.4" rx="1.7"/>
+        </svg>
+        <span class="toc-label">목차 펼치기</span>
+        <span class="toc-count">${l1Count}</span>
+        <svg class="toc-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </button>
+      <div class="doc-toc-body" id="docTocBody">
+        <div class="doc-toc-body-inner">
+          <div class="doc-toc-list">${rows}</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+window.toggleInlineToc = function(btn) {
+  const box = btn.closest('.doc-toc');
+  if (!box) return;
+  const open = box.classList.toggle('is-open');
+  btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  const label = btn.querySelector('.toc-label');
+  if (label) label.textContent = open ? '목차 접기' : '목차 펼치기';
+};
+
 function renderDoc(docId, originalQuery = null) {
   const doc = DOCS[docId];
   if (!doc) {
@@ -9066,6 +9215,8 @@ function renderDoc(docId, originalQuery = null) {
     ${doc.infobox ? renderInfobox(doc.infobox) : ''}
 
     ${adNoticeHtml}
+
+    ${renderInlineToc(doc)}
 
     ${doc.content}
 
