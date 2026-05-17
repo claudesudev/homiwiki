@@ -9801,9 +9801,8 @@ function openBreadcrumbDropdown(idx) {
   } else {
     const sibHtml = siblings.map(s => {
       const icon = s.type === 'doc' ? BC_DD_FILE_SVG : BC_DD_FOLDER_SVG;
-      const sub = (s.type === 'doc' && s.subtitle)
-        ? `<span class="bc-pi-sub">${escapeBcText(s.subtitle)}</span>`
-        : '';
+      // 빵부스러기 패널: 영문 부제(subtitle) 숨김 — 한글 제목만 표시
+      const sub = '';
       return `<div class="bc-panel-item" role="option" data-bc-target-type="${s.type}" data-bc-target-id="${escapeBcText(s.id)}" tabindex="0">${icon}<span class="bc-pi-label">${escapeBcText(s.label)}</span>${sub}</div>`;
     }).join('');
     panel.innerHTML = selfHtml + sibHtml;
