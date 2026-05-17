@@ -5006,6 +5006,18 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   color: var(--link, #6ab0e8);
 }
 
+/* 다크모드 한정: 본문 외부 링크 가독성 보정 (안3) */
+/* 위키 내부 요소(각주번호·되돌아가기·위키링크)는 제외, 순수 외부링크만 */
+[data-theme="dark"] #pageContent a:not(.fn-ref):not(.fn-back):not(.fn-num-back):not(.wiki-link):not(.doc-copy-url-btn):link {
+  color: #5b8def;
+}
+[data-theme="dark"] #pageContent a:not(.fn-ref):not(.fn-back):not(.fn-num-back):not(.wiki-link):not(.doc-copy-url-btn):visited {
+  color: #b56ee8;
+}
+[data-theme="dark"] #pageContent a:not(.fn-ref):not(.fn-back):not(.fn-num-back):not(.wiki-link):not(.doc-copy-url-btn):hover {
+  color: #7ba5f5;
+}
+
 .fn-popup {
   position: absolute;
   z-index: 9999;
