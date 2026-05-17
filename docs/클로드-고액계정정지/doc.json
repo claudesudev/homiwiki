@@ -1,0 +1,121 @@
+{
+  "title": "클로드 고액계정 무더기 영구정지 사건",
+  "subtitle": "Claude High-Tier (Team / Enterprise) Mass Permanent Ban Incidents",
+  "updated": "2026-05-17 17:00:00",
+  "contributors": [
+    {
+      "nick": "@homiwiki",
+      "role": "신규 문서 · 해외 사건사례·기업 리스크 취합. 요금제 문서에서 분리·심화",
+      "date": "2026-05-17"
+    }
+  ],
+  "categories": [
+    "AI"
+  ],
+  "parent": "claude",
+  "infobox": {
+    "title": "클로드 고액계정 무더기 영구정지 사건",
+    "subtitle": "한 명의 사고 = 전사 정지, 그런데 그 한 명은 못 찾는다",
+    "rows": [
+      [
+        "관련 서비스",
+        "<span class=\"wiki-link\" data-link=\"클로드\">Claude</span> (Anthropic)"
+      ],
+      [
+        "적용 대상",
+        "Team · Enterprise 등 고액 과금 조직 계정 (개인 Pro/Max 아님)"
+      ],
+      [
+        "대표 사례",
+        "Belo 60여 명 · 미국 농업테크 110명"
+      ],
+      [
+        "핵심 문제",
+        "전 직원 동시 정지 + 가해 계정 영영 색출 불가"
+      ],
+      [
+        "악질 포인트",
+        "정지 중에도 API 과금은 계속 빠짐"
+      ],
+      [
+        "난이도",
+        "★★★★★ (개인이 통제 불가, 터지면 회사가 선다)"
+      ],
+      [
+        "연관 문서",
+        "<span class=\"wiki-link\" data-link=\"클로드-요금제비교\">클로드 요금제 비교</span> · <span class=\"wiki-link\" data-link=\"클로드-환불받는법\">클로드 환불</span>"
+      ]
+    ]
+  },
+  "toc": [
+    {
+      "num": "1",
+      "text": "개요",
+      "id": "s1",
+      "level": 1
+    },
+    {
+      "num": "2",
+      "text": "실제 사건 사례",
+      "id": "s2",
+      "level": 1
+    },
+    {
+      "num": "2.1",
+      "text": "Belo 60여 명 정지",
+      "id": "s2-1",
+      "level": 2
+    },
+    {
+      "num": "2.2",
+      "text": "농업테크 110명 정지",
+      "id": "s2-2",
+      "level": 2
+    },
+    {
+      "num": "2.3",
+      "text": "정지돼도 과금은 계속된다",
+      "id": "s2-3",
+      "level": 2
+    },
+    {
+      "num": "3",
+      "text": "가장 큰 두 가지 시나리오",
+      "id": "s3",
+      "level": 1
+    },
+    {
+      "num": "4",
+      "text": "왜 가해자(트리거 계정)를 못 찾는가",
+      "id": "s4",
+      "level": 1
+    },
+    {
+      "num": "5",
+      "text": "기업이 떠안는 그 외 리스크",
+      "id": "s5",
+      "level": 1
+    },
+    {
+      "num": "6",
+      "text": "한 줄 요약",
+      "id": "s6",
+      "level": 1
+    },
+    {
+      "num": "7",
+      "text": "관련 문서",
+      "id": "s-related",
+      "level": 1
+    },
+    {
+      "num": "8",
+      "text": "출처",
+      "id": "s_sources",
+      "level": 1
+    }
+  ],
+  "content": "<div class=\"section\" id=\"s1\">\n        <h2 class=\"section-title h2\"><span class=\"num\">1.</span> 개요</h2>\n        <p><span class=\"wiki-link\" data-link=\"클로드\">Claude</span>를 팀·엔터프라이즈 등 조직 단위로 도입했다가, <strong>전 직원 계정이 한 번에 정지</strong>당한 실제 사례들을 모은 문서. <span class=\"wiki-link\" data-link=\"클로드-요금제비교\">클로드 요금제 비교</span> 문서에서 사건사고 파트가 비대해져 별도로 분리·심화한 것이다. 기업뿐 아니라 Team 등 고액 과금 조직 계정에서 공통으로 터지는 문제다.</p>\n        <p>요점은 단순하다. 누군가 한 명이 사고를 치면 회사 전체가 막히는데, <strong>정작 그 한 명이 누구였는지는 영영 못 찾고</strong>, 막힌 동안에도 API 과금은 계속 빠진다. 겁주려는 게 아니라, 회사에 도입을 검토 중이라면 요금제보다 이게 더 중요할 수 있어서 따로 정리했다. 알고 대비하면 관리 가능한 리스크다.</p>\n      </div>\n      <div class=\"section\" id=\"s2\">\n        <h2 class=\"section-title h2\"><span class=\"num\">2.</span> 실제 사건 사례</h2>\n        <p>요금제 잘 골라서 잘 결제해도, 조직 단위로 쓰다가 통째로 막힌 실제 사례가 있다. 무서운 얘기지만 무섭게만 쓰면 안 쓰게 되니까, \"이런 게 있으니 한 바구니에 다 담지 말자\" 정도로 알아두면 된다.</p>\n      </div>\n\n      <div class=\"section\" id=\"s2-1\">\n        <h3 class=\"section-title h3\"><span class=\"num\">2.1.</span> Belo 60여 명 정지</h3>\n        <p><strong>Belo (직원 60여 명).</strong> 2026년 4월 어느 날 아침, 전 직원의 Claude 계정이 한꺼번에 정지됐다. Anthropic은 \"이용 정책 위반\"이라는 모호한 자동 메일 한 통 외에 아무 설명도, 어떤 규칙을 어쨌는지도 알려주지 않았고, 이의 제기 수단으로 <strong>구글 폼</strong> 하나만 제시했다. 60명의 일상 워크플로(통합·스킬·대화 기록)가 Claude에 묶여 있어 업무가 통째로 마비됐다. CEO가 X에 올리며 공론화됐고 Tom's Hardware 등으로 퍼졌다. 결국 <strong>15시간 뒤 복구</strong>됐고 Anthropic은 오탐(false positive)이었다고 밝혔다. 자체 판단인지 나쁜 PR 때문인지는 불분명.<sup class=\"fn-ref\" id=\"fnref-1\"><a href=\"#ref-1\">[1]</a></sup></p>\n      </div>\n\n      <div class=\"section\" id=\"s2-2\">\n        <h3 class=\"section-title h3\"><span class=\"num\">2.2.</span> 농업테크 110명 정지</h3>\n        <p><strong>미국 농업테크 회사 (직원 110명), 더 심각.</strong> 월요일 아침 110개 계정이 경고 없이 동시 정지. 사유는 역시 \"이용 정책 위반\"뿐. 농업 관련(비료·GPS 위성 등) 대화가 어쩌다 탐지에 걸린 것으로 추정될 뿐 구체적 통보는 없었다.<sup class=\"fn-ref\" id=\"fnref-2\"><a href=\"#ref-2\">[2]</a></sup></p>\n      </div>\n\n      <div class=\"section\" id=\"s2-3\">\n        <h3 class=\"section-title h3\"><span class=\"num\">2.3.</span> 정지돼도 과금은 계속된다</h3>\n        <p>위 110인 사례에서 진짜 무서운 대목. 팀이 잠긴 동안에도 <strong>API 키는 계속 과금됐고</strong>, 관리자 이메일까지 차단돼서 <strong>자기 회사 사용 데이터조차 볼 수 없었다</strong>. 즉 돈은 계속 빠지는데 로그인이 안 돼서 청구를 확인하거나 막을 수도 없는 상태. 팀 플랜 정지와 API 과금이 별개 시스템으로 돌아가서, 한쪽이 막혀도 다른 쪽 청구는 멈추지 않은 것이다.<sup class=\"fn-ref\" id=\"fnref-2\"><a href=\"#ref-2\">[2]</a></sup></p>\n        <p>참고로 Anthropic 공식 투명성 페이지 기준, 2025년 7~12월 동안 <strong>145만 개 계정이 차단</strong>됐고 이의 제기 5만 2천 건 중 1,700건이 번복됐다. 대부분은 악성 계정이겠지만, 위 사례들은 \"정상 기업도 오탐으로 조직 단위로 막힐 수 있다\"는 걸 보여준다.<sup class=\"fn-ref\" id=\"fnref-3\"><a href=\"#ref-3\">[3]</a></sup></p>\n      </div>\n      <div class=\"section\" id=\"s3\">\n        <h2 class=\"section-title h2\"><span class=\"num\">3.</span> 가장 큰 두 가지 시나리오</h2>\n        <p><strong>1) 고의적 비즈니스 공격 시나리오.</strong> 팀원 또는 외부에서 영입한 직원이 클로드를 쓰면서 팀·회사를 망하게 할 목적으로 금칙어(유아 대상 범죄 등)를 연발해 영구금지 조건을 완성시키면, 팀 전체 계정이 영구정지된다. 그런데 어느 계정에서 이 짓을 했는지 클로드·앤트로픽 자체 규정상 가해자를 철저히 은폐하기 때문에, 대체 누구 계정에서 무슨 사유로 팀 전체가 밴을 먹은 건지 <strong>가해자를 영영 찾을 수 없다.</strong> 실제로 밴 발동부터 검토·해제까지 전 과정이 사람 없이 봇으로 처리된 정황이라, 트리거 계정 추적은 구조적으로 불가능하다.<sup class=\"fn-ref\" id=\"fnref-2\"><a href=\"#ref-2\">[2]</a></sup></p>\n        <p><strong>2) 클로드 의존 상태에서 인원 감축이 겹쳤을 때.</strong> 개발 쪽에서 많이 일어난다. 시스템 개발을 클로드에 의존하는 스타트업·IT 회사인데, 누군가의 실수로 전 직원 클로드 계정이 영구정지되면 당일 다른 AI 코더로 갈아타야 한다. 이게 쉽지가 않다. 인원을 충원하거나 새 AI 에이전트를 구축해야 하는데, 그 사이 손실되는 비용은 전부 사업주가 떠안는다. 회사 전체가 막힌 걸 다음 날 아침에야 아는 식이라 대응 시점도 늦다.<sup class=\"fn-ref\" id=\"fnref-2\"><a href=\"#ref-2\">[2]</a></sup></p>\n      </div>\n      <div class=\"section\" id=\"s4\">\n        <h2 class=\"section-title h2\"><span class=\"num\">4.</span> 왜 가해자(트리거 계정)를 못 찾는가</h2>\n        <p>회사가 당하면 제일 먼저 \"누구 때문이야?\"부터 찾는데, 구조적으로 불가능하다. 이유가 네 겹이다.</p>\n        <ul>\n          <li><strong>Anthropic이 트리거를 안 알려준다.</strong> 110인 회사 사례에서, Anthropic은 회사에 통지 한 건이 아니라 110개의 개별 통지를 보냈고, 메일은 각 개인 앞으로 와서 링크가 개인 이의신청용 구글 폼으로 연결됐다. 즉 \"회사 계정에 무슨 일이 났다\"가 아니라 개인별로 흩뿌려져서, 받는 사람 입장에선 처음엔 다들 자기가 뭘 잘못했나 싶어 자기 최근 활동(비료·GPS 위성·농업 관련 대화)을 뒤졌다.<sup class=\"fn-ref\" id=\"fnref-4\"><a href=\"#ref-4\">[4]</a></sup></li>\n          <li><strong>회사가 자력으로 색출도 불가능.</strong> 잠긴 동안 관리자가 잠기고 이메일이 차단돼서 자기 회사 사용 데이터조차 볼 수 없었다. 어느 계정·어느 대화가 문제였는지 회사가 로그를 까볼 수단 자체가 막혀 있다. 결국 슬랙에서 서로 대조해보고 나서야 전사적으로 당했다는 그림이 잡혔다.<sup class=\"fn-ref\" id=\"fnref-4\"><a href=\"#ref-4\">[4]</a></sup></li>\n          <li><strong>Anthropic 본인들도 설명이 안 맞는다.</strong> 이게 핵심인데, 한 Anthropic 엔지니어는 특정 도구(OpenClaw) 사용으로는 아무도 밴 안 했다고 말했고, 그렇다면 트리거가 도구와 무관했거나, 집행 시스템이 사용자에게 표시된 설명과 다르게 작동했다는 두 가지 가능성만 남는다. 즉 표시된 사유와 실제 트리거가 어긋난 정황이라, 받은 사람도 Anthropic 설명만으론 진짜 원인을 특정할 수 없다.<sup class=\"fn-ref\" id=\"fnref-5\"><a href=\"#ref-5\">[5]</a></sup></li>\n          <li><strong>공식 정책상 상세 사유·사전 경고를 안 준다.</strong> 자동화 시스템이 오탐으로 정상 계정을 막는 경우가 있고, Anthropic이 항상 상세한 설명이나 사전 경고를 주는 것은 아니다. 이의신청은 계정 정보를 넣어 폼을 제출하면 Safeguards 팀이 왜 비활성화됐는지 추가 조사하겠다는 방식이라, 사용자가 사유를 통보받는 게 아니라 거꾸로 \"조사해달라\"고 비는 구조다.<sup class=\"fn-ref\" id=\"fnref-6\"><a href=\"#ref-6\">[6]</a></sup></li>\n        </ul>\n      </div>\n      <div class=\"section\" id=\"s5\">\n        <h2 class=\"section-title h2\"><span class=\"num\">5.</span> 기업이 떠안는 그 외 리스크</h2>\n        <p>위가 터지면 아래가 줄줄이 따라온다. 전부 추측이 아니라 실제 사례·공식 약관으로 확인된 것들이다.</p>\n        <ul>\n          <li><strong>정지 중에도 API 과금은 계속 빠진다. 그런데 막을 수가 없다.</strong> 팀이 잠긴 동안에도 API 키는 계속 과금됐고 갱신 청구서까지 발행됐는데, 관리자 이메일이 차단돼서 로그인해 사용량을 보거나 청구에 이의를 제기할 수도 없었다. 돈은 빠지는데 멈출 수도 따질 수도 없는 상태.<sup class=\"fn-ref\" id=\"fnref-2\"><a href=\"#ref-2\">[2]</a></sup></li>\n          <li><strong>관리자 전원이 동시에 잠겨서, 수습할 사람이 사라진다.</strong> 조직 전체 정지에 관리자 계정도 같이 잠긴다. 이의신청 넣을 사람, API 키 폐기할 권한자가 누군지 자체가 증발한다.<sup class=\"fn-ref\" id=\"fnref-2\"><a href=\"#ref-2\">[2]</a></sup></li>\n          <li><strong>클로드에 쌓아둔 업무 자료 회수가 지극히 어렵다.</strong> 클로드에 올린 파일을 빼내는 건 내 컴퓨터 폴더 뒤지는 것보다 훨씬 까다롭다. 업무 자산을 클로드에 누적해뒀다면 정지 순간 그 접근이 통째로 막힌다.<sup class=\"fn-ref\" id=\"fnref-2\"><a href=\"#ref-2\">[2]</a></sup></li>\n          <li><strong>이의신청은 사실상 복권이다.</strong> 공식 통계 기준 이의신청 성공률이 약 3.3%(1,700/52,000)다. 회사 규모와 상관없이 이 확률이다.<sup class=\"fn-ref\" id=\"fnref-3\"><a href=\"#ref-3\">[3]</a></sup></li>\n          <li><strong>엔터프라이즈는 과금 구조상 비용이 폭주할 수 있다.</strong> 사용량 기반 엔터프라이즈는 좌석비가 접근권만 커버하고 모든 사용량이 API 요율로 별도 청구된다. 한 명이 폭주시키면 조직에 그대로 청구되고, 정지 사고와 겹치면 더 커진다.<sup class=\"fn-ref\" id=\"fnref-7\"><a href=\"#ref-7\">[7]</a></sup></li>\n          <li><strong>권한·오프보딩 관리 부실이 곧 공격 진입로다.</strong> 역할 기반 정책에 묶여 있지 않으면 퇴사·역할 변경 후에도 접근이 남아 오남용·유출 위험이 커진다. 즉 고의 공격(§3-1)의 입구가 결국 권한 관리 구멍에서 열린다.<sup class=\"fn-ref\" id=\"fnref-8\"><a href=\"#ref-8\">[8]</a></sup></li>\n          <li><strong>트리거가 사람이 아니라 환경 요인일 수도 있다.</strong> 다른 회사 60여 계정도 아무 설명 없이 통째로 내려갔다. 특정 직원의 금칙어가 아니라 결제 수단·공유 IP·서드파티 도구처럼 회사가 통제 못 하는 변수로도 전사 정지가 트리거될 수 있다. 가해자가 \"사람\"이 아니라 \"환경\"일 수 있어서, 더더욱 색출이 안 된다.<sup class=\"fn-ref\" id=\"fnref-1\"><a href=\"#ref-1\">[1]</a></sup></li>\n        </ul>\n      </div>\n      <div class=\"section\" id=\"s6\">\n        <h2 class=\"section-title h2\"><span class=\"num\">6.</span> 한 줄 요약</h2>\n        <p>소수의 사고로 전사가 막혔을 때 기업이 떠안는 건 네 겹이다. <strong>금전</strong>(정지 중에도 과금 지속·이의신청 3.3%·엔터 사용량 폭주), <strong>운영</strong>(전 직원 동시 마비·당일 대체 불가·재구축 비용 전부 사업주), <strong>데이터</strong>(쌓아둔 업무 자산 회수 극난), <strong>거버넌스</strong>(봇 처리·은폐 구조로 가해자 색출 불가). 클로드를 회사 핵심에 깊이 박을수록 \"한 명의 사고 = 전사 정지 + 그 한 명은 못 찾음\"이라는 폭탄을 같이 안는 셈이다.</p>\n      </div>\n      <div class=\"section\" id=\"s-related\">\n        <h2 class=\"section-title h2\"><span class=\"num\">7.</span> 관련 문서</h2>\n        <ul><li><span class=\"wiki-link\" data-link=\"클로드-요금제비교\">클로드 요금제 비교</span> · 요금제·결제·실무자 후기(이 문서의 모체)</li><li><span class=\"wiki-link\" data-link=\"클로드\">클로드</span> · 본체 문서(모델·기능·실무 활용)</li><li><span class=\"wiki-link\" data-link=\"클로드-환불받는법\">클로드 환불</span> · 결제 후 환불·정지·고객센터 대응 실전 가이드</li></ul>\n      </div>\n      <div class=\"section\" id=\"s_sources\">\n      <h2 class=\"section-title h2\"><span class=\"num\">8.</span> 출처</h2>\n      <p class=\"note\">※ 주요 언론·당사자 공개 기록·Anthropic 공식 자료 등 출처 확인이 가능한 항목에 한해 표시했다. 커뮤니티 추측(누가 무엇으로 트리거했는지 등)은 추측으로 명시했으며, 공식 확인된 트리거가 공개된 사례는 없다. 정책은 변경될 수 있으니 인용 전 각 원문을 직접 확인할 것.</p>\n      <ul class=\"ref-list\"><li id=\"ref-1\">[1] Tom's Hardware · <a href=\"https://www.tomshardware.com/tech-industry/artificial-intelligence/anthropic-nuked-a-companys-access-to-claude-stopping-60-employees-dead-in-their-tracks-support-via-google-form-is-the-only-recourse-for-vague-usage-policy-violation\" target=\"_blank\" rel=\"noopener\">\"Anthropic nuked a company's access to Claude…\"</a> (Belo 60인 정지·15시간 후 복구·오탐).  <a class=\"fn-back\" href=\"#fnref-1\" title=\"본문으로 돌아가기\">↩</a></li><li id=\"ref-2\">[2] 2nd Order Thinkers · <a href=\"https://www.2ndorderthinkers.com/p/when-claude-brought-a-110-staff-company\" target=\"_blank\" rel=\"noopener\">\"When Claude brought a 110-staff company…\"</a> (110인 동시 정지·API 과금 지속·관리자 차단·봇 처리 정황).  <a class=\"fn-back\" href=\"#fnref-2\" title=\"본문으로 돌아가기\">↩</a></li><li id=\"ref-3\">[3] Anthropic 투명성 페이지 보도(2026-01 기준) · DEV Community · <a href=\"https://dev.to/simon_paxton/anthropic-bans-can-hit-teams-apis-and-billing-separately-3kkd\" target=\"_blank\" rel=\"noopener\">\"Anthropic Bans Can Hit Teams, APIs, and Billing Separately\"</a> (2025 H2 145만 차단·5.2만 이의·1,700 번복).  <a class=\"fn-back\" href=\"#fnref-3\" title=\"본문으로 돌아가기\">↩</a></li><li id=\"ref-4\">[4] Claude Lab · <a href=\"https://claudelab.net/en/articles/claude-ai/claude-max-plan-complete-guide-2026\" target=\"_blank\" rel=\"noopener\">\"Claude Max Plan Complete Guide 2026\"</a> (110인 개별 통지·관리자 잠금·자력 색출 불가).  <a class=\"fn-back\" href=\"#fnref-4\" title=\"본문으로 돌아가기\">↩</a></li><li id=\"ref-5\">[5] Beginners in AI · <a href=\"https://beginnersinai.org/claude-max-plan-guide/\" target=\"_blank\" rel=\"noopener\">\"Claude Max Plan Guide\"</a> (엔지니어 설명과 집행 불일치 정황).  <a class=\"fn-back\" href=\"#fnref-5\" title=\"본문으로 돌아가기\">↩</a></li><li id=\"ref-6\">[6] Nxcode · <a href=\"https://www.nxcode.io/resources/news/claude-code-pricing-2026-free-api-costs-max-plan\" target=\"_blank\" rel=\"noopener\">\"Claude Code Pricing 2026\"</a> / Anthropic 공식 Safeguards·이의신청 · <a href=\"https://support.claude.com/en/articles/12429409-manage-extra-usage-for-paid-claude-plans\" target=\"_blank\" rel=\"noopener\">Help Center</a> (자동 오탐·상세사유 미제공·이의신청 구조).  <a class=\"fn-back\" href=\"#fnref-6\" title=\"본문으로 돌아가기\">↩</a></li><li id=\"ref-7\">[7] Anthropic 지원 센터 · <a href=\"https://support.claude.com/en/articles/9797531-what-is-the-enterprise-plan\" target=\"_blank\" rel=\"noopener\">\"What is the Enterprise plan?\"</a> (사용량 기반 좌석·API 요율 별도 청구).  <a class=\"fn-back\" href=\"#fnref-7\" title=\"본문으로 돌아가기\">↩</a></li><li id=\"ref-8\">[8] Valence Security · <a href=\"https://www.valencesecurity.com/saas-security-terms/claude-security-governing-enterprise-ai-use-with-anthropic-claude\" target=\"_blank\" rel=\"noopener\">\"Claude Security: Governing Enterprise AI Use\"</a> (역할 기반 접근·오프보딩 리스크).  <a class=\"fn-back\" href=\"#fnref-8\" title=\"본문으로 돌아가기\">↩</a></li></ul>\n      </div>",
+  "related": [],
+  "aliases": null
+}
