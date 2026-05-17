@@ -1067,6 +1067,12 @@ body {
   border-bottom: none;
 }
 
+@media (max-width: 720px) {
+  .infobox-kv-row {
+    padding: 8px 14px;
+  }
+}
+
 .infobox-kv dt {
   width: 74px;
   flex-shrink: 0;
@@ -5044,6 +5050,13 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   color: var(--text-secondary, #666);
 }
 .fn-popup .fn-back { display: none; }
+
+/* 각주 끝 되돌아가기 ↩ 제거: 출처 앞의 파란 번호 버튼이 동일 기능을 대체 */
+li[id^="ref-"] .fn-back,
+li[id^="fn"] .fn-back,
+a.fn-back {
+  display: none !important;
+}
 [data-theme="dark"] .fn-popup {
   background: var(--bg-elev, #2a2a2a);
   border-color: rgba(255,255,255,0.18);
