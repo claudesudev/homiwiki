@@ -1174,8 +1174,8 @@ body {
 .section p {
   margin-bottom: 14px;
   color: #000;
-  font-size: calc(13px * var(--font-scale));
-  line-height: 1.45;
+  font-size: calc(14px * var(--font-scale));
+  line-height: 1.35;
   overflow-wrap: anywhere;
   word-break: break-word;
 }
@@ -1191,8 +1191,8 @@ body {
 .section .pc-c-list,
 .section .pc-c-list li,
 .section .pc-c-section {
-  font-size: calc(13px * var(--font-scale));
-  line-height: 1.45;
+  font-size: calc(14px * var(--font-scale));
+  line-height: 1.35;
 }
 
 .section strong,
@@ -1244,8 +1244,8 @@ body {
   padding: 18px;
   margin: 18px 0;
   border-radius: 14px;
-  font-size: calc(13px * var(--font-scale));
-  line-height: 1.45;
+  font-size: calc(14px * var(--font-scale));
+  line-height: 1.35;
   color: var(--text-primary);
   font-weight: 500;
   font-style: normal;
@@ -1261,8 +1261,8 @@ body {
   border-radius: 14px;
   padding: 14px 16px;
   margin: 16px 0;
-  font-size: calc(13px * var(--font-scale));
-  line-height: 1.45;
+  font-size: calc(14px * var(--font-scale));
+  line-height: 1.35;
   color: var(--text-secondary);
 }
 
@@ -1287,14 +1287,39 @@ body {
 }
 
 .section ul, .section ol {
-  margin: 10px 0 14px 22px;
+  margin: 10px 0 14px 0;
+  padding-left: 0;
   color: #000;
-  font-size: calc(13px * var(--font-scale));
+  font-size: calc(14px * var(--font-scale));
+  list-style: none;
 }
 
 .section li {
   margin-bottom: 6px;
-  line-height: 1.45;
+  line-height: 1.35;
+  padding-left: 0.85em;
+  position: relative;
+}
+
+.section ul > li::before {
+  content: "•";
+  color: var(--accent);
+  position: absolute;
+  left: 0;
+  font-weight: 700;
+}
+
+.section ol {
+  list-style: decimal;
+  padding-left: 1.4em;
+}
+
+.section ol > li {
+  padding-left: 0.15em;
+}
+
+.section ol > li::before {
+  content: none;
 }
 
 .section li::marker {
@@ -1305,7 +1330,7 @@ body {
   width: 100%;
   border-collapse: collapse;
   margin: 14px 0;
-  font-size: calc(13px * var(--font-scale));
+  font-size: calc(14px * var(--font-scale));
   background: var(--bg-tertiary);
   border-radius: 8px;
   overflow: hidden;
@@ -1320,7 +1345,7 @@ body {
   text-align: left;
   font-weight: 600;
   border-bottom: 1px solid var(--border);
-  font-size: calc(13px * var(--font-scale));
+  font-size: calc(14px * var(--font-scale));
   overflow-wrap: anywhere;
   word-break: break-word;
 }
@@ -1377,12 +1402,12 @@ body {
 [data-theme="dark"] .hw-tier-haiku  { background: #4a3a32; color: #e8c5b5; }
 .hw-tier-body { flex: 1; min-width: 0; }
 .hw-tier-name {
-  font-size: calc(13px * var(--font-scale));
+  font-size: calc(14px * var(--font-scale));
   font-weight: 600;
   color: var(--text-primary);
 }
 .hw-tier-desc {
-  font-size: calc(13px * var(--font-scale));
+  font-size: calc(14px * var(--font-scale));
   color: var(--text-tertiary);
   margin-top: 1px;
 }
@@ -1464,7 +1489,7 @@ body {
 }
 .hw-row-main { flex: 1; min-width: 0; }
 .hw-row-name {
-  font-size: calc(13px * var(--font-scale));
+  font-size: calc(14px * var(--font-scale));
   font-weight: 600;
   color: var(--text-primary);
 }
@@ -1474,7 +1499,7 @@ body {
   margin-top: 1px;
 }
 .hw-row-val {
-  font-size: calc(13px * var(--font-scale));
+  font-size: calc(14px * var(--font-scale));
   font-weight: 600;
   color: var(--text-primary);
   flex-shrink: 0;
@@ -1515,8 +1540,8 @@ body {
   border-top-color: var(--border);
 }
 .hw-note-line {
-  font-size: calc(13px * var(--font-scale));
-  line-height: 1.45;
+  font-size: calc(14px * var(--font-scale));
+  line-height: 1.35;
   color: var(--text-tertiary);
 }
 .hw-note-line + .hw-note-line { margin-top: 3px; }
@@ -5144,18 +5169,18 @@ html[data-font-size="xxl"] .topics-hero-overlay {
 }
 .doc-figure figcaption {
   margin-top: 10px;
-  font-size: calc(13px * var(--font-scale));
+  font-size: calc(14px * var(--font-scale));
   color: var(--text-secondary, #888);
   font-style: normal;
-  line-height: 1.45;
+  line-height: 1.35;
   padding: 0 8px;
 }
 
 .section .footnote {
   margin-top: 8px;
-  font-size: calc(13px * var(--font-scale));
+  font-size: calc(14px * var(--font-scale));
   color: var(--text-tertiary, #999);
-  line-height: 1.45;
+  line-height: 1.35;
 }
 
 /* ===== 주석(각주) 팝업 - 나무위키식 ===== */
