@@ -1180,6 +1180,21 @@ body {
   word-break: break-word;
 }
 
+/* 본문 통일: 스타일 규칙이 없어 body값을 상속받던 콘텐츠 컨테이너들 */
+.section .note,
+.section .pros,
+.section .cons,
+.section .tl-a-label,
+.section .tl-a-time,
+.section .tl-a-desc,
+.section .pc-c-head,
+.section .pc-c-list,
+.section .pc-c-list li,
+.section .pc-c-section {
+  font-size: calc(13px * var(--font-scale));
+  line-height: 1.45;
+}
+
 .section strong,
 .section b {
   font-weight: 600;
@@ -1229,8 +1244,8 @@ body {
   padding: 18px;
   margin: 18px 0;
   border-radius: 14px;
-  font-size: calc(15px * var(--font-scale));
-  line-height: 1.55;
+  font-size: calc(13px * var(--font-scale));
+  line-height: 1.45;
   color: var(--text-primary);
   font-weight: 500;
   font-style: normal;
@@ -1246,8 +1261,8 @@ body {
   border-radius: 14px;
   padding: 14px 16px;
   margin: 16px 0;
-  font-size: calc(14px * var(--font-scale));
-  line-height: 1.6;
+  font-size: calc(13px * var(--font-scale));
+  line-height: 1.45;
   color: var(--text-secondary);
 }
 
@@ -1274,12 +1289,12 @@ body {
 .section ul, .section ol {
   margin: 10px 0 14px 22px;
   color: #000;
-  font-size: calc(14px * var(--font-scale));
+  font-size: calc(13px * var(--font-scale));
 }
 
 .section li {
   margin-bottom: 6px;
-  line-height: 1.72;
+  line-height: 1.45;
 }
 
 .section li::marker {
@@ -1305,7 +1320,7 @@ body {
   text-align: left;
   font-weight: 600;
   border-bottom: 1px solid var(--border);
-  font-size: calc(12.5px * var(--font-scale));
+  font-size: calc(13px * var(--font-scale));
   overflow-wrap: anywhere;
   word-break: break-word;
 }
@@ -1362,7 +1377,7 @@ body {
 [data-theme="dark"] .hw-tier-haiku  { background: #4a3a32; color: #e8c5b5; }
 .hw-tier-body { flex: 1; min-width: 0; }
 .hw-tier-name {
-  font-size: calc(15px * var(--font-scale));
+  font-size: calc(13px * var(--font-scale));
   font-weight: 600;
   color: var(--text-primary);
 }
@@ -1449,7 +1464,7 @@ body {
 }
 .hw-row-main { flex: 1; min-width: 0; }
 .hw-row-name {
-  font-size: calc(14.5px * var(--font-scale));
+  font-size: calc(13px * var(--font-scale));
   font-weight: 600;
   color: var(--text-primary);
 }
@@ -1459,7 +1474,7 @@ body {
   margin-top: 1px;
 }
 .hw-row-val {
-  font-size: calc(14px * var(--font-scale));
+  font-size: calc(13px * var(--font-scale));
   font-weight: 600;
   color: var(--text-primary);
   flex-shrink: 0;
@@ -1500,8 +1515,8 @@ body {
   border-top-color: var(--border);
 }
 .hw-note-line {
-  font-size: calc(11.5px * var(--font-scale));
-  line-height: 1.6;
+  font-size: calc(13px * var(--font-scale));
+  line-height: 1.45;
   color: var(--text-tertiary);
 }
 .hw-note-line + .hw-note-line { margin-top: 3px; }
@@ -5129,18 +5144,18 @@ html[data-font-size="xxl"] .topics-hero-overlay {
 }
 .doc-figure figcaption {
   margin-top: 10px;
-  font-size: 13px;
+  font-size: calc(13px * var(--font-scale));
   color: var(--text-secondary, #888);
   font-style: normal;
-  line-height: 1.5;
+  line-height: 1.45;
   padding: 0 8px;
 }
 
 .section .footnote {
   margin-top: 8px;
-  font-size: 12px;
+  font-size: calc(13px * var(--font-scale));
   color: var(--text-tertiary, #999);
-  line-height: 1.5;
+  line-height: 1.45;
 }
 
 /* ===== 주석(각주) 팝업 - 나무위키식 ===== */
@@ -5274,7 +5289,6 @@ ul > li[id^="ref-"] {
 }
 @media (max-width: 720px) {
   .doc-figure { margin: 16px -4px; }
-  .doc-figure figcaption { font-size: 12px; }
 }
 
 .doc-breadcrumb {
