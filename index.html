@@ -680,14 +680,14 @@ body {
 }
 
 .doc-subtitle {
-  font-size: calc(14.5px * var(--font-scale) * 0.93);
+  font-size: calc(13px * var(--font-scale));
   color: var(--text-tertiary);
   margin-bottom: 0;
   line-height: 1.4;
 }
 
 .doc-title {
-  font-size: calc(31px * var(--font-scale) * 0.93);
+  font-size: calc(29px * var(--font-scale));
   font-weight: 700;
   color: var(--text-primary);
   margin-bottom: 6px;
@@ -1137,7 +1137,7 @@ body {
   align-items: baseline;
   gap: 10px;
   letter-spacing: -0.02em;
-  font-size: calc(22px * var(--font-scale) * 0.93);
+  font-size: calc(20px * var(--font-scale));
   line-height: 1.2;
   flex-wrap: wrap;
   overflow-wrap: anywhere;
@@ -1147,12 +1147,12 @@ body {
 
 .section-title.h2 {
   border-bottom: none;
-  font-size: calc(24px * var(--font-scale) * 0.93);
+  font-size: calc(22px * var(--font-scale));
 }
 
 .section-title.h3 {
   border-bottom: none;
-  font-size: calc(17px * var(--font-scale) * 0.93);
+  font-size: calc(16px * var(--font-scale));
   font-weight: 600;
 }
 
@@ -1160,7 +1160,7 @@ body {
   color: var(--accent);
   font-family: 'JetBrains Mono', ui-monospace, monospace;
   font-weight: 600;
-  font-size: calc(13px * var(--font-scale) * 0.93);
+  font-size: calc(12px * var(--font-scale));
   letter-spacing: 0.02em;
   align-self: center;
   flex-shrink: 0;
@@ -1173,9 +1173,9 @@ body {
 
 .section p {
   margin-bottom: 14px;
-  color: var(--text-secondary);
-  font-size: calc(15.5px * var(--font-scale) * 0.93);
-  line-height: 1.72;
+  color: #000;
+  font-size: calc(13px * var(--font-scale));
+  line-height: 1.45;
   overflow-wrap: anywhere;
   word-break: break-word;
 }
@@ -1188,6 +1188,12 @@ body {
 .section strong.hw-label {
   font-weight: 600;
   color: var(--label-accent);
+}
+
+[data-theme="dark"] .section p,
+[data-theme="dark"] .section ul,
+[data-theme="dark"] .section ol {
+  color: var(--text-secondary);
 }
 
 .wiki-link {
@@ -1223,7 +1229,7 @@ body {
   padding: 18px;
   margin: 18px 0;
   border-radius: 14px;
-  font-size: calc(16px * var(--font-scale) * 0.93);
+  font-size: calc(15px * var(--font-scale));
   line-height: 1.55;
   color: var(--text-primary);
   font-weight: 500;
@@ -1267,8 +1273,8 @@ body {
 
 .section ul, .section ol {
   margin: 10px 0 14px 22px;
-  color: var(--text-secondary);
-  font-size: calc(15px * var(--font-scale) * 0.93);
+  color: #000;
+  font-size: calc(14px * var(--font-scale));
 }
 
 .section li {
@@ -2388,6 +2394,7 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
   align-items: center;
   gap: 8px;
   z-index: 90;
+  opacity: 0.3;
   transition: opacity 0.2s ease;
 }
 .floating-dock:active {
