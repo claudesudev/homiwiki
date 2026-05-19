@@ -45,7 +45,7 @@
    ============================================================================== */
 
 :root {
-  --font-scale: 1.07;
+  --font-scale: 1.00;
   --root-font-scale: 1.07;
   --bg-primary: #faf9f7;
   --bg-secondary: #f2f0ec;
@@ -120,14 +120,14 @@
 }
 
 html[data-font-size="s"]   { --font-scale: 0.87; --root-font-scale: 0.87; }
-html[data-font-size="m"]   { --font-scale: 1.07; --root-font-scale: 1.07; }
+html[data-font-size="m"]   { --font-scale: 1.00; --root-font-scale: 1.07; }
 html[data-font-size="l"]   { --font-scale: 1.27; --root-font-scale: 1.27; }
 html[data-font-size="xl"]  { --font-scale: 1.47; --root-font-scale: 1.47; }
 html[data-font-size="xxl"] { --font-scale: 1.67; --root-font-scale: 1.67; }
 
 .top-header, .top-header *,
 .bottom-toolbar, .bottom-toolbar * {
-  --font-scale: 1.07;
+  --font-scale: 1.00;
 }
 
 html.theme-swap,
@@ -1078,15 +1078,14 @@ body {
   align-items: baseline;
   gap: 11px;
   padding: 7px 14px;
-  border-bottom: 1px solid #f0ebe0;
 }
 
-[data-theme="dark"] .infobox-kv-row {
-  border-bottom-color: var(--border-light);
+.infobox-kv-row:nth-child(even) {
+  background: rgba(0, 0, 0, 0.07);
 }
 
-.infobox-kv-row:last-child {
-  border-bottom: none;
+[data-theme="dark"] .infobox-kv-row:nth-child(even) {
+  background: rgba(255, 255, 255, 0.07);
 }
 
 @media (max-width: 720px) {
