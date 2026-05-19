@@ -1091,7 +1091,7 @@ body {
 
 @media (max-width: 720px) {
   .infobox-kv-row {
-    padding: 6px 13px;
+    padding: 3px 13px;
   }
 }
 
@@ -1121,6 +1121,14 @@ body {
 
 .infobox-kv dd .wiki-link {
   font-weight: 400;
+}
+
+@media (max-width: 720px) {
+  .infobox-kv dt,
+  .infobox-kv dd {
+    font-size: calc(14px * var(--font-scale));
+    line-height: 1.32;
+  }
 }
 
 .section {
