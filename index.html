@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#08090c" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#fcfcfc" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>호미위키 Homiwiki</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,7 +31,7 @@
     head.querySelectorAll('meta[name="theme-color"]').forEach(function(m){ m.remove(); });
     const m = document.createElement('meta');
     m.setAttribute('name', 'theme-color');
-    m.setAttribute('content', theme === 'dark' ? '#08090c' : '#ffffff');
+    m.setAttribute('content', theme === 'dark' ? '#121212' : '#fcfcfc');
     head.appendChild(m);
   } catch (e) { }
 })();
@@ -43,7 +43,7 @@ window.__syncThemeColorMeta = function(theme) {
     head.querySelectorAll('meta[name="theme-color"]').forEach(function(m){ m.remove(); });
     const m = document.createElement('meta');
     m.setAttribute('name', 'theme-color');
-    m.setAttribute('content', theme === 'dark' ? '#08090c' : '#ffffff');
+    m.setAttribute('content', theme === 'dark' ? '#121212' : '#fcfcfc');
     head.appendChild(m);
   } catch (e) { }
 };
@@ -75,7 +75,7 @@ window.__syncThemeColorMeta = function(theme) {
      --accent is the "muted emphasis" token (now grayscale, NOT indigo).
      --primary-action is the indigo token, reserved for: links, primary CTA,
      sidebar active marker, search match highlight, focus ring. */
-  --bg-primary: #ffffff;
+  --bg-primary: #fcfcfc;
   --bg-secondary: #f7f7f8;
   --bg-tertiary: #ffffff;
   --bg-elevated: #ffffff;
@@ -124,7 +124,7 @@ window.__syncThemeColorMeta = function(theme) {
 }
 
 [data-theme="dark"] {
-  --bg-primary: #08090c;
+  --bg-primary: #121212;
   --bg-secondary: #101116;
   --bg-tertiary: #14151a;
   --bg-elevated: #1c1d24;
