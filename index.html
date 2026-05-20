@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#cc785c">
+<meta name="theme-color" content="#f9a7b8">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>호미위키 Homiwiki</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,12 +15,26 @@
   let fontSize = 'm';
   try {
     const savedTheme = localStorage.getItem('homi:theme');
-    if (savedTheme === 'light' || savedTheme === 'dark') theme = savedTheme;
+    const validThemes = ['light', 'dark', 'banana-light', 'banana-dark'];
+    if (validThemes.indexOf(savedTheme) !== -1) theme = savedTheme;
     const savedFont = localStorage.getItem('homi:fontSize');
     if (['s','m','l','xl','xxl'].indexOf(savedFont) !== -1) fontSize = savedFont;
   } catch (e) { }
   document.documentElement.setAttribute('data-theme', theme);
   document.documentElement.setAttribute('data-font-size', fontSize);
+  // 첫 로드 시 모바일 상태바 색 동기화
+  try {
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) {
+      const colors = {
+        'light': '#f9a7b8',
+        'dark': '#f48fb1',
+        'banana-light': '#f0c040',
+        'banana-dark': '#f5d278'
+      };
+      meta.setAttribute('content', colors[theme] || colors.light);
+    }
+  } catch (e) {}
 })();
 
 </script>
@@ -47,76 +61,152 @@
 :root {
   --font-scale: 1.00;
   --root-font-scale: 1.07;
-  --bg-primary: #faf9f7;
-  --bg-secondary: #f2f0ec;
+  /* 🍓 딸기우유 라이트 (기본) */
+  --bg-primary: #fff5f7;
+  --bg-secondary: #ffe9ee;
   --bg-tertiary: #ffffff;
   --bg-elevated: #ffffff;
-  --bg-accent-soft: #f0ebe4;
-  --text-primary: #1a1a1a;
-  --text-secondary: #3a3a3a;
-  --text-tertiary: #6b6b6b;
-  --text-muted: #9a9a9a;
-  --accent: #cc785c;
-  --accent-light: #e8a590;
+  --bg-accent-soft: #ffe0e8;
+  --text-primary: #2a1418;
+  --text-secondary: #4a2c33;
+  --text-tertiary: #7a5560;
+  --text-muted: #a88793;
+  --accent: #f9a7b8;
+  --accent-light: #ffd0db;
   --accent-text: #ffffff;
-  --label-accent: #b07560;
-  --link: #2b6cb0;
-  --link-flash-bg: #d6e6f5;
+  --label-accent: #c93d62;
+  --link: #b03060;
+  --link-flash-bg: #ffe0e8;
   --search-highlight-bg: #ffe066;
   --search-input-bg: #ffffff;
   --select-blue: #7dd3fc;
-  --border: #e3e0da;
-  --border-light: #ebe8e2;
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.10);
-  --code-bg: #f0ece6;
-  --focus-ring: #1a1a1a;
+  --border: #f5c8d4;
+  --border-light: #fadce4;
+  --shadow-sm: 0 1px 2px rgba(232, 90, 122, 0.06);
+  --shadow-md: 0 4px 12px rgba(232, 90, 122, 0.08);
+  --shadow-lg: 0 8px 24px rgba(232, 90, 122, 0.12);
+  --code-bg: #fde4eb;
+  --focus-ring: #2a1418;
 }
 
 ::selection {
-  background: #E7B9A9;
-  color: #1a1a1a;
+  background: #ffd0db;
+  color: #2a1418;
 }
 ::-moz-selection {
-  background: #E7B9A9;
-  color: #1a1a1a;
+  background: #ffd0db;
+  color: #2a1418;
+}
+[data-theme="banana-light"] ::selection {
+  background: #f8e8b8;
+  color: #2a2310;
+}
+[data-theme="banana-light"] ::-moz-selection {
+  background: #f8e8b8;
+  color: #2a2310;
 }
 [data-theme="dark"] ::selection {
-  background: #5E3A2E;
-  color: #f0c9b8;
+  background: #3a2530;
+  color: #fce4ec;
 }
 [data-theme="dark"] ::-moz-selection {
-  background: #5E3A2E;
-  color: #f0c9b8;
+  background: #3a2530;
+  color: #fce4ec;
+}
+[data-theme="banana-dark"] ::selection {
+  background: #3d3422;
+  color: #faecb8;
+}
+[data-theme="banana-dark"] ::-moz-selection {
+  background: #3d3422;
+  color: #faecb8;
 }
 
+/* 🍌 바나나우유 라이트 */
+[data-theme="banana-light"] {
+  --bg-primary: #fef9e8;
+  --bg-secondary: #fbf0d2;
+  --bg-tertiary: #ffffff;
+  --bg-elevated: #ffffff;
+  --bg-accent-soft: #f8e8b8;
+  --text-primary: #2a2310;
+  --text-secondary: #4a3e1f;
+  --text-tertiary: #7a6a3a;
+  --text-muted: #a89863;
+  --accent: #f0c040;
+  --accent-light: #f5d278;
+  --accent-text: #2a2310;
+  --label-accent: #a88330;
+  --link: #886624;
+  --link-flash-bg: #f8e8b8;
+  --search-highlight-bg: #ffe066;
+  --search-input-bg: #ffffff;
+  --select-blue: #7dd3fc;
+  --border: #ecd97a;
+  --border-light: #f3e3a0;
+  --shadow-sm: 0 1px 2px rgba(200, 160, 40, 0.08);
+  --shadow-md: 0 4px 12px rgba(200, 160, 40, 0.10);
+  --shadow-lg: 0 8px 24px rgba(200, 160, 40, 0.14);
+  --code-bg: #f8e8b8;
+  --focus-ring: #2a2310;
+}
+
+/* 🍓 딸기우유 다크 (챠콜 베이스 + 핑크 액센트) */
 [data-theme="dark"] {
-  --bg-primary: #1a1a1a;
-  --bg-secondary: #232323;
-  --bg-tertiary: #2a2a2a;
-  --bg-elevated: #323232;
-  --bg-accent-soft: #2d2825;
-  --text-primary: #f5f5f3;
-  --text-secondary: #d4d4d2;
-  --text-tertiary: #a3a3a1;
-  --text-muted: #9a9a98;
-  --accent: #e8a590;
-  --accent-light: #cc785c;
-  --accent-text: #1a1a1a;
-  --label-accent: #cd9d8c;
-  --link: #7ab0e0;
-  --link-flash-bg: #2a4a6b;
-  --search-highlight-bg: #5a4a18;
-  --search-input-bg: #3a3530;
+  --bg-primary: #1e1e20;
+  --bg-secondary: #26262a;
+  --bg-tertiary: #2a2a2c;
+  --bg-elevated: #323234;
+  --bg-accent-soft: #3a2530;
+  --text-primary: #ececee;
+  --text-secondary: #c8c8cc;
+  --text-tertiary: #9a9a9e;
+  --text-muted: #7a7a7e;
+  --accent: #f48fb1;
+  --accent-light: #fac0d2;
+  --accent-text: #1e1e20;
+  --label-accent: #f8a5c2;
+  --link: #ffb1c8;
+  --link-flash-bg: #3a2530;
+  --search-highlight-bg: #5a4018;
+  --search-input-bg: #2a2a2c;
   --select-blue: #0ea5e9;
-  --border: #3a3a3a;
-  --border-light: #303030;
+  --border: #3a3a3c;
+  --border-light: #303032;
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
-  --code-bg: #252525;
-  --focus-ring: #f5f5f3;
+  --code-bg: #2a2a2c;
+  --focus-ring: #ececee;
+}
+
+/* 🍌 바나나우유 다크 (챠콜 베이스 + 옐로우 액센트) */
+[data-theme="banana-dark"] {
+  --bg-primary: #1e1e20;
+  --bg-secondary: #26262a;
+  --bg-tertiary: #2a2a2c;
+  --bg-elevated: #323234;
+  --bg-accent-soft: #3d3422;
+  --text-primary: #ececee;
+  --text-secondary: #c8c8cc;
+  --text-tertiary: #9a9a9e;
+  --text-muted: #7a7a7e;
+  --accent: #f5d278;
+  --accent-light: #faecb8;
+  --accent-text: #1e1e20;
+  --label-accent: #f5db8e;
+  --link: #f5d585;
+  --link-flash-bg: #3d3422;
+  --search-highlight-bg: #5a4818;
+  --search-input-bg: #2a2a2c;
+  --select-blue: #0ea5e9;
+  --border: #3a3a3c;
+  --border-light: #303032;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --code-bg: #2a2a2c;
+  --focus-ring: #ececee;
 }
 
 html[data-font-size="s"]   { --font-scale: 0.87; --root-font-scale: 0.87; }
@@ -205,11 +295,12 @@ body {
   width: 100%;
   max-width: 480px;
   height: 60px;
-  background: #cc785c;
+  background: var(--accent);
   display: flex;
   align-items: center;
   padding: 0 12px;
   z-index: 100;
+  transition: background 0.3s ease;
 }
 
 .search-container {
@@ -226,11 +317,12 @@ body {
   transform: translateY(calc(-50% + 1px));
   width: 44px;
   height: 44px;
-  color: #cc785c;
+  color: var(--accent);
   pointer-events: auto;
   cursor: pointer;
   z-index: 2;
   flex-shrink: 0;
+  transition: color 0.3s ease;
 }
 .search-homi:active { opacity: 0.7; }
 
@@ -2497,9 +2589,14 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
   pointer-events: none;
 }
 
-.dock-theme-icon { display: none; }
-[data-theme="light"] .dock-theme-icon-light { display: block; }
-[data-theme="dark"]  .dock-theme-icon-dark  { display: block; }
+/* 🍓🍌 과일 테마 버튼 */
+.dock-fruit-btn {
+  color: var(--text-tertiary);
+  transition: color 0.2s ease, background 0.2s ease;
+}
+.dock-fruit-btn.active {
+  color: var(--accent);
+}
 
 .dock-divider {
   display: block;
@@ -5715,20 +5812,23 @@ ul > li[id^="ref-"] {
         <rect x="11" y="16.1" width="10" height="3.8" rx="1.9"/>
       </svg>
     </button>
-    <button class="dock-btn" id="dockThemeBtn" onclick="toggleTheme()" aria-label="라이트/다크 모드 전환">
-      <svg class="dock-theme-icon dock-theme-icon-light" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <circle cx="12" cy="12" r="4"/>
-        <path d="M12 2v2"/>
-        <path d="M12 20v2"/>
-        <path d="m4.93 4.93 1.41 1.41"/>
-        <path d="m17.66 17.66 1.41 1.41"/>
-        <path d="M2 12h2"/>
-        <path d="M20 12h2"/>
-        <path d="m4.93 19.07 1.41-1.41"/>
-        <path d="m17.66 6.34 1.41-1.41"/>
+    <button class="dock-btn dock-fruit-btn" id="dockStrawberryBtn" onclick="clickFruit('s')" aria-label="딸기우유 테마">
+      <svg width="27" height="27" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M12 5 L12.8 6.5 L15.5 6 L13.8 8 C16 8.5 18.5 10 18.5 12.5 C18.5 17 15.5 22 12 22 C8.5 22 5.5 17 5.5 12.5 C5.5 10 8 8.5 10.2 8 L8.5 6 L11.2 6.5 Z"/>
+        <path d="M9.5 13 L10 13.7 L9.5 14.4 L9 13.7 Z" fill="var(--bg-primary)"/>
+        <path d="M14.5 13 L15 13.7 L14.5 14.4 L14 13.7 Z" fill="var(--bg-primary)"/>
+        <path d="M12 15 L12.5 15.7 L12 16.4 L11.5 15.7 Z" fill="var(--bg-primary)"/>
+        <path d="M10.5 17 L11 17.7 L10.5 18.4 L10 17.7 Z" fill="var(--bg-primary)"/>
+        <path d="M13.5 17 L14 17.7 L13.5 18.4 L13 17.7 Z" fill="var(--bg-primary)"/>
+        <path d="M12 19 L12.5 19.7 L12 20.4 L11.5 19.7 Z" fill="var(--bg-primary)"/>
       </svg>
-      <svg class="dock-theme-icon dock-theme-icon-dark" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+    </button>
+    <button class="dock-btn dock-fruit-btn" id="dockBananaBtn" onclick="clickFruit('b')" aria-label="바나나우유 테마">
+      <svg width="27" height="27" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <g transform="translate(24,0) scale(-1,1)">
+          <path d="M5 8 L7 7 C9 9 12 13 16 15 C18 16 19 16 20 16 C21 16 21 17 20 18 C18 19.5 14 20 10 18.5 C6 17 4 13 4 10 C4 9 4.5 8.5 5 8 Z"/>
+          <rect x="5" y="5.5" width="2.2" height="2.5" rx="0.3"/>
+        </g>
       </svg>
     </button>
     <span class="dock-divider" aria-hidden="true"></span>
@@ -6099,11 +6199,40 @@ function applyTheme(theme) {
     card.classList.toggle('active', isActive);
     card.setAttribute('aria-checked', String(isActive));
   });
+  // 모바일 상태바 색 동기화
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) {
+    const colors = {
+      'light': '#f9a7b8',
+      'dark': '#f48fb1',
+      'banana-light': '#f0c040',
+      'banana-dark': '#f5d278'
+    };
+    meta.setAttribute('content', colors[theme] || colors.light);
+  }
+  // 독 버튼 활성 상태 (🍓 / 🍌)
+  const state = parseTheme(theme);
+  const sBtn = document.getElementById('dockStrawberryBtn');
+  const bBtn = document.getElementById('dockBananaBtn');
+  if (sBtn) sBtn.classList.toggle('active', state.fruit === 's');
+  if (bBtn) bBtn.classList.toggle('active', state.fruit === 'b');
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
       root.classList.remove('theme-swap');
     });
   });
+}
+
+// 🍓🍌 테마 헬퍼
+function parseTheme(t) {
+  if (t === 'banana-light') return { fruit: 'b', mode: 'light' };
+  if (t === 'banana-dark')  return { fruit: 'b', mode: 'dark' };
+  if (t === 'dark')         return { fruit: 's', mode: 'dark' };
+  return { fruit: 's', mode: 'light' };
+}
+function buildTheme(state) {
+  if (state.fruit === 's') return state.mode === 'light' ? 'light' : 'dark';
+  return state.mode === 'light' ? 'banana-light' : 'banana-dark';
 }
 
 window.setTheme = function(theme) {
@@ -7891,7 +8020,12 @@ function renderSettings() {
   const content = document.getElementById('pageContent');
   const theme = document.documentElement.getAttribute('data-theme') || 'light';
   const fontSizeLabel = ({s:'작게', m:'보통', l:'크게', xl:'조금 크게', xxl:'아주 크게'})[state.fontSize] || '보통';
-  const themeLabel = theme === 'dark' ? '다크' : '라이트';
+  const themeLabel = ({
+    'light': '🍓 딸기 라이트',
+    'dark': '🍓 딸기 다크',
+    'banana-light': '🍌 바나나 라이트',
+    'banana-dark': '🍌 바나나 다크'
+  })[theme] || '🍓 딸기 라이트';
 
   content.innerHTML = `
     <h1 class="sr-only">설정</h1>
@@ -7925,13 +8059,21 @@ function renderSettings() {
           <div class="settings-expand-inner">
             <div class="theme-card-section">
               <div class="theme-card-grid" role="radiogroup" aria-label="색상 모드">
-                <div class="theme-card${theme==='light'?' active':''}" data-mode="light" role="radio" aria-checked="${theme==='light'}" tabindex="0" onclick="setTheme('light');updateSettingsRowValue('theme','라이트')">
+                <div class="theme-card${theme==='light'?' active':''}" data-mode="light" role="radio" aria-checked="${theme==='light'}" tabindex="0" onclick="setTheme('light');updateSettingsRowValue('theme','🍓 딸기 라이트')">
                   ${renderThemePreview('light')}
-                  <span class="theme-card-label">라이트</span>
+                  <span class="theme-card-label">🍓 딸기 라이트</span>
                 </div>
-                <div class="theme-card${theme==='dark'?' active':''}" data-mode="dark" role="radio" aria-checked="${theme==='dark'}" tabindex="0" onclick="setTheme('dark');updateSettingsRowValue('theme','다크')">
+                <div class="theme-card${theme==='dark'?' active':''}" data-mode="dark" role="radio" aria-checked="${theme==='dark'}" tabindex="0" onclick="setTheme('dark');updateSettingsRowValue('theme','🍓 딸기 다크')">
                   ${renderThemePreview('dark')}
-                  <span class="theme-card-label">다크</span>
+                  <span class="theme-card-label">🍓 딸기 다크</span>
+                </div>
+                <div class="theme-card${theme==='banana-light'?' active':''}" data-mode="banana-light" role="radio" aria-checked="${theme==='banana-light'}" tabindex="0" onclick="setTheme('banana-light');updateSettingsRowValue('theme','🍌 바나나 라이트')">
+                  ${renderThemePreview('banana-light')}
+                  <span class="theme-card-label">🍌 바나나 라이트</span>
+                </div>
+                <div class="theme-card${theme==='banana-dark'?' active':''}" data-mode="banana-dark" role="radio" aria-checked="${theme==='banana-dark'}" tabindex="0" onclick="setTheme('banana-dark');updateSettingsRowValue('theme','🍌 바나나 다크')">
+                  ${renderThemePreview('banana-dark')}
+                  <span class="theme-card-label">🍌 바나나 다크</span>
                 </div>
               </div>
             </div>
@@ -8133,21 +8275,37 @@ window.updateSettingsRowValue = function(key, label) {
 };
 
 function renderThemePreview(mode) {
-  const palette = mode === 'light'
-    ? {
-        frame:    '#ffffff',
-        surface:  '#f7f5f1',
-        line:     '#e3e0da',
-        lineDark: '#c9c5be',
-        accent:   '#cc785c'
-      }
-    : {
-        frame:    '#2a2a2a',
-        surface:  '#232323',
-        line:     '#3a3a3a',
-        lineDark: '#4a4a4a',
-        accent:   '#e8a590'
-      };
+  const palettes = {
+    'light': {
+      frame:    '#ffffff',
+      surface:  '#fff5f7',
+      line:     '#f5c8d4',
+      lineDark: '#e8a5b8',
+      accent:   '#f9a7b8'
+    },
+    'dark': {
+      frame:    '#2a2a2c',
+      surface:  '#1e1e20',
+      line:     '#3a3a3c',
+      lineDark: '#4a4a4c',
+      accent:   '#f48fb1'
+    },
+    'banana-light': {
+      frame:    '#ffffff',
+      surface:  '#fef9e8',
+      line:     '#ecd97a',
+      lineDark: '#d4bf60',
+      accent:   '#f0c040'
+    },
+    'banana-dark': {
+      frame:    '#2a2a2c',
+      surface:  '#1e1e20',
+      line:     '#3a3a3c',
+      lineDark: '#4a4a4c',
+      accent:   '#f5d278'
+    }
+  };
+  const palette = palettes[mode] || palettes['light'];
 
   const styleVars =
     `--frame:${palette.frame};` +
@@ -9865,15 +10023,31 @@ window.focusSearch = function() {
   }
 };
 
+// 🍓🍌 새 테마 토글 시스템
+// 클릭 핸들러
+window.clickFruit = function(clickedFruit) {
+  const cur = document.documentElement.getAttribute('data-theme') || 'light';
+  const state = parseTheme(cur);
+  if (state.fruit === clickedFruit) {
+    // 같은 과일 → 모드 토글
+    state.mode = state.mode === 'light' ? 'dark' : 'light';
+  } else {
+    // 다른 과일 → 모드 유지하며 과일만 전환
+    state.fruit = clickedFruit;
+  }
+  const next = buildTheme(state);
+  applyTheme(next);
+  try { localStorage.setItem('homi:theme', next); } catch (e) {}
+};
+
+// 하위 호환 (기존 toggleTheme 호출 대비)
 window.toggleTheme = function() {
   const cur = document.documentElement.getAttribute('data-theme') || 'light';
-  const next = cur === 'dark' ? 'light' : 'dark';
-  if (typeof window.setTheme === 'function') {
-    window.setTheme(next);
-  } else {
-    document.documentElement.setAttribute('data-theme', next);
-    try { localStorage.setItem('homi:theme', next); } catch (e) {}
-  }
+  const state = parseTheme(cur);
+  state.mode = state.mode === 'light' ? 'dark' : 'light';
+  const next = buildTheme(state);
+  applyTheme(next);
+  try { localStorage.setItem('homi:theme', next); } catch (e) {}
 };
 
 const BC_FOLDER_SVG = `<svg class="bc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"/></svg>`;
