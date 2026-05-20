@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#ebebed">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#08090c" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>호미위키 Homiwiki</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,34 +24,29 @@
   document.documentElement.setAttribute('data-font-size', fontSize);
 
   // Sync mobile chrome (status bar / gesture bar) with app theme.
-  // Color matches --bg-primary (header & toolbar bg). The function below
-  // mutates the existing meta in place — Samsung Internet & some other
-  // mobile browsers don't always reflect remove+re-insert reliably.
-  function syncThemeColor(theme) {
-    try {
-      // Off-white / off-black instead of pure #ffffff / #08090c — One UI auto-applies
-      // a subtle shadow under the status bar when the underlying color is near-pure
-      // white or near-pure black (to keep its own icons readable). A small offset
-      // tricks it into thinking the page already provides contrast, so it leaves the
-      // status bar flat and the seam to the header disappears.
-      const color = theme === 'dark' ? '#101116' : '#ebebed';
-      let m = document.querySelector('meta[name="theme-color"]');
-      if (!m) {
-        m = document.createElement('meta');
-        m.setAttribute('name', 'theme-color');
-        document.head.appendChild(m);
-      }
-      m.setAttribute('content', color);
-    } catch (e) { }
-  }
-  syncThemeColor(theme);
-  // Re-apply after first paint — some mobile browsers cache the value from
-  // the initial parse and miss the synchronous update during boot.
-  if (typeof requestAnimationFrame === 'function') {
-    requestAnimationFrame(function(){ syncThemeColor(theme); });
-  }
-  window.__syncThemeColorMeta = syncThemeColor;
+  // Color matches --bg-primary (header & toolbar bg) so there's no seam between
+  // the status bar and the app's top edge.
+  try {
+    const head = document.head;
+    head.querySelectorAll('meta[name="theme-color"]').forEach(function(m){ m.remove(); });
+    const m = document.createElement('meta');
+    m.setAttribute('name', 'theme-color');
+    m.setAttribute('content', theme === 'dark' ? '#08090c' : '#ffffff');
+    head.appendChild(m);
+  } catch (e) { }
 })();
+
+// Called by the theme toggle so the status bar updates live, not just on reload.
+window.__syncThemeColorMeta = function(theme) {
+  try {
+    const head = document.head;
+    head.querySelectorAll('meta[name="theme-color"]').forEach(function(m){ m.remove(); });
+    const m = document.createElement('meta');
+    m.setAttribute('name', 'theme-color');
+    m.setAttribute('content', theme === 'dark' ? '#08090c' : '#ffffff');
+    head.appendChild(m);
+  } catch (e) { }
+};
 </script>
 <style>
 /* ==============================================================================
@@ -80,7 +76,7 @@
      --primary-action is the indigo token, reserved for: links, primary CTA,
      sidebar active marker, search match highlight, focus ring. */
   --bg-primary: #ffffff;
-  --bg-secondary: #ebebed;
+  --bg-secondary: #f7f7f8;
   --bg-tertiary: #ffffff;
   --bg-elevated: #ffffff;
   --bg-accent-soft: #efeff1;
@@ -245,7 +241,8 @@ body {
   width: 100%;
   max-width: 480px;
   height: 60px;
-  background: var(--bg-secondary);
+  background: var(--bg-primary);
+  border-bottom: 0.5px solid var(--border);
   display: flex;
   align-items: center;
   padding: 0 12px;
@@ -2431,13 +2428,12 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
   width: 100%;
   max-width: 480px;
   height: 72px;
-  /* Dark in both themes — keeps the tab bar visually distinct from the
-     browser's bottom address chrome (which renders in OS gray and isn't
-     ours to style). Mirrors apps like Spotify / Apple Music. */
-  background: #101116;
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border);
   display: flex;
   z-index: 100;
   padding-bottom: env(safe-area-inset-bottom);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .toolbar-btn {
@@ -2450,9 +2446,7 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
   cursor: pointer;
   background: none;
   border: none;
-  /* Locked to the dark-theme tertiary tone so it's readable on the dark bar
-     regardless of the page theme. */
-  color: #8a8b93;
+  color: var(--text-tertiary);
   font-family: inherit;
   font-size: calc(11px * var(--font-scale));
   transition: color 0.15s;
@@ -8186,7 +8180,7 @@ function renderThemePreview(mode) {
   const palette = mode === 'light'
     ? {
         frame:    '#ffffff',
-        surface:  '#ebebed',
+        surface:  '#f7f7f8',
         line:     '#e4e4e7',
         lineDark: '#c8c9d0',
         accent:   '#5E6AD2'
