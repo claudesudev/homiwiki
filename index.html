@@ -2061,7 +2061,7 @@ code {
   top: 0;
   bottom: 0;
   width: 40%;
-  background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.4));
+  background: linear-gradient(to right, transparent, var(--bg-accent-soft));
   z-index: 1;
   pointer-events: none;
 }
@@ -2072,15 +2072,15 @@ code {
   top: 50%;
   transform: translateY(-50%);
   z-index: 3;
-  color: white;
+  color: var(--text-primary);
   max-width: 70%;
 }
 .home-topics-hero-badge {
   display: inline-block;
   font-size: calc(9px * var(--font-scale));
   font-weight: 600;
-  color: white;
-  background: rgba(255, 255, 255, 0.25);
+  color: var(--text-secondary);
+  background: var(--bg-accent-soft);
   padding: 2px 6px;
   border-radius: 3px;
   letter-spacing: 0.06em;
@@ -2088,14 +2088,14 @@ code {
 .home-topics-hero-title {
   font-size: calc(16px * var(--font-scale));
   font-weight: 700;
-  color: white;
+  color: var(--text-primary);
   line-height: 1.2;
   letter-spacing: 0;
   margin-top: 4px;
 }
 .home-topics-hero-meta {
   font-size: calc(10px * var(--font-scale));
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--text-tertiary);
   margin-top: 1px;
   white-space: nowrap;
   overflow: hidden;
@@ -2121,13 +2121,13 @@ code {
   pointer-events: none;
 }
 .home-topics-hero-spark .area {
-  fill: white;
-  opacity: 0.22;
+  fill: var(--text-primary);
+  opacity: 0.12;
   clip-path: inset(0 100% 0 0);
   animation: home-topics-spark-area-reveal 3.2s ease-out infinite;
 }
 .home-topics-hero-spark .line {
-  stroke: white;
+  stroke: var(--text-primary);
   stroke-width: 2.4;
   fill: none;
   stroke-linecap: round;
@@ -3661,7 +3661,7 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
   top: 0;
   bottom: 0;
   width: 45%;
-  background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.45));
+  background: linear-gradient(to right, transparent, var(--bg-accent-soft));
   z-index: 1;
   pointer-events: none;
 }
@@ -3672,15 +3672,15 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
   top: 50%;
   transform: translateY(-50%);
   z-index: 3;
-  color: white;
+  color: var(--text-primary);
   max-width: 70%;
 }
 .topics-hero-badge {
   display: inline-block;
   font-size: calc(10px * var(--font-scale));
   font-weight: 600;
-  color: white;
-  background: rgba(255, 255, 255, 0.22);
+  color: var(--text-secondary);
+  background: var(--bg-accent-soft);
   padding: 3px 8px;
   border-radius: 4px;
   letter-spacing: 0.06em;
@@ -3688,14 +3688,14 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
 .topics-hero-title {
   font-size: calc(16px * var(--font-scale));
   font-weight: 700;
-  color: white;
+  color: var(--text-primary);
   line-height: 1.2;
   letter-spacing: 0;
   margin-top: 6px;
 }
 .topics-hero-meta {
   font-size: calc(11px * var(--font-scale));
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--text-tertiary);
   margin-top: 3px;
   white-space: nowrap;
   overflow: hidden;
@@ -3721,13 +3721,13 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
   pointer-events: none;
 }
 .topics-hero-spark .area {
-  fill: white;
-  opacity: 0.22;
+  fill: var(--text-primary);
+  opacity: 0.12;
   clip-path: inset(0 100% 0 0);
   animation: topics-spark-area-reveal 3.2s ease-out infinite;
 }
 .topics-hero-spark .line {
-  stroke: white;
+  stroke: var(--text-primary);
   stroke-width: 2.6;
   fill: none;
   stroke-linecap: round;
