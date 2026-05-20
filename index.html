@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#5E6AD2">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#08090c" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>호미위키 Homiwiki</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,8 +22,31 @@
   } catch (e) { }
   document.documentElement.setAttribute('data-theme', theme);
   document.documentElement.setAttribute('data-font-size', fontSize);
+
+  // Sync mobile chrome (status bar / gesture bar) with app theme.
+  // Removes the media-conditional metas and writes a single one matching
+  // the actual app theme, so user's in-app theme choice wins over OS pref.
+  try {
+    const head = document.head;
+    head.querySelectorAll('meta[name="theme-color"]').forEach(function(m){ m.remove(); });
+    const m = document.createElement('meta');
+    m.setAttribute('name', 'theme-color');
+    m.setAttribute('content', theme === 'dark' ? '#08090c' : '#ffffff');
+    head.appendChild(m);
+  } catch (e) { }
 })();
 
+// Called by the theme toggle so the status bar updates live, not just on reload.
+window.__syncThemeColorMeta = function(theme) {
+  try {
+    const head = document.head;
+    head.querySelectorAll('meta[name="theme-color"]').forEach(function(m){ m.remove(); });
+    const m = document.createElement('meta');
+    m.setAttribute('name', 'theme-color');
+    m.setAttribute('content', theme === 'dark' ? '#08090c' : '#ffffff');
+    head.appendChild(m);
+  } catch (e) { }
+};
 </script>
 <style>
 /* ==============================================================================
@@ -6111,6 +6135,9 @@ function applyTheme(theme) {
   const root = document.documentElement;
   root.classList.add('theme-swap');
   root.setAttribute('data-theme', theme);
+  if (typeof window.__syncThemeColorMeta === 'function') {
+    window.__syncThemeColorMeta(theme);
+  }
   document.querySelectorAll('.theme-card').forEach(card => {
     const isActive = card.dataset.mode === theme;
     card.classList.toggle('active', isActive);
