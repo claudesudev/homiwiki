@@ -205,6 +205,28 @@ html[data-font-size="xxl"] { --font-scale: 1.67; --root-font-scale: 1.67; }
   --tracking-caps:    0.08em;
 }
 
+/* 데스크탑 (700px 이상): 본문 영역 폰트를 5-8% 살짝 키움.
+   하단 툴바·헤더 검색창은 별도 고정값으로 잡혀있어 영향받지 않음.
+   (모바일 가로보기·태블릿 세로는 모바일 사이즈 유지) */
+@media (min-width: 700px) {
+  :root {
+    --text-xs:      calc(11px * var(--font-scale));   /* 캡션은 그대로 */
+    --text-sm:      calc(13px * var(--font-scale));   /* 라벨도 그대로 */
+    --text-md:      calc(15px * var(--font-scale));   /* 14 → 15 (+7%) */
+    --text-base:    calc(17px * var(--font-scale));   /* 16 → 17 (+6%) */
+    --text-lg:      calc(19px * var(--font-scale));   /* 18 → 19 (+6%) */
+    --text-xl:      calc(24px * var(--font-scale));   /* 22 → 24 (+9%) */
+    --text-2xl:     calc(28px * var(--font-scale));   /* 26 → 28 (+8%) */
+    --text-3xl:     calc(34px * var(--font-scale));   /* 32 → 34 (+6%) */
+    --text-display: calc(52px * var(--font-scale));   /* 48 → 52 (+8%) */
+  }
+
+  /* 헤더 검색창: 토큰 안 쓰고 raw px라서 따로 키움. */
+  .search-input {
+    font-size: 18px;
+  }
+}
+
 /* 헤더와 툴바는 사용자 폰트 사이즈 설정을 따라가면 안 됨.
    (검색창이 51px 넘어가서 깨지거나, 탭 라벨이 줄바꿈되는 사고 방지)
    --font-scale만 1로 두는 것으로는 부족 — --text-* 토큰이 :root에서 이미
