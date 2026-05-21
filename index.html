@@ -89,38 +89,38 @@ window.__syncThemeColorMeta = function(theme) {
   --accent-light: #6e6e74;
   --accent-text: #ffffff;
   --label-accent: #6e6e74;
-  --primary-action: #5E6AD2;
-  --primary-action-hover: #6E7AE0;
-  --primary-action-soft: rgba(94,106,210,0.10);
+  --primary-action: #1DB954;
+  --primary-action-hover: #22C55E;
+  --primary-action-soft: rgba(29,185,84,0.10);
   --primary-action-text: #ffffff;
-  --link: #5E6AD2;
-  --link-flash-bg: rgba(94,106,210,0.14);
-  --search-highlight-bg: rgba(94,106,210,0.25);
+  --link: #1DB954;
+  --link-flash-bg: rgba(29,185,84,0.14);
+  --search-highlight-bg: rgba(29,185,84,0.25);
   --search-input-bg: #ffffff;
-  --select-blue: #5E6AD2;
+  --select-blue: #1DB954;
   --border: #e4e4e7;
   --border-light: #ececef;
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.10);
   --code-bg: #f3f3f5;
-  --focus-ring: #5E6AD2;
+  --focus-ring: #1DB954;
 }
 
 ::selection {
-  background: rgba(94,106,210,0.25);
+  background: rgba(29,185,84,0.25);
   color: #18181a;
 }
 ::-moz-selection {
-  background: rgba(94,106,210,0.25);
+  background: rgba(29,185,84,0.25);
   color: #18181a;
 }
 [data-theme="dark"] ::selection {
-  background: rgba(94,106,210,0.40);
+  background: rgba(29,185,84,0.40);
   color: #f5f5f7;
 }
 [data-theme="dark"] ::-moz-selection {
-  background: rgba(94,106,210,0.40);
+  background: rgba(29,185,84,0.40);
   color: #f5f5f7;
 }
 
@@ -139,22 +139,22 @@ window.__syncThemeColorMeta = function(theme) {
   --accent-light: #8a8b93;
   --accent-text: #18181a;
   --label-accent: #8a8b93;
-  --primary-action: #5E6AD2;
-  --primary-action-hover: #6E7AE0;
-  --primary-action-soft: rgba(94,106,210,0.18);
+  --primary-action: #1DB954;
+  --primary-action-hover: #22C55E;
+  --primary-action-soft: rgba(29,185,84,0.18);
   --primary-action-text: #ffffff;
-  --link: #8A92E4;
-  --link-flash-bg: rgba(94,106,210,0.22);
-  --search-highlight-bg: rgba(94,106,210,0.35);
+  --link: #4ADE80;
+  --link-flash-bg: rgba(29,185,84,0.22);
+  --search-highlight-bg: rgba(29,185,84,0.35);
   --search-input-bg: #2f3039;
-  --select-blue: #5E6AD2;
+  --select-blue: #1DB954;
   --border: #25262d;
   --border-light: #1c1d24;
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.6);
   --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.7);
   --code-bg: #14151a;
-  --focus-ring: #5E6AD2;
+  --focus-ring: #1DB954;
 }
 
 html[data-font-size="s"]   { --font-scale: 0.87; --root-font-scale: 0.87; }
@@ -305,7 +305,7 @@ body {
   background: var(--bg-primary);
   position: relative;
   box-shadow: var(--shadow-lg);
-  padding-bottom: 72px;
+  padding-bottom: 130px;
   padding-top: 60px;
   overflow-x: hidden;
   width: 100%;
@@ -3093,7 +3093,7 @@ html[data-font-size="xxl"] .home-topics-hero-overlay {
 }
 
 .tl-wlink {
-  color: var(--link, #5E6AD2);
+  color: var(--link, #1DB954);
   cursor: pointer;
   text-decoration: none;
   border-bottom: 1px solid rgba(43, 108, 176, 0.25);
@@ -5331,7 +5331,7 @@ html[data-font-size="xxl"] .topics-hero-overlay {
   line-height: 0;
 }
 .fn-ref a {
-  color: var(--link, #5E6AD2);
+  color: var(--link, #1DB954);
   text-decoration: none;
 }
 .fn-ref:hover a { text-decoration: underline; }
@@ -5417,7 +5417,7 @@ li.fn-flash {
   padding: 3px 2px;
   font-size: calc(16px * var(--font-scale, 1));
   font-weight: 700;
-  color: var(--link, #5E6AD2);
+  color: var(--link, #1DB954);
   background: transparent;
   border-radius: 0;
   cursor: pointer;
@@ -5458,7 +5458,8 @@ ul > li[id^="ref-"] {
 
 .doc-breadcrumb {
   position: fixed;
-  top: 68px;
+  bottom: calc(72px + env(safe-area-inset-bottom));
+  top: auto;
   left: 50%;
   transform: translateX(-50%);
   width: calc(100% - 20px);
@@ -5466,7 +5467,7 @@ ul > li[id^="ref-"] {
   background: var(--bg-elevated);
   border: 1px solid var(--border-light);
   border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+  box-shadow: 0 -2px 6px rgba(0,0,0,0.03);
   z-index: 99;
   opacity: 0;
   pointer-events: none;
@@ -5474,6 +5475,9 @@ ul > li[id^="ref-"] {
               box-shadow 0.28s ease;
   overflow: hidden;
   will-change: opacity;
+  margin-bottom: 4px;
+  display: flex;
+  flex-direction: column-reverse;
 }
 
 .doc-breadcrumb::before {
@@ -5762,6 +5766,581 @@ ul > li[id^="ref-"] {
     animation: none !important;
     opacity: 1 !important;
   }
+}
+
+/* =========================================================================
+   청라 커낼웨이 풀버전 챕터 스타일 (cw- prefix)
+   - V1 디자인 시스템: 카드 분리 + 풀블리드 히어로 + 그래픽 챕터
+   ========================================================================= */
+
+/* 풀블리드 히어로 */
+.cw-hero {
+  position: relative;
+  margin: -16px -11px 0;
+  height: 320px;
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+}
+.cw-hero-wave {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.12;
+  pointer-events: none;
+}
+.cw-hero-category {
+  position: relative;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 10px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+}
+.cw-hero-title {
+  position: relative;
+  font-size: 28px;
+  font-weight: 800;
+  color: white;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.35);
+  margin: 0;
+}
+.cw-hero-subtitle {
+  display: inline-block;
+  font-size: 17px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: -0.02em;
+  margin-top: 4px;
+}
+
+/* 메타 바 (히어로 바로 아래) */
+.cw-meta-bar {
+  margin: 8px -3px 6px;
+  padding: 11px 14px;
+  background: var(--bg-elevated);
+  border-radius: 12px;
+  border: 0.5px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-tertiary);
+  flex-wrap: wrap;
+}
+.cw-meta-bar b {
+  color: var(--text-primary);
+  font-weight: 700;
+}
+.cw-meta-dot { color: var(--text-muted); }
+.cw-meta-status {
+  background: rgba(29, 185, 84, 0.12);
+  color: #0a7a35;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 10.5px;
+  font-weight: 700;
+}
+[data-theme="dark"] .cw-meta-status { color: #4ade80; }
+.cw-meta-copy {
+  margin-left: auto;
+}
+
+.cw-card {
+  background: var(--bg-elevated);
+  border-radius: 12px;
+  border: 0.5px solid var(--border-light);
+  padding: 14px;
+  margin-bottom: 6px;
+  box-shadow: var(--shadow-sm);
+}
+.cw-section-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin-bottom: 12px;
+  color: var(--text-primary);
+}
+.cw-section-num {
+  width: 20px; height: 20px;
+  background: var(--primary-action);
+  color: #fff;
+  border-radius: 5px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 800;
+  flex-shrink: 0;
+}
+.cw-body {
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin-top: 12px;
+}
+.cw-card > .cw-body:first-of-type { margin-top: 10px; }
+
+.cw-tip {
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: rgba(29,185,84,0.10);
+  border-left: 3px solid var(--primary-action);
+  border-radius: 0 8px 8px 0;
+}
+.cw-tip-label {
+  font-size: 10.5px;
+  color: var(--primary-action);
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  margin-bottom: 3px;
+}
+[data-theme="dark"] .cw-tip-label { color: #4ade80; }
+.cw-tip-text {
+  font-size: 12.5px;
+  color: var(--text-primary);
+  line-height: 1.55;
+}
+.cw-warn {
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: rgba(245, 158, 11, 0.1);
+  border-left: 3px solid #f59e0b;
+  border-radius: 0 8px 8px 0;
+}
+[data-theme="dark"] .cw-warn { background: rgba(245, 158, 11, 0.15); }
+.cw-warn-label {
+  font-size: 10.5px;
+  color: #b15c00;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  margin-bottom: 3px;
+}
+[data-theme="dark"] .cw-warn-label { color: #fbbb6a; }
+
+/* 지도 SVG */
+.cw-map {
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(180deg, #d4e8d8 0%, #b5d4c0 100%);
+  border-radius: 10px;
+  margin-top: 4px;
+  position: relative;
+  overflow: hidden;
+}
+[data-theme="dark"] .cw-map { background: linear-gradient(180deg, #1a2a22 0%, #0e1c14 100%); }
+
+/* 5개 테마존 그리드 */
+.cw-zones {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+  margin-top: 4px;
+}
+.cw-zone {
+  aspect-ratio: 1;
+  border-radius: 8px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  color: white;
+  padding: 4px;
+  text-align: center;
+}
+.cw-zone-icon { font-size: 17px; margin-bottom: 2px; }
+.cw-zone-name { font-size: 9.5px; font-weight: 700; line-height: 1.15; }
+
+/* 면적 비교 */
+.cw-area {
+  margin-top: 4px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.cw-area-row { display: flex; align-items: center; gap: 10px; }
+.cw-area-label {
+  width: 80px;
+  font-size: 11.5px;
+  color: var(--text-tertiary);
+  font-weight: 600;
+}
+.cw-area-bar-wrap {
+  flex: 1;
+  background: var(--bg-secondary);
+  border-radius: 4px;
+  height: 20px;
+  overflow: hidden;
+}
+.cw-area-bar {
+  height: 100%;
+  background: var(--primary-action);
+  border-radius: 4px;
+  display: flex; align-items: center;
+  padding: 0 8px;
+  color: white;
+  font-size: 10.5px;
+  font-weight: 700;
+}
+.cw-area-bar.cw-gray { background: var(--text-tertiary); }
+
+/* 음악분수 비주얼 */
+.cw-fountain {
+  background: linear-gradient(180deg, #2a4a8c 0%, #1a2a5a 100%);
+  border-radius: 10px;
+  padding: 20px 14px;
+  position: relative;
+  overflow: hidden;
+  height: 130px;
+  margin-top: 4px;
+}
+.cw-fountain svg {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+}
+.cw-fountain-h {
+  position: absolute; top: 10px; left: 14px;
+  color: white; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.04em; opacity: 0.85;
+}
+.cw-fountain-w {
+  position: absolute; bottom: 10px; left: 14px;
+  color: white; font-size: 14px; font-weight: 800; letter-spacing: -0.01em;
+}
+.cw-fountain-d {
+  position: absolute; bottom: 10px; right: 14px;
+  background: rgba(255,255,255,0.2); backdrop-filter: blur(6px);
+  color: white; padding: 3px 8px; border-radius: 5px;
+  font-size: 10.5px; font-weight: 700;
+}
+
+/* 분수 시간표 */
+.cw-table {
+  margin-top: 12px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 0.5px solid var(--border-light);
+}
+.cw-tr {
+  display: grid;
+  grid-template-columns: 110px 1fr auto;
+  gap: 10px;
+  align-items: center;
+  padding: 11px 12px;
+  font-size: 13px;
+}
+.cw-tr:nth-child(even) { background: rgba(15, 22, 36, 0.025); }
+[data-theme="dark"] .cw-tr:nth-child(even) { background: rgba(255, 255, 255, 0.025); }
+.cw-tr.header {
+  background: var(--bg-secondary);
+  font-size: 10.5px;
+  color: var(--text-tertiary);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 8px 12px;
+  text-transform: uppercase;
+}
+.cw-time {
+  font-weight: 700;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+.cw-tr.header .cw-time { color: var(--text-tertiary); }
+.cw-day { color: var(--text-secondary); font-weight: 500; }
+.cw-tr.weekend .cw-time { color: var(--primary-action); }
+.cw-badge {
+  background: var(--primary-action);
+  color: white;
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+.cw-tr.header .cw-badge { background: transparent; color: var(--text-tertiary); padding: 0; }
+
+/* 추천 코스 */
+.cw-course {
+  margin-top: 4px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 0.5px solid var(--border-light);
+}
+.cw-course-row {
+  display: grid;
+  grid-template-columns: 24px 60px 1fr;
+  gap: 10px;
+  align-items: center;
+  padding: 11px 12px;
+}
+.cw-course-row:nth-child(even) { background: rgba(15, 22, 36, 0.025); }
+[data-theme="dark"] .cw-course-row:nth-child(even) { background: rgba(255, 255, 255, 0.025); }
+.cw-course-num {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: var(--primary-action);
+  color: white;
+  font-size: 11px;
+  font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+}
+.cw-course-time {
+  background: rgba(29,185,84,0.10);
+  color: var(--primary-action);
+  font-size: 10.5px;
+  font-weight: 800;
+  padding: 4px 7px;
+  border-radius: 5px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+[data-theme="dark"] .cw-course-time { color: #4ade80; }
+.cw-course-place {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+.cw-course-desc {
+  font-size: 11.5px;
+  color: var(--text-tertiary);
+  line-height: 1.4;
+}
+
+/* 액티비티 그리드 */
+.cw-act-grid {
+  margin-top: 4px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+}
+.cw-act {
+  background: var(--bg-secondary);
+  border-radius: 10px;
+  padding: 12px;
+  display: flex; align-items: center; gap: 10px;
+}
+.cw-act-icon {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 19px;
+  flex-shrink: 0;
+}
+.cw-act-icon.ok { background: rgba(29,185,84,0.12); }
+.cw-act-info { flex: 1; min-width: 0; }
+.cw-act-name {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 1px;
+}
+.cw-act-status {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.cw-act-status.ok { color: #0a7a35; }
+[data-theme="dark"] .cw-act-status.ok { color: #4ade80; }
+
+/* 수상레저 */
+.cw-boats {
+  margin-top: 4px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+}
+.cw-boat {
+  aspect-ratio: 0.85;
+  background: linear-gradient(180deg, #d4ecf0 0%, #b5d4e0 100%);
+  border-radius: 8px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 6px 3px;
+  text-align: center;
+}
+[data-theme="dark"] .cw-boat { background: linear-gradient(180deg, #1a2a3a 0%, #0e1c28 100%); }
+.cw-boat-emoji { font-size: 23px; margin-bottom: 3px; }
+.cw-boat-name { font-size: 9.5px; font-weight: 700; color: var(--text-primary); line-height: 1.15; }
+
+.cw-hours {
+  margin-top: 10px;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+.cw-hours-row {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 10px;
+  font-size: 12.5px;
+  padding: 5px 0;
+}
+.cw-hours-row + .cw-hours-row { border-top: 0.5px solid var(--border-light); }
+.cw-hours-day { color: var(--text-tertiary); font-weight: 500; }
+.cw-hours-time {
+  color: var(--text-primary);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 피크닉 */
+.cw-picnic {
+  margin-top: 4px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 0.5px solid var(--border-light);
+}
+.cw-picnic-row {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 12px;
+}
+.cw-picnic-row:nth-child(even) { background: rgba(15, 22, 36, 0.025); }
+[data-theme="dark"] .cw-picnic-row:nth-child(even) { background: rgba(255, 255, 255, 0.025); }
+.cw-picnic-mark {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  font-weight: 800;
+}
+.cw-picnic-mark.ok { background: rgba(29,185,84,0.12); color: #0a7a35; }
+[data-theme="dark"] .cw-picnic-mark.ok { color: #4ade80; }
+.cw-picnic-mark.no { background: rgba(220, 80, 80, 0.15); color: #c44545; }
+[data-theme="dark"] .cw-picnic-mark.no { color: #f87171; }
+.cw-picnic-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+.cw-picnic-desc {
+  font-size: 11.5px;
+  color: var(--text-tertiary);
+  line-height: 1.5;
+}
+
+/* 드라마 */
+.cw-drama-grid {
+  margin-top: 4px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+}
+.cw-drama-card {
+  background: var(--bg-secondary);
+  border-radius: 10px;
+  overflow: hidden;
+  aspect-ratio: 1.4;
+}
+.cw-drama-poster {
+  width: 100%; height: 100%;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 10px;
+  position: relative;
+}
+.cw-drama-poster.glory {
+  background:
+    linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.85) 100%),
+    linear-gradient(135deg, #3a1818 0%, #6a2828 100%);
+}
+.cw-drama-poster.doctors {
+  background:
+    linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.85) 100%),
+    linear-gradient(135deg, #1a2a4a 0%, #2a4a8c 100%);
+}
+.cw-drama-name { color: white; font-size: 14px; font-weight: 800; letter-spacing: -0.01em; }
+.cw-drama-scene { color: rgba(255,255,255,0.85); font-size: 10px; font-weight: 500; margin-top: 1px; }
+.cw-drama-year {
+  position: absolute; top: 8px; left: 8px;
+  color: rgba(255,255,255,0.9);
+  font-size: 10px; font-weight: 700;
+  background: rgba(0,0,0,0.3);
+  padding: 2px 6px; border-radius: 4px;
+  letter-spacing: 0.04em;
+}
+
+/* 7호선 */
+.cw-subway {
+  margin-top: 4px;
+  padding: 14px 8px;
+  background: var(--bg-secondary);
+  border-radius: 10px;
+}
+.cw-stations {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  position: relative;
+}
+.cw-station {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 6px;
+  flex: 1;
+  position: relative; z-index: 2;
+}
+.cw-st-dot {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: #5a7adb;
+  border: 2.5px solid var(--bg-elevated);
+}
+.cw-station.target .cw-st-dot {
+  background: var(--primary-action);
+  width: 18px; height: 18px;
+}
+.cw-st-name {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-align: center;
+  line-height: 1.2;
+  max-width: 50px;
+}
+.cw-station.target .cw-st-name { color: var(--primary-action); }
+.cw-st-num {
+  font-size: 9px;
+  color: var(--text-tertiary);
+  font-weight: 600;
+}
+.cw-line-bar {
+  position: absolute;
+  top: 6px;
+  left: 8%; right: 8%;
+  height: 3px;
+  background: #5a7adb;
+  z-index: 1;
+}
+
+/* 알아두면 좋은 것 */
+.cw-good-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-top: 4px;
+}
+.cw-good {
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  padding: 10px;
+}
+.cw-good-emoji { font-size: 19px; margin-bottom: 4px; }
+.cw-good-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.cw-good-desc {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin-top: 2px;
+  line-height: 1.4;
 }
 
 </style>
@@ -7005,8 +7584,7 @@ function renderHome() {
     bolt: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>'
   };
   const HOME_CURATIONS = [
-    { icon: 'cube',   tone: 1, title: '청라 커낼웨이, 봄밤의 산책', desc: '베네치아냐 도톤보리냐 — 매년 도는 그 떡밥',     views: '3.2k', target: '청라-커낼웨이' },
-    { icon: 'bolt',   tone: 3, title: 'Claude, 호미위키의 AI 코너', desc: '청라 위키지만 AI도 한 자리. 첫 번째 외부 토픽',  views: '2.1k', target: '클로드' }
+    { icon: 'cube',   tone: 1, title: '청라 커낼웨이, 봄밤의 산책', desc: '베네치아냐 도톤보리냐 — 매년 도는 그 떡밥',     views: '3.2k', target: '청라-커낼웨이' }
   ];
 
   const HOME_HEADLINES = [
@@ -7419,7 +7997,7 @@ const TOPICS_LIST = [
   { name: '청라 스타필드(공사중)',     blurb: '2027년 개장 예정인데 벌써 공사장 사진찍어 올리는 사람들 많음. 돔구장 들어선다고 야구팬도 들썩',                  target: null },
   { name: '청라 코스트코',             blurb: '현재 내부 일부구역 공사로 약간 정신없지만 최근 고물가로 꾸준히 롱런 인기',                                          target: null },
   { name: '청라 축제와 행사',          blurb: '음악분수 시즌 개막 + 호수공원 봄꽃축제 일정 풀리면서 검색 급증',                                                  target: null },
-  { name: '온라인 환불하는 법',        blurb: '"판매자와 사전 합의 없으면 반품 무효" 안내문에 좌절한 입문자들의 검색 폭주',                                      target: '온라인-환불' },
+  { name: '온라인 환불하는 법',        blurb: '"판매자와 사전 합의 없으면 반품 무효" 안내문에 좌절한 입문자들의 검색 폭주',                                      target: null },
   { name: '층간소음 민원 넣는 법',     blurb: '최근 비가 자주 내리면서 창문닫고 지내는 세대가 늘며 다시 급상승 견인',                                            target: null },
   { name: '담배연기 민원 넣는 법',     blurb: '최근 엘베복도 담배빌런 출현으로 언놈인지 걸리면 뒤진다는 마음으로 다들 민원중',                                    target: null },
   { name: '신도시 장보기 꿀팁',        blurb: '코스트코 가야하나 트레이더스 가야하나 — 매주 반복되는 이 질문에 종지부 찍는 정리글',                              target: null },
@@ -8264,14 +8842,14 @@ function renderThemePreview(mode) {
         surface:  '#f7f7f8',
         line:     '#e4e4e7',
         lineDark: '#c8c9d0',
-        accent:   '#5E6AD2'
+        accent:   '#1DB954'
       }
     : {
         frame:    '#14151a',
         surface:  '#1c1d24',
         line:     '#25262d',
         lineDark: '#35363d',
-        accent:   '#5E6AD2'
+        accent:   '#1DB954'
       };
 
   const styleVars =
@@ -9436,9 +10014,38 @@ function renderDoc(docId, originalQuery = null) {
     `;
   }
 
-  content.innerHTML = `
-    ${redirectHtml}
+  // 히어로 영역 (hero 필드 있으면 풀블리드)
+  const heroHtml = doc.hero ? (() => {
+    const gradient = doc.hero.gradient || 'linear-gradient(135deg, #0a3a2c 0%, #14543a 30%, #1DB954 70%, #0a5a26 100%)';
+    const category = doc.category ? escapeHtmlContrib(doc.category) : '';
+    return `
+      <div class="cw-hero" style="background-image: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0) 35%, rgba(0,0,0,0.85) 100%), ${gradient};">
+        <svg class="cw-hero-wave" viewBox="0 0 400 340" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0,180 Q100,150 200,170 T400,160" stroke="white" stroke-width="1.5" fill="none"/>
+          <path d="M0,200 Q100,170 200,190 T400,180" stroke="white" stroke-width="1" fill="none"/>
+          <path d="M0,220 Q100,190 200,210 T400,200" stroke="white" stroke-width="1" fill="none"/>
+          <path d="M0,240 Q100,210 200,230 T400,220" stroke="white" stroke-width="0.8" fill="none"/>
+        </svg>
+        ${category ? `<div class="cw-hero-category">${category}</div>` : ''}
+        <h1 class="cw-hero-title">${escapeHtmlContrib(doc.title)}${doc.subtitle ? `<br><span class="cw-hero-subtitle">${escapeHtmlContrib(doc.subtitle)}</span>` : ''}</h1>
+      </div>
+      <div class="cw-meta-bar">
+        ${doc.meta && doc.meta.contributors ? `<span><b>${doc.meta.contributors}</b>명이 함께 썼어요</span><span class="cw-meta-dot">·</span>` : ''}
+        <span>${doc.updated ? '최근 수정 ' + formatDocUpdated(doc.updated) : (doc.meta && doc.meta.updated ? '최근 수정 ' + formatDocUpdated(doc.meta.updated) : '')}</span>
+        ${doc.meta && doc.meta.status ? `<span class="cw-meta-status">${escapeHtmlContrib(doc.meta.status)}</span>` : ''}
+        <button class="doc-copy-url-btn cw-meta-copy" onclick="copyDocUrl(this)" aria-label="이 문서의 URL 링크 복사">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+          </svg>
+          <span class="doc-copy-url-btn-text">복사</span>
+        </button>
+      </div>
+    `;
+  })() : '';
 
+  // 기존 헤더는 hero 없을 때만
+  const fallbackHeaderHtml = doc.hero ? '' : `
     <h1 class="doc-title"><span>${doc.title}</span>${adBadgeHtml}</h1>
     ${doc.subtitle ? `<div class="doc-subtitle">${doc.subtitle}</div>` : ''}
     <div class="doc-meta">
@@ -9451,6 +10058,13 @@ function renderDoc(docId, originalQuery = null) {
         <span class="doc-copy-url-btn-text">복사</span>
       </button>
     </div>
+  `;
+
+  content.innerHTML = `
+    ${redirectHtml}
+
+    ${heroHtml}
+    ${fallbackHeaderHtml}
 
     ${doc.infobox ? renderInfobox(doc.infobox) : ''}
 
@@ -9458,7 +10072,9 @@ function renderDoc(docId, originalQuery = null) {
 
     ${renderInlineToc(doc)}
 
-    ${doc.content}
+    ${(doc.content && doc.content.includes('<!--HOMI:CANALWAY-->')) 
+      ? renderCanalwayChapters() 
+      : doc.content}
 
     ${doc.related && doc.related.length > 0 ? (() => {
       let relNum = '';
@@ -9519,6 +10135,229 @@ function renderDoc(docId, originalQuery = null) {
 
   bindWikiLinks();
   bindFootnotes();
+}
+
+/* ===== 청라 커낼웨이 풀버전 챕터 마크업 ===== */
+function renderCanalwayChapters() {
+  return `
+<!-- 1. 한눈에 보기 (지도) -->
+<div class="cw-card">
+  <div class="cw-section-title"><div class="cw-section-num">1</div>한눈에 보기</div>
+  <div class="cw-map">
+    <svg viewBox="0 0 400 200" preserveAspectRatio="none" style="width:100%;height:100%;">
+      <rect x="20" y="15" width="80" height="30" rx="4" fill="#c9d8c0" opacity="0.7"/>
+      <rect x="120" y="15" width="80" height="30" rx="4" fill="#c9d8c0" opacity="0.7"/>
+      <rect x="220" y="15" width="80" height="30" rx="4" fill="#c9d8c0" opacity="0.7"/>
+      <rect x="320" y="15" width="60" height="30" rx="4" fill="#c9d8c0" opacity="0.7"/>
+      <text x="60" y="34" text-anchor="middle" font-size="9" fill="#3a5a3a" font-weight="700">1단지</text>
+      <text x="160" y="34" text-anchor="middle" font-size="9" fill="#3a5a3a" font-weight="700">2단지</text>
+      <text x="260" y="34" text-anchor="middle" font-size="9" fill="#3a5a3a" font-weight="700">3단지</text>
+      <text x="350" y="34" text-anchor="middle" font-size="9" fill="#3a5a3a" font-weight="700">4단지</text>
+      <path d="M 10 100 Q 60 95, 110 100 T 200 100 T 300 100 T 390 100" stroke="#1DB954" stroke-width="14" fill="none" opacity="0.9" stroke-linecap="round"/>
+      <path d="M 10 100 Q 60 95, 110 100 T 200 100 T 300 100 T 390 100" stroke="#5a9fd4" stroke-width="8" fill="none" stroke-linecap="round"/>
+      <ellipse cx="200" cy="100" rx="42" ry="22" fill="#3a8fd4" opacity="0.85"/>
+      <circle cx="200" cy="100" r="4" fill="white"/>
+      <text x="200" y="130" text-anchor="middle" font-size="8.5" fill="#1a3a5a" font-weight="800">호수공원</text>
+      <text x="200" y="80" text-anchor="middle" font-size="7" fill="white" font-weight="700">시티타워</text>
+      <rect x="20" y="155" width="80" height="30" rx="4" fill="#c9d8c0" opacity="0.7"/>
+      <rect x="120" y="155" width="80" height="30" rx="4" fill="#c9d8c0" opacity="0.7"/>
+      <rect x="220" y="155" width="80" height="30" rx="4" fill="#c9d8c0" opacity="0.7"/>
+      <rect x="320" y="155" width="60" height="30" rx="4" fill="#c9d8c0" opacity="0.7"/>
+      <text x="60" y="174" text-anchor="middle" font-size="9" fill="#3a5a3a" font-weight="700">5단지</text>
+      <text x="160" y="174" text-anchor="middle" font-size="9" fill="#3a5a3a" font-weight="700">6단지</text>
+      <text x="260" y="174" text-anchor="middle" font-size="9" fill="#3a5a3a" font-weight="700">상업</text>
+      <text x="350" y="174" text-anchor="middle" font-size="9" fill="#3a5a3a" font-weight="700">학원가</text>
+      <text x="60" y="95" text-anchor="middle" font-size="7" fill="white" font-weight="800">커낼웨이</text>
+      <text x="340" y="95" text-anchor="middle" font-size="7" fill="white" font-weight="800">커낼웨이</text>
+      <text x="380" y="105" text-anchor="middle" font-size="11" fill="white" font-weight="800">→</text>
+      <text x="20" y="105" text-anchor="middle" font-size="11" fill="white" font-weight="800">←</text>
+    </svg>
+  </div>
+  <div class="cw-body">청라국제도시 한복판을 동서로 가로지르는 인공 수로예요. 호수공원과 양쪽으로 이어져서 도시 전체를 남북으로 갈라놓는 모양이 돼요.</div>
+  <div class="cw-tip">
+    <div class="cw-tip-label">호미 팁</div>
+    <div class="cw-tip-text">'커낼웨이·커널웨이·캐널웨이' 모두 같은 곳을 부르는 이름이에요. 외래어 표기법으로는 커낼웨이가 맞아요.</div>
+  </div>
+</div>
+
+<!-- 2. 5개 테마존 -->
+<div class="cw-card">
+  <div class="cw-section-title"><div class="cw-section-num">2</div>5개 테마존</div>
+  <div class="cw-zones">
+    <div class="cw-zone" style="background:linear-gradient(135deg,#c97a4a,#7a4220);"><div class="cw-zone-icon">🏯</div><div class="cw-zone-name">전통</div></div>
+    <div class="cw-zone" style="background:linear-gradient(135deg,#5a9fd4,#2a4a8c);"><div class="cw-zone-icon">🚣</div><div class="cw-zone-name">레저</div></div>
+    <div class="cw-zone" style="background:linear-gradient(135deg,#a85c8a,#5a2c4a);"><div class="cw-zone-icon">🎭</div><div class="cw-zone-name">예술<br>문화</div></div>
+    <div class="cw-zone" style="background:linear-gradient(135deg,#5a7c4f,#2a4a26);"><div class="cw-zone-icon">🌿</div><div class="cw-zone-name">생태</div></div>
+    <div class="cw-zone" style="background:linear-gradient(135deg,#1DB954,#0a5a26);"><div class="cw-zone-icon">🗼</div><div class="cw-zone-name">타워</div></div>
+  </div>
+  <div class="cw-body">호수공원이 5개 테마로 설계됐어요. 4km 순환산책로를 따라 한 바퀴 돌면 전부 만날 수 있어요.</div>
+</div>
+
+<!-- 3. 면적 비교 -->
+<div class="cw-card">
+  <div class="cw-section-title"><div class="cw-section-num">3</div>얼마나 큰가요?</div>
+  <div class="cw-area">
+    <div class="cw-area-row"><div class="cw-area-label">호수공원</div><div class="cw-area-bar-wrap"><div class="cw-area-bar" style="width:100%;">69만 ㎡</div></div></div>
+    <div class="cw-area-row"><div class="cw-area-label">호수 면적</div><div class="cw-area-bar-wrap"><div class="cw-area-bar" style="width:52%;background:#5a9fd4;">36만 ㎡</div></div></div>
+    <div class="cw-area-row"><div class="cw-area-label">석촌호수</div><div class="cw-area-bar-wrap"><div class="cw-area-bar cw-gray" style="width:31%;">21만 ㎡</div></div></div>
+    <div class="cw-area-row"><div class="cw-area-label">잠실종합운동장</div><div class="cw-area-bar-wrap"><div class="cw-area-bar cw-gray" style="width:25%;">17만 ㎡</div></div></div>
+  </div>
+  <div class="cw-body">청라 호수공원은 석촌호수의 약 3배 크기예요. 호수 안에 인공섬도 3개 있어요.</div>
+</div>
+
+<!-- 4. 음악분수쇼 -->
+<div class="cw-card">
+  <div class="cw-section-title"><div class="cw-section-num">4</div>음악분수쇼</div>
+  <div class="cw-fountain">
+    <svg viewBox="0 0 360 130" preserveAspectRatio="none">
+      <path d="M 50 130 Q 50 60, 65 30 Q 70 50, 60 130" fill="white" opacity="0.55"/>
+      <path d="M 90 130 Q 90 50, 110 15 Q 115 40, 100 130" fill="white" opacity="0.65"/>
+      <path d="M 140 130 Q 140 40, 165 5 Q 170 30, 155 130" fill="white" opacity="0.75"/>
+      <path d="M 195 130 Q 195 30, 220 -5 Q 225 20, 210 130" fill="white" opacity="0.85"/>
+      <path d="M 250 130 Q 250 40, 275 5 Q 280 30, 265 130" fill="white" opacity="0.75"/>
+      <path d="M 295 130 Q 295 50, 315 15 Q 320 40, 310 130" fill="white" opacity="0.65"/>
+    </svg>
+    <div class="cw-fountain-h">최대 75 m</div>
+    <div class="cw-fountain-w">길이 120m × 폭 25m</div>
+    <div class="cw-fountain-d">1회 40분</div>
+  </div>
+  <div class="cw-table">
+    <div class="cw-tr header"><div class="cw-time">시간</div><div class="cw-day">요일</div><div class="cw-badge">2025</div></div>
+    <div class="cw-tr"><div class="cw-time">20:30</div><div class="cw-day">월~목</div><div class="cw-badge">평일</div></div>
+    <div class="cw-tr weekend"><div class="cw-time">20:30</div><div class="cw-day">금</div><div class="cw-badge">주말 시작</div></div>
+    <div class="cw-tr weekend"><div class="cw-time">20:00 · 21:00</div><div class="cw-day">토 · 일</div><div class="cw-badge">2회</div></div>
+  </div>
+  <div class="cw-tip">
+    <div class="cw-tip-label">호미 팁</div>
+    <div class="cw-tip-text">분수 정면 계단식 관람석이 명당이에요. 캐노피가 있어서 비 와도 OK. 30분 전에 가야 자리 잡아요.</div>
+  </div>
+</div>
+
+<!-- 5. 추천 산책 코스 -->
+<div class="cw-card">
+  <div class="cw-section-title"><div class="cw-section-num">5</div>추천 산책 코스</div>
+  <div class="cw-course">
+    <div class="cw-course-row"><div class="cw-course-num">1</div><div class="cw-course-time">출발</div><div class="cw-course-detail"><div class="cw-course-place">레저존 주차장 (제4주차장)</div><div class="cw-course-desc">차 세우고 출발 · 어반비치 가장 가까움</div></div></div>
+    <div class="cw-course-row"><div class="cw-course-num">2</div><div class="cw-course-time">+10분</div><div class="cw-course-detail"><div class="cw-course-place">어반비치 + 맨발 산책길</div><div class="cw-course-desc">지압길 따라 도보 10분</div></div></div>
+    <div class="cw-course-row"><div class="cw-course-num">3</div><div class="cw-course-time">+25분</div><div class="cw-course-detail"><div class="cw-course-place">물속광장 · 인공섬</div><div class="cw-course-desc">에코존 진입, 새 관찰</div></div></div>
+    <div class="cw-course-row"><div class="cw-course-num">4</div><div class="cw-course-time">+45분</div><div class="cw-course-detail"><div class="cw-course-place">음악분수 무대</div><div class="cw-course-desc">20:30 분수쇼 시작 전 도착</div></div></div>
+    <div class="cw-course-row"><div class="cw-course-num">5</div><div class="cw-course-time">+90분</div><div class="cw-course-detail"><div class="cw-course-place">청라루 · 팔각정</div><div class="cw-course-desc">분수 끝나고 야경 마무리</div></div></div>
+  </div>
+  <div class="cw-body">한 바퀴 4km, 천천히 1시간 30분 정도예요. 음악분수 시간에 맞춰서 가는 게 핵심.</div>
+</div>
+
+<!-- 6. 여기서 뭘 할 수 있나요 -->
+<div class="cw-card">
+  <div class="cw-section-title"><div class="cw-section-num">6</div>여기서 뭘 할 수 있나요?</div>
+  <div class="cw-act-grid">
+    <div class="cw-act"><div class="cw-act-icon ok">🚶</div><div class="cw-act-info"><div class="cw-act-name">산책 · 조깅</div><div class="cw-act-status ok">자유롭게 OK</div></div></div>
+    <div class="cw-act"><div class="cw-act-icon ok">🚴</div><div class="cw-act-info"><div class="cw-act-name">자전거</div><div class="cw-act-status ok">전용 도로 OK</div></div></div>
+    <div class="cw-act"><div class="cw-act-icon ok">🛶</div><div class="cw-act-info"><div class="cw-act-name">수상레저</div><div class="cw-act-status ok">5종 운영</div></div></div>
+    <div class="cw-act"><div class="cw-act-icon ok">🧺</div><div class="cw-act-info"><div class="cw-act-name">피크닉</div><div class="cw-act-status ok">돗자리 OK</div></div></div>
+    <div class="cw-act"><div class="cw-act-icon ok">🎶</div><div class="cw-act-info"><div class="cw-act-name">음악분수쇼</div><div class="cw-act-status ok">저녁 무료</div></div></div>
+    <div class="cw-act"><div class="cw-act-icon ok">🐕</div><div class="cw-act-info"><div class="cw-act-name">반려견 동반</div><div class="cw-act-status ok">목줄 필수</div></div></div>
+    <div class="cw-act"><div class="cw-act-icon ok">📷</div><div class="cw-act-info"><div class="cw-act-name">사진 찍기</div><div class="cw-act-status ok">야경 명소</div></div></div>
+    <div class="cw-act"><div class="cw-act-icon ok">📖</div><div class="cw-act-info"><div class="cw-act-name">책 읽기</div><div class="cw-act-status ok">그늘목 · 벤치</div></div></div>
+    <div class="cw-act"><div class="cw-act-icon ok">💬</div><div class="cw-act-info"><div class="cw-act-name">담소 나누기</div><div class="cw-act-status ok">팔각정 · 청라루</div></div></div>
+    <div class="cw-act"><div class="cw-act-icon ok">☕</div><div class="cw-act-info"><div class="cw-act-name">커피 한 잔</div><div class="cw-act-status ok">공원 내 카페</div></div></div>
+  </div>
+  <div class="cw-tip">
+    <div class="cw-tip-label">호미 팁</div>
+    <div class="cw-tip-text">청라루나 팔각정에 자리 잡고 책 한 권 들고 가시면 1~2시간이 후딱 가요. 호수 보면서 멍 때리기 좋아요.</div>
+  </div>
+</div>
+
+<!-- 7. 수상레저 -->
+<div class="cw-card">
+  <div class="cw-section-title"><div class="cw-section-num">7</div>수상레저 5종</div>
+  <div class="cw-boats">
+    <div class="cw-boat"><div class="cw-boat-emoji">🦢</div><div class="cw-boat-name">백조<br>보트</div></div>
+    <div class="cw-boat"><div class="cw-boat-emoji">🚤</div><div class="cw-boat-name">범퍼<br>보트</div></div>
+    <div class="cw-boat"><div class="cw-boat-emoji">🧺</div><div class="cw-boat-name">바스켓<br>보트</div></div>
+    <div class="cw-boat"><div class="cw-boat-emoji">🛶</div><div class="cw-boat-name">페달<br>카약</div></div>
+    <div class="cw-boat"><div class="cw-boat-emoji">🚣</div><div class="cw-boat-name">카약</div></div>
+  </div>
+  <div class="cw-body">레이크하우스 1층에서 민간 업체(코마린)가 운영해요. 5종 총 50여 대를 갖추고 있어서 가족 단위로도 충분해요.</div>
+  <div class="cw-hours">
+    <div class="cw-hours-row"><div class="cw-hours-day">평일</div><div class="cw-hours-time">11:00 – 18:00</div></div>
+    <div class="cw-hours-row"><div class="cw-hours-day">주말 · 휴일</div><div class="cw-hours-time">10:00 – 18:00</div></div>
+    <div class="cw-hours-row"><div class="cw-hours-day">문의</div><div class="cw-hours-time">070-4334-0263</div></div>
+  </div>
+  <div class="cw-tip">
+    <div class="cw-tip-label">호미 팁</div>
+    <div class="cw-tip-text">주말 평균 370명이 이용해요. 인기 시간대는 오후 2~4시라서 줄이 길어요. 오전이나 평일 저녁이 한산해요.</div>
+  </div>
+</div>
+
+<!-- 8. 피크닉 음식 -->
+<div class="cw-card">
+  <div class="cw-section-title"><div class="cw-section-num">8</div>피크닉 · 음식</div>
+  <div class="cw-picnic">
+    <div class="cw-picnic-row"><div class="cw-picnic-mark ok">○</div><div class="cw-picnic-text"><div class="cw-picnic-title">돗자리 펴고 먹기</div><div class="cw-picnic-desc">잔디 광장·산책로 옆 잔디에서 자유롭게. 그늘목·돌담길 수국원 쪽이 명당이에요.</div></div></div>
+    <div class="cw-picnic-row"><div class="cw-picnic-mark ok">○</div><div class="cw-picnic-text"><div class="cw-picnic-title">편의점·테이크아웃 음식 반입</div><div class="cw-picnic-desc">근처 편의점이나 카페에서 도시락·김밥·샌드위치 사 와서 먹는 건 OK.</div></div></div>
+    <div class="cw-picnic-row"><div class="cw-picnic-mark ok">○</div><div class="cw-picnic-text"><div class="cw-picnic-title">공원 안 카페 이용</div><div class="cw-picnic-desc">야외음악당 2층 카페에서 호수 보면서 다과 가능. 레이크하우스에도 매점 있어요.</div></div></div>
+    <div class="cw-picnic-row"><div class="cw-picnic-mark no">×</div><div class="cw-picnic-text"><div class="cw-picnic-title">버너·휴대용 가스·숯불</div><div class="cw-picnic-desc">모든 화기는 사용 금지예요. 라면·고기 굽기 X. 도시락은 식어도 되는 것으로.</div></div></div>
+    <div class="cw-picnic-row"><div class="cw-picnic-mark no">×</div><div class="cw-picnic-text"><div class="cw-picnic-title">대형 텐트·그늘막</div><div class="cw-picnic-desc">공원 내 텐트 설치 금지. 양산·파라솔은 OK. 그늘이 필요하면 캐노피가 있는 분수 관람석으로.</div></div></div>
+  </div>
+</div>
+
+<!-- 9. 드라마 -->
+<div class="cw-card">
+  <div class="cw-section-title"><div class="cw-section-num">9</div>드라마에서 본 그곳</div>
+  <div class="cw-drama-grid">
+    <div class="cw-drama-card">
+      <div class="cw-drama-poster glory">
+        <div class="cw-drama-year">2022</div>
+        <div class="cw-drama-name">더 글로리</div>
+        <div class="cw-drama-scene">바둑판 광장 · 주차장</div>
+      </div>
+    </div>
+    <div class="cw-drama-card">
+      <div class="cw-drama-poster doctors">
+        <div class="cw-drama-year">2016</div>
+        <div class="cw-drama-name">닥터스</div>
+        <div class="cw-drama-scene">빨간 공중전화부스</div>
+      </div>
+    </div>
+  </div>
+  <div class="cw-body">『더 글로리』에서 동은과 현남이 만나는 바둑공원이 실제로 여기 있어요. 『닥터스』 키스신의 빨간 공중전화부스도 그대로 남아 있어서 인증샷 명소예요.</div>
+</div>
+
+<!-- 10. 7호선 -->
+<div class="cw-card">
+  <div class="cw-section-title"><div class="cw-section-num">10</div>2027년, 7호선이 와요</div>
+  <div class="cw-subway">
+    <div class="cw-stations">
+      <div class="cw-line-bar"></div>
+      <div class="cw-station"><div class="cw-st-dot"></div><div class="cw-st-name">석남</div><div class="cw-st-num">기점</div></div>
+      <div class="cw-station"><div class="cw-st-dot"></div><div class="cw-st-name">루원<br>시티</div><div class="cw-st-num">001</div></div>
+      <div class="cw-station target"><div class="cw-st-dot"></div><div class="cw-st-name">커낼<br>웨이</div><div class="cw-st-num">003</div></div>
+      <div class="cw-station target"><div class="cw-st-dot"></div><div class="cw-st-name">시티<br>타워</div><div class="cw-st-num">004</div></div>
+      <div class="cw-station target"><div class="cw-st-dot"></div><div class="cw-st-name">국제<br>업무</div><div class="cw-st-num">005</div></div>
+    </div>
+  </div>
+  <div class="cw-body">7호선 청라 연장선이 2027년 개통되면 호수공원·커낼웨이 위로 정거장 3개가 들어와요. 입주 초기부터 가장 큰 숙제였는데, 드디어 끝이 보여요.</div>
+  <div class="cw-warn">
+    <div class="cw-warn-label">참고</div>
+    <div class="cw-tip-text">개통 일정은 여러 번 변경됐습니다. 정확한 시기는 인천시 공식 발표를 확인해 주세요.</div>
+  </div>
+</div>
+
+<!-- 11. 알아두면 좋은 것 -->
+<div class="cw-card">
+  <div class="cw-section-title"><div class="cw-section-num">11</div>알아두면 좋은 것</div>
+  <div class="cw-good-grid">
+    <div class="cw-good"><div class="cw-good-emoji">🅿️</div><div class="cw-good-title">주차장 4곳</div><div class="cw-good-desc">1~4주차장. 무료</div></div>
+    <div class="cw-good"><div class="cw-good-emoji">🚌</div><div class="cw-good-title">버스 접근</div><div class="cw-good-desc">현재 다소 불편</div></div>
+    <div class="cw-good"><div class="cw-good-emoji">🐕</div><div class="cw-good-title">반려견 OK</div><div class="cw-good-desc">목줄·배변봉투 필수</div></div>
+    <div class="cw-good"><div class="cw-good-emoji">🚴</div><div class="cw-good-title">자전거 도로</div><div class="cw-good-desc">전구간 별도 분리</div></div>
+  </div>
+  <div class="cw-warn">
+    <div class="cw-warn-label">안전 안내</div>
+    <div class="cw-tip-text">수로 깊이는 평균 1.2m이며, 야간 음주 후 진입은 금지되어 있습니다. 우천·강풍 시 분수쇼 운영이 중단됩니다.</div>
+  </div>
+</div>
+  `;
 }
 
 /* ===== 주석(각주) 팝업 - 나무위키식 ===== */
